@@ -8,13 +8,20 @@ Welcome to BIOINFO Guidelines's documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Introduction
 
+   contributing
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Nextflow documentation
+
+   nextflow/installing
+   nextflow/running
+   nextflow/creating
 
 Indices and tables
 ==================
 
 * :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`
