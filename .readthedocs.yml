@@ -12,5 +12,7 @@ sphinx:
 # Build all formats
 formats: all
 
-conda:
-  environment: environment.yml
+python:
+  version: 3.8
+  install:
+    - requirements: requirements.txt
