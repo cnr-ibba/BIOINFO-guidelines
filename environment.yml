@@ -10,7 +10,6 @@ dependencies:
   - certifi=2020.12.5=py39h06a4308_0
   - cffi=1.14.4=py39h261ae71_0
   - chardet=4.0.0=py39h06a4308_1003
-  - colorama=0.4.4=pyhd3eb1b0_0
   - cryptography=3.3.1=py39h3c74f83_0
   - docutils=0.16=py39h06a4308_1
   - idna=2.10=py_0
@@ -38,7 +37,7 @@ dependencies:
   - setuptools=51.0.0=py39h06a4308_2
   - six=1.15.0=py39h06a4308_0
   - snowballstemmer=2.0.0=py_0
-  - sphinx=3.4.0=pyhd3eb1b0_0
+  - sphinx=3.0.4=py_0
   - sphinxcontrib-applehelp=1.0.2=py_0
   - sphinxcontrib-devhelp=1.0.2=py_0
   - sphinxcontrib-htmlhelp=1.0.3=py_0
