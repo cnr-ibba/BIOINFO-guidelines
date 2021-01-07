@@ -18,7 +18,7 @@ import sphinx_rtd_theme
 # -- Project information -----------------------------------------------------
 
 project = 'BIOINFO Guidelines'
-copyright = '2020, Paolo Cozzi, ...'
+copyright = '2020-2021, Paolo Cozzi, ...'
 author = 'Paolo Cozzi, ...'
 
 # The full version, including alpha/beta/rc tags
