@@ -15,7 +15,7 @@ that could scale with your data. This could be achieved by writing pipelines in
 `Nextflow scripting <https://www.nextflow.io/docs/latest/script.html>`__ language
 (or `DSL2 <https://www.nextflow.io/docs/latest/dsl2.html>`__) and managing your
 software requirements with :doc:`conda <../terminal/conda>`,
-:doc:`singularity <../terminal/singularity>` or docker.
+:doc:`singularity <../terminal/singularity>` or :doc:`docker <../terminal/docker>`.
 
 Learning Nextflow
 ~~~~~~~~~~~~~~~~~
@@ -88,6 +88,32 @@ but the recommended way is using pip::
 
 Configuring nextflow
 ~~~~~~~~~~~~~~~~~~~~
+
+.. _set-singularity-cache:
+
+Setting ``NXF_SINGULARITY_CACHEDIR``
+""""""""""""""""""""""""""""""""""""
+
+Using nextflow with singularity let to define a directory where remote Singularity
+images are stored. This could speed up **a lot** pipelines execution times, since images
+are downloaded once and the used when needed. You can define the location of such
+directory by setting the ``NXF_SINGULARITY_CACHEDIR`` path. Nextflow will create
+if for you and will place every singularity builded image inside this directory
+
+.. hint::
+
+  ``NXF_SINGULARITY_CACHEDIR`` is already defined for every user in our share **core**
+  infrastructure, and points by default at ``${HOME}/nxf_singularity_cache/`` directory.
+  If you want to change this value (for example, by setting a shared cache folder),
+  you have to define such variable in your ``$HOME/.profile`` configuration file,
+  for example::
+
+    # override nextflow singularity cache dir
+    export NXF_SINGULARITY_CACHEDIR=/home/core/nxf_singularity_cache/
+
+.. warning::
+
+  When using a computing cluster it must be a shared folder accessible from all computing nodes.
 
 Access to private repositories
 """"""""""""""""""""""""""""""

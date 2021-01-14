@@ -17,6 +17,7 @@ Welcome to BIOINFO Guidelines's documentation!
     :caption: The Terminal
 
     terminal/conda
+    terminal/docker
     terminal/singularity
 
 .. toctree::
