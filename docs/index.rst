@@ -22,7 +22,7 @@ Welcome to BIOINFO Guidelines's documentation!
     :maxdepth: 2
     :caption: Nextflow
 
-    nextflow/installing
+    nextflow/getting-started
     nextflow/running
     nextflow/creating
 
