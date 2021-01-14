@@ -17,6 +17,7 @@ Welcome to BIOINFO Guidelines's documentation!
     :caption: The Terminal
 
     terminal/conda
+    terminal/singularity
 
 .. toctree::
     :maxdepth: 2
@@ -25,6 +26,7 @@ Welcome to BIOINFO Guidelines's documentation!
     nextflow/getting-started
     nextflow/running
     nextflow/creating
+    nextflow/trubleshooting
 
 Indices and tables
 ==================

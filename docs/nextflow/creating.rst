@@ -1,6 +1,6 @@
 
-Chapter 3 Title
-===============
+Creating a Pipeline
+===================
 
 .. contents:: Table of Contents
 

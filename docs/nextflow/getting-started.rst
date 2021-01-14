@@ -14,7 +14,8 @@ locally on your laptop and eventually in HPC environments or any other resource
 that could scale with your data. This could be achieved by writing pipelines in
 `Nextflow scripting <https://www.nextflow.io/docs/latest/script.html>`__ language
 (or `DSL2 <https://www.nextflow.io/docs/latest/dsl2.html>`__) and managing your
-software requirements with :doc:`conda <../terminal/conda>`, singularity or docker.
+software requirements with :doc:`conda <../terminal/conda>`,
+:doc:`singularity <../terminal/singularity>` or docker.
 
 Learning Nextflow
 ~~~~~~~~~~~~~~~~~
@@ -52,6 +53,8 @@ installation with::
 
   Nextflow is already installed in our shared **core** environment, and can be called
   like a command since is available via ``$PATH`` environment variable
+
+.. _install-nf-core:
 
 Install nf-core/tools
 ~~~~~~~~~~~~~~~~~~~~~
