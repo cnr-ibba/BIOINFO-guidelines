@@ -2,6 +2,8 @@
 Trubleshooting
 ==============
 
+.. contents:: Table of Contents
+
 Failed to pull singularity image
 --------------------------------
 

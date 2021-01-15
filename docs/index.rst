@@ -11,6 +11,7 @@ Welcome to BIOINFO Guidelines's documentation!
     :caption: Introduction
 
     contributing
+    general/sharing
 
 .. toctree::
     :maxdepth: 2
@@ -26,7 +27,7 @@ Welcome to BIOINFO Guidelines's documentation!
 
     nextflow/getting-started
     nextflow/running
-    nextflow/creating
+    nextflow/customize
     nextflow/trubleshooting
 
 Indices and tables

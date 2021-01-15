@@ -17,6 +17,8 @@ that could scale with your data. This could be achieved by writing pipelines in
 software requirements with :doc:`conda <../terminal/conda>`,
 :doc:`singularity <../terminal/singularity>` or :doc:`docker <../terminal/docker>`.
 
+.. _learning-nextflow:
+
 Learning Nextflow
 ~~~~~~~~~~~~~~~~~
 
