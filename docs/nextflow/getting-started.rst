@@ -115,6 +115,8 @@ if for you and will place every singularity builded image inside this directory
 
   When using a computing cluster it must be a shared folder accessible from all computing nodes.
 
+.. _nextflow-private-repo:
+
 Access to private repositories
 """"""""""""""""""""""""""""""
 

@@ -47,6 +47,12 @@ extension). For example in the previous case::
 After that, you could resume your nextflow pipeline by adding the ``-resume`` option
 in your command line in order using the cached results of the previous calculations
 
+.. note::
+
+  nextflow singularity containers are moving from `quay <https://quay.io/>`__ to
+  `depot.galaxyproject.org <https://depot.galaxyproject.org/singularity/>`__:
+  the latter seems to have better downloading performance
+
 .. _nextflow-version-required:
 
 Nextflow version does't match the required version
@@ -74,5 +80,5 @@ this::
   $ wget -qO- https://github.com/nextflow-io/nextflow/releases/download/v20.12.0-edge/nextflow-20.12.0-edge-all | bash
 
 This will download all the requirements and will put nextflow in your current directory.
-Change the nexflow default permissions to ``755`` and move such executable in a
+Change the nextflow default permissions to ``755`` and move such executable in a
 directory with a higher position in your ``$PATH`` environment, for example ``$HOME/bin``
