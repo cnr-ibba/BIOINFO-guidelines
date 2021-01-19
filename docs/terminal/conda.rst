@@ -12,7 +12,7 @@ environments. It was born to support the python ecosistem, however most software
 has been supported by conda, for example `R`_ and its packages, and there are
 channels like `bioconda`_, which collect and maintain a lot of useful softwares.
 The main advantage in using conda environments is that packages could be installed
-directly with their dependencies, whitout the needing to compile everithing. Moreover
+directly with their dependencies, whitout the needing to compile everything. Moreover
 conda and its environments can be installed by an user without administrative privileges.
 Packages and dependencies are installed inside user directories, and a complete
 unistallation could be done by erasing the conda installation folder.
@@ -48,6 +48,13 @@ undertstand if conda is installed using ``which``, for example::
 In such case, conda is installed and currently active (The ``(base)`` near username
 in the bash prompt, is the environment name currently active in the terminal)
 
+.. hint::
+
+  Conda is already installed and initialized in our shared **core** environment.
+  When you log in you should see the ``(base)`` default environment activated.
+  This installation let you use the provided environments managed by the system
+  administrator, and to define your local environments in your ``$HOME`` folder.
+
 Should I install Conda or Miniconda?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -72,3 +79,120 @@ installation instructions provided by Anaconda or miniconda
 
 Managing environments with conda
 --------------------------------
+
+Choose an environment
+~~~~~~~~~~~~~~~~~~~~~
+
+You can explore the conda environment available with::
+
+  $ conda env list
+  # conda environments:
+  #
+  R-3.6                    /home/cozzip/.conda/envs/R-3.6
+  base                  *  /usr/local/Miniconda3-py38_4.8.3-Linux-x86_64
+  nf-core                  /usr/local/Miniconda3-py38_4.8.3-Linux-x86_64/envs/nf-core
+
+The environment with ``*`` is the current active environment. Is the same you see
+in the bash prompt.
+
+.. hint::
+
+  ``conda env list`` is different from ``conda list`` which tells you which
+  packages are installed in your current environment.
+
+You could enable a conda environment using ``conda activate``, for example::
+
+  $ conda activate R-3.6
+
+You should see that the environment name near the bash prompt changed to the desidered
+environment. In order to exit the current environment (and return to your previous
+environment), you have to deactivate with::
+
+  $ conda deactivate
+
+Create a new environment
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can create a new environment by specify the environment name using ``--name``
+option. You could also specify which package to install when creating an environment::
+
+  conda create --name <env name> [package1] [package2]
+
+See `Managing environment <https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html>`__
+in conda documentation for more informations
+
+.. hint::
+
+  You can save time by specifying package version (ex. ``python=3.8``): conda will
+  have less dependencies to evaluate
+
+A note on channels
+""""""""""""""""""
+
+Channels are repository where conda store packages. The ``default`` contains packages
+maintained by conda developers. There are others channels like `bioconda <https://bioconda.github.io/index.html>`__,
+which contains a lot of bioinformatics packages, `R <https://anaconda.org/r/repo>`__,
+which store *R* and its packages, `conda-forge <https://conda-forge.org/>`__, which
+contains community packages, often more updated that the official channels. If you
+search or want to install a package in a different channel than the ``default``, you
+have to specify with the ``--channel`` option::
+
+  $ conda search --channel R r-base=3.6
+  $ conda create --channel R --name R-3.6 r-base=3.6
+
+You can find more information on `Managing channels <https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-channels.html>`__
+in conda documentation.
+
+.. warning::
+
+  different channels could have different dependencies: for example could be difficult
+  install both ``rstudio`` package from ``R`` channel and ``R-base=4.0`` from ``conda-forge``.
+  Moreover channels like ``conda-forge`` could have more updates than the default
+  one, and could be difficult install or updating packages in those channels. Instead
+  of installing our your requirements in a single environment, you should install
+  software in dedicated environments, and use custom channels only if its necessary.
+
+Export and import an environment
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You could export conda environment in a file. First, you have to activate the environment
+that you want to import, for example::
+
+  $ conda activate R-3.6
+  $ conda env export > R-3.6.yml
+
+Then you could create a new environment relying on the exported file, for example on
+a different machine::
+
+  $ conda env create -f R-3.6.yml
+
+Remove an environment
+~~~~~~~~~~~~~~~~~~~~~
+
+You can remove an environment by specifying its *name*: this environment shouldn't
+be active when removing::
+
+  $ conda env remove --name R-3.6
+
+Conda best practices
+--------------------
+
+Specify package version if possible
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Specifying package version could save a lot of time, for example when you need
+to resolve dependencies with channels::
+
+  $ conda create --channel conda-forge --channel R --name R-4.0 r-base=4.0
+
+Clean up
+~~~~~~~~
+
+Conda will download and save packages in a local cache when installing or updating packages.
+You can save some time when you install a cached package, however this can consume
+a lot of disk space. You can free conda cache with::
+
+  $ conda clean --all
+
+See `conda clean <https://docs.conda.io/projects/conda/en/latest/commands/clean.html>`__
+for more options.
