@@ -17,6 +17,7 @@ Welcome to BIOINFO Guidelines's documentation!
     :maxdepth: 2
     :caption: The Terminal
 
+    terminal/ssh
     terminal/conda
     terminal/docker
     terminal/singularity
