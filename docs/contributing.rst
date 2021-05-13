@@ -32,7 +32,7 @@ are welcome. Before starting to work on documentation, please follow those steps
 
      $ chdir docs
      $ make clean
-     $ make docs
+     $ make html
 
 7. If documentation works as you intended, you could push your work on your GitHub
    account and start *from here* a new pull request
