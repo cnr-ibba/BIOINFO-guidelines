@@ -220,17 +220,18 @@ option::
 
   Simply type ``yes`` when prompted and you will proceed with connection.
   The host/ip address of the remote server will be placed in your
-  ``$HOME/.ssh/known_host`` file. This message will not be printed again when
+  ``$HOME/.ssh/known_hosts`` file. This message will not be printed again when
   connecting to the same host.
 
 .. danger::
 
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-  incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-  exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-  irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-  nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
-  qui officia deserunt mollit anim id est laborum.
+  Every time you start new a connection to a remote server, ssh checks server
+  fingerprint with the information stored in ``.ssh/known_hosts``. If the server
+  fingerprint is different, the connection is immediately terminated. There could
+  be different reasons when you see this behaviour, for example your administrator
+  may have changed the destination server or maybe someone has hacked your server
+  configuration or connection. When you see an issue like this, please tell immediately
+  it to your system administrator.
 
 Closing a connection
 """"""""""""""""""""
@@ -280,19 +281,137 @@ while for more information on ssh client options see the `ssh manual pages <http
 Copy remote files using SSH
 ---------------------------
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
-qui officia deserunt mollit anim id est laborum.
+Copying files using OpenSSH
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. _copying-files-using-openssh:
+
+There are two ways to copy a file using OpenSSH, they are ``scp`` and ``rsync``.
+``scp`` is part of OpenSSH package while ``rsync`` is another utility to copy file
+which support ``SSH`` protocol. Despite the two methods are valid, ``rsync`` is the
+recommended way since it can do incremental copy (ie copy only new or updated files)
+and can preserve file permissions and times (which are useful to understand if a
+file is updated or not).
+
+SCP
+"""
+
+``scp`` works like linux ``cp`` but support remote origin and destination. Simple
+prefix your source or destination path with ``<user>@<remote server>`` as you do when
+connecting using OpenSSH, for example to copy recursively from a remote folder in
+your local environment::
+
+  $ scp -r <user>@<remote server>:/remote/src/path /local/dst/path
+
+If you want to copy a local folder into a remote folder, simply add the
+``<user>@<remote server>`` before destination directory::
+
+  $scp -r /local/src/path <user>@<remote server>:/remote/dst/path
+
+.. note::
+
+  remember to add a ``:`` between ``<user>@<remote server>`` and your remote folder,
+  otherwise you will do a local copy with as ``<user>@<remote server>`` as prefix.
+  ``<user>@<remote server>:`` without destination folder is a shortcut for your remote
+  ``$HOME`` directory
+
+.. warning::
+
+  The main issue with ``scp`` is that you can't copy file attributes, for example
+  timings: your copied file will have the created/modified time when the copy occurs,
+  and you can't define the most updated file simply relying on date. Moreover, if you
+  remote copy a folder using ``scp``, you will copy the whole directory content,
+  indipendently if destination files are already present or aren't changed. This
+  need to be taken into consideration for example if there are network issues during
+  copying and you need to executing the same command again: for those reasons,
+  ``rsync`` is the recommended way to copy or backup files using ``OpenSSH``.
+
+Rsync
+"""""
+
+.. _copy-files-with-rsync:
+
+``rsync`` is the recommended way to backup or copy files from/to remote services:
+it checks contents in destination folder in order to save time and bandwith by copying
+only new or modified files. Command is similar to scp, however there are additional
+parameters that need to be mastered in order to take advantage of ``rsync``. For
+example, to copy file from local to remote your could do like this::
+
+  $ rsync -vare ssh /local/src/path <user>@<remote server>:/remote/dst/path
+
+Here are the main options of ``rsync``:
+
+- ``-v``: verbose transfer
+- ``-a``: archive (track attributes like permissions)
+- ``-r``: recursively
+- ``-e ssh``: ``-e`` define the protocol used in transfer, need to be followed immediately
+  by ``ssh``. You can specify parameters in different order, but when you set ``-e``
+  parameter, you need to specify protocol.
+
+There are other options that are useful and that can be added to ``rsync`` command
+line:
+
+- ``-P``: show progress during copying
+- ``-u``: skip files that are newer on the receiver
+- ``-n``: *dry-run* (useful in testing ``rsync`` commands)
+- ``-z``: use *gzip* while transferring (useful with text files and slow connections)
+- ``--del``: delete destination files if they don't exists on source (use with caution,
+  test ``rsync`` command before apply)
+- ``--exclude=pattern``: exclude *pattern* from ``rsync``
+- ``--chown=<user>:<group>``: set destination ownership (``user`` and ``group`` need
+  to exists in destination)
+
+.. warning::
+
+  With ``rsync`` a path like ``/local/source/folder/`` (with final ``/``) is
+  a shortcut for all file contents in folder (ie ``/local/source/folder/*``),
+  while omitting the final ``/`` mean the folder itself. So a command like::
+
+    $ rsync -vare ssh /local/src/path1/ <user>@<remote server>:/remote/dst/path2/
+
+  Will place all ``path1`` contents in ``path2`` contents, while::
+
+    $ rsync -vare ssh /local/src/path1 <user>@<remote server>:/remote/dst/path2/
+
+  Will place ``path1`` directory in ``path2`` (so, destination will be: ``/remote/dst/path2/path1``).
+  The same applyes by avoiding the final ``\`` in destination path. Please,
+  launch a *dry-run* rsync (with ``-n`` option) to ensure that your ``rsync`` command
+  line is correct
 
 Mount remote folders using SSH
 ------------------------------
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
-qui officia deserunt mollit anim id est laborum.
+It is possible to mount a remote folder in your local environment using ``sshfs``.
+Briefly, this utility let you to mount a remote folder into your local environment
+using ``SSH`` as protocol. This has the benefit that you could see the remote
+files like as they are on your local environment. For example, by mounting a
+folder like this you can edit your remote files with your preferred editor or
+inspect remote file contents using your file browser.
+In linux, you can mount remote folder by installing ``sshfs`` packages. For MacOS,
+you need `oxfuse <https://osxfuse.github.io/>`__ packages. After installing required
+packages, you need to create destination path in which mount remote folder. For
+example::
+
+  $ sudo mkdir /mnt/core
+
+.. hint::
+
+  If you create a directory outside your ``$HOME`` directory, you need to call
+  command with ``sudo`` in order to create such folder. Next, ensure you own such
+  directory in order to mount remote folder as a user with::
+
+  $ sudo chown $USER:$USER /mnt/core
+
+After that, you could mount the remote folder with::
+
+  $ sshfs -o idmap=user <user>@<remote server>:<remote directory> /mnt/core/
+
+``-o idmap=user`` is an option required in order to save/retrieve files with your
+ssh credentials. If you need to unmount a folder::
+
+  $ fusermount -u /mnt/core
+  # Or if you are on a mach and you don't have ``fuse`` installed
+  $ sudo umount /mnt/core
+
+For more informations, see
+`How To Use SSHFS to Mount Remote File Systems Over SSH <https://www.digitalocean.com/community/tutorials/how-to-use-sshfs-to-mount-remote-file-systems-over-ssh>`__
