@@ -156,7 +156,7 @@ documentation for more info.
 
 .. note::
 
-  When calling log, you can inspect the command line used to execute the pipleine.
+  When calling log, you can inspect the command line used to execute the pipeline.
   You could also get informations about execution times. For more information, take a look at
   `nextflow log <https://www.nextflow.io/docs/latest/cli.html#log>`__ documentation.
 

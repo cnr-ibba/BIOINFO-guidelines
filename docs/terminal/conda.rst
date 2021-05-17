@@ -166,7 +166,7 @@ that you want to import, for example::
   When you export an environment with conda, yon don't simply export infomations
   to re-build your environment relying on package version, but you also track informations
   about the **package build version**, in order to be able to download the same file
-  required to install a particoular library.
+  required to install a particular library.
   Sometimes is difficult to be able to re-create an exported environment, for example
   if you use packages in ``conda-forge`` channel: packages could be updated very
   often and maybe it is not possible to retrieve the same package file you used
