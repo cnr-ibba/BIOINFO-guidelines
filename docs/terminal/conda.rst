@@ -61,8 +61,8 @@ Should I install Conda or Miniconda?
 Conda is installed with a a lot of dependencies, like spyder editor, jupyter notebook
 and many other packages. Miniconda is a lighter version of anaconda, which installs
 only the minimal packages required to work correctly with conda. In general, you could
-decide to install the whole Conda in a local installations, since locally you could
-exploit the benefit of the editors and the grafical user interfaces in general.
+decide to install the whole Conda in a local installation, since in your personal computer
+you could exploit the benefit of the editors and the grafical user interfaces.
 When working on a remote server, using Miniconda is recommended since you have the
 full control on what is installed and generally you don't need starting grafical
 interfaces on a remote servers. If you are in doubt, please see the
@@ -152,8 +152,8 @@ in conda documentation.
   of installing our your requirements in a single environment, you should install
   software in dedicated environments, and use custom channels only if its necessary.
 
-Export and import an environment
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Export a conda environment
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You could export conda environment in a file. First, you have to activate the environment
 that you want to import, for example::
@@ -161,7 +161,29 @@ that you want to import, for example::
   $ conda activate R-3.6
   $ conda env export > R-3.6.yml
 
-Then you could create a new environment relying on the exported file, for example on
+.. hint::
+
+  When you export an environment with conda, yon don't simply export infomations
+  to re-build your environment relying on package version, but you also track informations
+  about the **package build version**, in order to be able to download the same file
+  required to install a particular library.
+  Sometimes is difficult to be able to re-create an exported environment, for example
+  if you use packages in ``conda-forge`` channel: packages could be updated very
+  often and maybe it is not possible to retrieve the same package file you used
+  during environment import. For such cases, its better to export a conda
+  environment without **build specifications**, like this::
+
+    $ conda env export --no-builds > R-3.6.yml
+
+  This will track all your package version without the file hash stored in conda
+  channels. This require more time when restoring an environment, however you will
+  be able to restore an environment after years even if you require some non-standard
+  channels
+
+Import a conda environment
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You could create a new environment relying on the exported file, for example on
 a different machine::
 
   $ conda env create -f R-3.6.yml

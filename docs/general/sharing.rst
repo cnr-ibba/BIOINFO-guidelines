@@ -58,6 +58,12 @@ When you change the secondary group with ``newgrp``, you will make a new login
 with the secondary group. To return to the original behaviour, you need to exit
 from the group login with ``exit`` command
 
+.. hint::
+
+  if you copy files using ``rsync`` you can use ``--chown=<user>:<group>`` option
+  to set destination ownership. For more informations, please see :ref:`rsync section <copy-files-with-rsync>`
+  in :ref:`Copying files using OpenSSH <copying-files-using-openssh>`.
+
 .. warning::
 
   ``newgrp`` is valid only on your current shell, every new  login will have the
@@ -127,6 +133,16 @@ the standard ``775`` is the ``sgid`` octal code)
   In our **core** environment, he have the ``/home/core`` folder with the ``sgid``
   set for the ``core`` group. All files that need to be shared with ``core`` members
   need to be placed inside this folder.
+
+.. warning::
+
+  Despite ``sgid`` keeps the same permission of parent folder when creating new
+  files or directory, it can't set permission when moving files from one location
+  or another or when unpacking data from archives. **When moving files accross directories
+  or when extracting files from archives, please check that permissions are correct.**
+  If you transfer files using ``rsync``, you could set ``sgid`` in source folder
+  and transfer attributes with ``-a`` option. See :ref:`rsync section <copy-files-with-rsync>`
+  for more informations.
 
 For more information on special permission, see
 `Linux permissions: SUID, SGID, and sticky bit <https://www.redhat.com/sysadmin/suid-sgid-sticky-bit>`__
