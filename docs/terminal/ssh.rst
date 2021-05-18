@@ -151,6 +151,79 @@ are supported. Here you can create a key like OpenSSH, so follow the
 :ref:`Generate a public key pair with OpenSSH <openssh-keygen>` documentation, then
 move to :ref:`Connecting with MobaXterm <mobaxterm-connect>` documentation.
 
+Windows App
+~~~~~~~~~~~
+
+Windows 10 let you to install a Linux distribution from its app store with
+*Windows Subsystem for Linux (WSL)*: this lets you to install almost a complete
+GNU/Linux environment directly on Windows without installing a virtual machine
+or setting up dualboot (see `here <https://docs.microsoft.com/en-us/windows/wsl/about>`__
+for more informations). There are two major release of WSL, WSL1 and WSL2
+(see `here <https://docs.microsoft.com/en-us/windows/wsl/compare-versions>`__
+to see differences between the two versions). Briefly WSL1 was the first attempt to
+import a Linux kernel in Windows and is lighter and easier to install compared to WSL2.
+WSL2 however is more advanced and implements a full virtualization of the Linux kernel:
+this means that the environment is more similar to a Linux environment, more performant
+and there's also the support for :ref:`Docker <docker-intro>` natively. This type of
+virtualization is completed supported by Windows, so this means that you can't install
+another VM Hypervisor (such as oracle *VirtualBox* or *VMware*) and exploit all
+its advanced functionalities.
+At the moment, configuring WSL1 or WSL2 is quite tricky, so please follow the
+official Microsoft documentaion on
+`Windows Subsystem for Linux Installation Guide for Windows 10 <https://docs.microsoft.com/en-us/windows/wsl/install-win10>`__.
+After enabling WSL, you can install any distribution you like from Windows App
+Store.
+
+Generate a public key pair with Windows App
+"""""""""""""""""""""""""""""""""""""""""""
+
+When you open your installed Linux application (like the Ubuntu App), you will have
+a full terminal like any Linux distribution. The instruction on how to generate a
+public key are the same of :ref:`Generate a public key pair with OpenSSH <openssh-keygen>`
+documentation. Also, connections to remote server are made using OpenSSH, see
+:ref:`Connecting with OpenSSH <openssh-connect>` section
+
+Putty and WinSCP
+~~~~~~~~~~~~~~~~
+
+`Putty <https://www.putty.org/>`__ and `WinSCP <https://winscp.net/eng/index.php>`__
+are respectively two softwares for two different tasks: the first connects to the
+remote server and gives you only a terminal; The second could be useful for data
+transfer between remote and local directories.
+
+Generate a public key pair with PuttyGen
+""""""""""""""""""""""""""""""""""""""""
+
+Putty and WinSCP works with *Putty key files* which are quite different from key
+files you can create with OpenSSH. In order to generate such keys, you will need
+*Putty Key Generator*, which comes with Putty software.
+
+.. image:: /_static/img/puttygen.png
+
+From the *Putty Key Generator* main screen, you need to generate a new key pair with
+the *Generate* button. Follow the instructions when generating a new key. Next,
+you need to click on *Save public key* buttons and *Save private key* to save a public
+key and a Putty Key respectively. The public key you save is the one you need to share
+with your system administrator.
+
+.. tip::
+
+  You could convert the putty public key in OpenSSH public key as described
+  `here <https://stackoverflow.com/a/10015651/4385116>`__::
+
+    ssh-keygen -i -f keyfile.pub > newkeyfile.pub
+
+  If you don't have ``ssh-keygen`` in your system, ask your sysadmin to do it for you.
+
+.. hint::
+
+  You could import also a OpenSSH public key and convert into Putty key using
+  *Putty Key Generator*
+
+Once you created (and saved) your Putty key file, see the :ref:`Connecting with Putty <putty-connect>`
+section to connect to your remote server. If you need more information on puttygen
+and Putty key, see `This guide <https://www.ssh.com/academy/ssh/putty/windows/puttygen>`__.
+
 Remote connection to a Server
 -----------------------------
 
@@ -318,13 +391,31 @@ Set the remote server *hostname* or *ip address* in *Remote host* box. Click on
 Check the *Use private key* checkbox and if you have created your public key as
 described in the :ref:`MobaXterm section <mobaxterm-keygen>`, you will see the
 position of your public key file. Check if path is correct or set the correct path
-of your public key file if you have stored your publick key in another location.
-In the *Bookmark settings* you can define a session name to easily find your
+of your public key file if you have stored your public key in another location.
+In the *Bookmark settings* tab you can define a session name to easily find your
 saved sessions. After that, click on the *Ok* button to save your session configuration.
 You will see all your saved session by clicking on the *Sessions* tab (the tab
 with a *Star* on the left of the main session) and you can start a new connection
 by clicking to the session name you have configured previously. Fore more
 informations, see `MobaXterm documentation <https://mobaxterm.mobatek.net/documentation.html>`__
+
+Connecting with Putty
+~~~~~~~~~~~~~~~~~~~~~
+
+.. _putty-connect:
+
+After opening *Putty* application, fill *Host Name* in *Session* tab with your
+remote server name or ip address:
+
+.. image:: /_static/img/putty_session.png
+
+Next, under the *Connection->SSH->Auth* tab browse and locate your Putty key file
+(the one with ``.ppk`` extension)
+
+.. image:: /_static/img/putty_auth.png
+
+After that, click on the *Open* button to start a new connection. You will be prompted
+for your username after starting a connection.
 
 Copy remote files
 -----------------
@@ -436,6 +527,21 @@ on the remote server, as shown in figure:
 
 The file browser on the left is quite similar to other file browsers, you can
 click on a file to show/download it.
+
+Copying files using WinSCP
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Start a new WinSCP connection and by clicking on the *Advanced* button, in
+*SSH->Authentication* section provide your Putty key file. Next on the main
+section fill *User* and *Name server* with proper values to start a new connection
+as shown in figure:
+
+.. image:: /_static/img/winscp_conf.png
+
+.. hint::
+
+  If you have an OpenSSH key pair, you can automatically convert it into Putty
+  key file. WinSCP will make the conversion for you.
 
 Mount remote folders using SSH
 ------------------------------
