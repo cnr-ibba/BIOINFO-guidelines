@@ -101,9 +101,7 @@ common position where we can find input files, and ``$PWD``, which is our nextfl
 folder in which we found an error), next there is the physical location of our
 singularity image (``/home/core/nxf_singularity_cache/bunop-mirdeep2.img`` in this example)
 and then the command we want to run, in such case a new terminal
-since we want to run ``.command.sh`` manually and see why this is raise an error.
-Executing such test in singularity container let us to understand why this command
-has error and how we can fix this in order to update our nextflow pipeline.
+since we want to run ``.command.sh`` manually and see why this is raising an error.
 
 Failed to pull singularity image
 --------------------------------

@@ -96,6 +96,8 @@ if you want to provide remote connections on your local machine)
 Generate a public key pair with OpenSSH
 """""""""""""""""""""""""""""""""""""""
 
+.. _openssh-keygen:
+
 The easiest way to generate a key pairs using ssh is by using ``ssh-keygen``. This
 util request to to provide the path where to store the key pair and a passphrase
 required when using your key pairs. You could reply with no arguments (simply press
@@ -126,6 +128,28 @@ the ``id_rsa.pub`` file). If you used the default options, such file is stored i
 administrator in order to be able to connect remotely. After that, please see
 :ref:`OpenSSH <openssh-connect>` section under `Remote connection to a Server`_
 section.
+
+MobaXterm
+~~~~~~~~~
+
+`MobaXterm <https://mobaxterm.mobatek.net/>`__ is an enhanced terminal for Windows
+with X11 server, tabbed SSH client, network tools and much more. If you are on a Windows
+machine, you could download and install MobaXterm to have a full terminal and a file
+transfer in the same application.
+
+Generate a public key pair with MobaXterm
+"""""""""""""""""""""""""""""""""""""""""
+
+.. _mobaxterm-keygen:
+
+Open MobaXterm and on the principal panel, click on the *Start local terminal* button:
+
+.. image:: /_static/img/mobaxterm_start.png
+
+This will open Linux-like terminal windows in MobaXterm, where some linux commands
+are supported. Here you can create a key like OpenSSH, so follow the
+:ref:`Generate a public key pair with OpenSSH <openssh-keygen>` documentation, then
+move to :ref:`Connecting with MobaXterm <mobaxterm-connect>` documentation.
 
 Remote connection to a Server
 -----------------------------
@@ -278,8 +302,32 @@ For more information on ssh ``config`` and keys see
 `Associating Keys Permanently with a Server <https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Public_Key_Authentication#Associating_Keys_Permanently_with_a_Server>`__,
 while for more information on ssh client options see the `ssh manual pages <https://linux.die.net/man/1/ssh>`__
 
-Copy remote files using SSH
----------------------------
+Connecting with MobaXterm
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To connect with MobaXterm for the first time, it's better to create a new session
+by clicking on *Session* button and then on *SSH* button for session type, as shown
+in the following figure:
+
+.. _mobaxterm-connect:
+
+.. image:: /_static/img/mobaxterm_new_session.png
+
+Set the remote server *hostname* or *ip address* in *Remote host* box. Click on
+*Specify username* checkbox and then type the username provided by you by the sysadmin.
+Check the *Use private key* checkbox and if you have created your public key as
+described in the :ref:`MobaXterm section <mobaxterm-keygen>`, you will see the
+position of your public key file. Check if path is correct or set the correct path
+of your public key file if you have stored your publick key in another location.
+In the *Bookmark settings* you can define a session name to easily find your
+saved sessions. After that, click on the *Ok* button to save your session configuration.
+You will see all your saved session by clicking on the *Sessions* tab (the tab
+with a *Star* on the left of the main session) and you can start a new connection
+by clicking to the session name you have configured previously. Fore more
+informations, see `MobaXterm documentation <https://mobaxterm.mobatek.net/documentation.html>`__
+
+Copy remote files
+-----------------
 
 Copying files using OpenSSH
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -374,9 +422,20 @@ line:
     $ rsync -vare ssh /local/src/path1 <user>@<remote server>:/remote/dst/path2/
 
   Will place ``path1`` directory in ``path2`` (so, destination will be: ``/remote/dst/path2/path1``).
-  The same applyes by avoiding the final ``\`` in destination path. Please,
+  The same applies by avoiding the final ``\`` in destination path. Please,
   launch a *dry-run* rsync (with ``-n`` option) to ensure that your ``rsync`` command
   line is correct
+
+Copying files using MobaXterm
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Click on *Scp* button on the left of the main terminal after opening a session
+on the remote server, as shown in figure:
+
+.. image:: /_static/img/mobaxterm_copy.png
+
+The file browser on the left is quite similar to other file browsers, you can
+click on a file to show/download it.
 
 Mount remote folders using SSH
 ------------------------------
