@@ -3,6 +3,8 @@ Contributing
 
 .. contents:: Table of Contents
 
+.. _contributing:
+
 Contributing to BIOINFO-guidelines
 ----------------------------------
 
