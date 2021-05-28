@@ -96,16 +96,17 @@ Configuring nextflow
 Setting ``NXF_SINGULARITY_CACHEDIR``
 """"""""""""""""""""""""""""""""""""
 
-Using nextflow with singularity let to define a directory where remote Singularity
+Using nextflow with singularity lets you to define a directory where remote Singularity
 images are stored. This could speed up **a lot** pipelines execution times, since images
-are downloaded once and the used when needed. You can define the location of such
-directory by setting the ``NXF_SINGULARITY_CACHEDIR`` path. Nextflow will create
-if for you and will place every singularity builded image inside this directory
+are downloaded once and then used when needed. You can define the location of such
+directory by setting the ``NXF_SINGULARITY_CACHEDIR`` environment variable. Nextflow
+will create such directory for you and will place every singularity downloaded image
+inside this directory
 
 .. hint::
 
-  ``NXF_SINGULARITY_CACHEDIR`` is already defined for every user in our share **core**
-  infrastructure, and points by default at ``${HOME}/nxf_singularity_cache/`` directory.
+  ``NXF_SINGULARITY_CACHEDIR`` is already defined for every user in our shared **core**
+  infrastructure, and points by default at your ``${HOME}/nxf_singularity_cache/`` directory.
   If you want to change this value (for example, by setting a shared cache folder),
   you have to define such variable in your ``$HOME/.profile`` configuration file,
   for example::

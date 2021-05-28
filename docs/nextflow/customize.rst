@@ -20,20 +20,20 @@ repository::
 
 .. warning::
 
-  if you clone a pipeline with ``nextflow`` clone, ensure that git *remotes* are
+  if you clone a pipeline with ``nextflow clone`` command, ensure that git *remotes* are
   correct and point to the repository location
 
 Creating a new pipeline
 -----------------------
 
-If you can find a proper pipeline in community, you could create a pipeline by your
+If you can't find a proper pipeline in community, you could create a pipeline by your
 self. In :ref:`Learning Nextflow <learning-nextflow>` section of these guidelines
 you can find a lot of material on working with nextflow. However, the most interesting
 feature in nextflow is the `DSL2 <https://www.nextflow.io/docs/latest/dsl2.html>`__
 syntax: with it, you can re-use modules in which calculations steps are defined
 by the community. In such way, you can avoid to write a full pipeline from yourself.
 
-The minimal set of file required to have a pipeline is to have locally both
+The minimal set of files required to have a pipeline is to have locally both
 ``main.nf`` and ``nextflow.config`` inside your project folder: whitout them you
 will not be able to add community modules to your pipelines using ``nf-core/tools``::
 

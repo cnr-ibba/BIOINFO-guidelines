@@ -4,13 +4,13 @@ Running Nextflow
 
 .. contents:: Table of Contents
 
-A note of profiles
+A note on profiles
 ------------------
 
 Despite nextflow could be run using :doc:`conda <../terminal/conda>`,
 :doc:`singularity <../terminal/singularity>`, :doc:`docker <../terminal/docker>`
-or other profiles, the recommended profile tu use is **singularity**: this solution
-in fact manage all software dependencies in a unique file and could be cached and
+or other profiles, the recommended profile to use is **singularity**: this solution
+in fact manages all software dependencies in a unique file and could be cached and
 reused in order to speed up the calculation process
 
 .. warning::
@@ -35,10 +35,10 @@ Search for a community pipeline
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Community pipelines are available at `nf-core pipeline <https://nf-co.re/pipelines>`__
-section: you could search a pipeline and browse its documentation in the nf-core site.
-For example, by searching for ``rnaseq`` you could reach `rnaseq pipeline <https://nf-co.re/rnaseq>`__
-page project a documentation on usage by clicking on `Usage docs <https://nf-co.re/rnaseq/usage>`__ menu.
-In order to download the pipeline, softwares and testing all in your local environment
+section: you could search a pipeline and browse its documentation in the `nf-core <https://nf-co.re/>`__ site.
+For example, by searching for ``rnaseq`` you could reach the `rnaseq pipeline <https://nf-co.re/rnaseq>`__
+page project and get documentation on its usage by clicking on `Usage docs <https://nf-co.re/rnaseq/usage>`__ menu.
+In order to download the pipeline, the softwares, and testing all in your local environment,
 you can call directly nextflow, for example for the *rnaseq* pipeline::
 
   $ mkdir nf-rnaseq
@@ -69,8 +69,8 @@ you can call directly nextflow, for example for the *rnaseq* pipeline::
 Manage community pipelines with ``nf-core``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Everytime you run a community pipeline, nextflow will download it in its cache
-(in ``$HOME/.nextflow/assets/``). You could check your installed community pipelines
+Everytime you run a community pipeline, nextflow will download and cache it (in
+your ``$HOME/.nextflow/assets/`` folder). You could check your installed community pipelines
 with::
 
   $ nf-core list
@@ -116,9 +116,9 @@ Here are some tips that could be useful while running nextflow.
 Resume calculations
 ~~~~~~~~~~~~~~~~~~~
 
-Nextflow, by default, executes every calcolation inside a subfolder inside the
-``work`` directory inside your current working directory. Every steps is executed in
-separate subfolders and nextflow will take care about *inputs* and *outputs* amoung
+Nextflow, by default, executes every calculation in a subfolder inside the
+``work`` directory in your current working directory. Every steps is executed in
+separate subfolders and nextflow will take care about *inputs* and *outputs* among
 related steps. It is frequent to call nextflow multiple times, for example while
 modifying a pipeline. In such way, you can save a lot of spaces (and calculation times)
 by *resuming* a pipeline (aka. don't run job completed with success). To achieve this,
@@ -137,7 +137,7 @@ Cleanup
 
 After a pipeline is completed with success, it's better to clean up ``work`` directory
 in order to save space. All the desidered outputs **need to be saved outside** this folder,
-in order to safely remove temporary data. There's nextflow
+in order to safely remove temporary data. There's a nextflow
 `clean <https://www.nextflow.io/docs/latest/cli.html#clean>`__ option which safely
 remove temporary files and nextflow logs. You can have informations on nextflow runs
 by calling ``nextflow info`` inside your project folder::
@@ -168,7 +168,7 @@ documentation for more info.
 
     $ singularity cache clean
 
-  The previous command will not affect your donwload singularity images in
+  The previous command will not affect your downloaded singularity images in
   ``$NXF_SINGULARITY_CACHEDIR`` folder. If you want to remove them, you have to
   do it manually.
 
