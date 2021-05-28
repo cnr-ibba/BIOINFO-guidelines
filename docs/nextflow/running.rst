@@ -69,6 +69,8 @@ you can call directly nextflow, for example for the *rnaseq* pipeline::
 Manage community pipelines with ``nf-core``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. _manage-community-pipelines:
+
 Everytime you run a community pipeline, nextflow will download and cache it (in
 your ``$HOME/.nextflow/assets/`` folder). You could check your installed community pipelines
 with::
@@ -175,4 +177,64 @@ documentation for more info.
 .. warning::
 
   calling ``nextflow clean -f`` without *sessionid*, or *run name* will only remove
-  the last nextflow run temporary files, whitout removing other previous sessions
+  temporary files from the last nextflow run, whitout removing files from other previous sessions.
+  If you want to remove **ALL** your nextflow cache directories with a single command,
+  you can do::
+
+    $ nextflow clean $(nextflow log -q) -f
+
+  where ``nextflow log -q`` simply returns only *run name* for all your nextflow
+  run in your working folder.
+
+Update a pipeline
+~~~~~~~~~~~~~~~~~
+
+If you manage community pipeline using ``nextflow`` or ``nf-core`` script (not using ``git``),
+you can have information on outdated pipelines with ``nf-core list`` command::
+
+  $ nf-core list
+  ┏━━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
+  ┃ Pipeline Name     ┃ Stars ┃ Latest Release ┃      Released ┃  Last Pulled ┃ Have latest release? ┃
+  ┡━━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━┩
+  │ rnaseq            │   323 │            3.1 │   2 weeks ago │  2 hours ago │ Yes (v3.1)           │
+  │ methylseq         │    66 │          1.6.1 │   3 weeks ago │ 4 months ago │ No (v1.5)            │
+
+In this example, we can see that the ``rnaseq`` pipeline is just updated, while
+``methylseq`` is quite old and need to be updated.
+
+.. note::
+
+  when you manage pipelines using nextflow software, pipelines are locally downloaded
+  in your ``$HOME/.nextflow/assets/`` (see :ref:`Manage community pipelines with nf-core<manage-community-pipelines>`):
+  the informations you see reflects the updates of the community pipelines
+  compared to your local assets.
+
+In order to update a community pipeline, you need to call ``nextflow pull``, for
+example::
+
+  $ nextflow pull nf-core/rnaseq
+
+this will update your local assets by downloading the latest default revision of
+the pipeline. If you need a specific version (or branch), you need to specify it
+with ``-r`` option::
+
+  $ nextflow pull nf-core/rnaseq -r 3.0
+
+.. tip::
+
+  You can get a list of available revision and version with::
+
+    $ nextflow info nf-core/rnaseq
+
+.. hint::
+
+  the same considerations apply with custom shared pipelines, for example::
+
+    $ nextflow pull cnr-ibba/nf-resequencing-mem -r issue-1
+
+.. warning::
+
+  if you download a specific version with ``nextflow pull``, you have to specify
+  it when you call ``nextflow run`` with the same ``-r`` option. This is required
+  if you need to run your analyses with an old pipeline version, or if your ``nextflow``
+  executable doesn't support the latest pipeline version.

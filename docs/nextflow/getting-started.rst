@@ -80,6 +80,14 @@ but the recommended way is using pip::
     $ source activate nf-core
     $ pip install nf-core
 
+  An alternative way to install nf-core (v14) with conda is by installing package
+  from both ``bioconda`` and ``conda-forge`` channels::
+
+    $ conda create --channel bioconda --channel conda-forge --name nf-core nf-core=1.14
+
+  However, it's better to do this in a fresh conda environment used only for nextflow.
+  Please see our consideration :ref:`on channels <a-note-on-channels>`.
+
 .. hint::
 
   ``nf-core`` is already installed in a ``nf-core`` environment in our shared **core**
