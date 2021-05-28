@@ -16,8 +16,8 @@ About SSH
 
   -- https://en.wikipedia.org/wiki/Secure_Shell_Protocol
 
-**SSH** is the preferred method we use to work on remote server: it can be used
-to connect and to open a new terminal, retrieve files and executing commands. In
+**SSH** is the preferred method we use to work on remote servers: it can be used
+to connect and to open a new terminal remotely, retrieve files and executing commands. In
 order to be able to work on a remote server with SSH, there are some conditions to
 be satisfied:
 
@@ -42,7 +42,7 @@ however the most common are:
   To allow connections from client, server should find the
   corresponding public key in the list of allowed keys and, more important,
   **the pairing between keys** need to be preserved: you can't connect using a
-  private key of a different pair of keys.
+  private key of a different key pair.
 
 .. warning::
 
@@ -69,9 +69,9 @@ act in the same way while working with remote servers.
   In our shared environment we provide SSH access only via **public key authentication**.
   You need to understand how your ssh client works and how to generate a **private/public
   keys pair** order to connect to our remote machines. **Only the public key** need to
-  be forwarded to the system administrator in order to grant you access on shared
-  remote machines. Your private key need to be stored securely and **never** be sent
-  to anyone in order to enforce security and prevent to others to access to your
+  be forwarded to the system administrator in order to grant you the access on a shared
+  remote machine. Your private key need to be stored securely and **never** be sent
+  to anyone in order to enforce security and prevent others to access to your
   resources using your credentials. Please see ssh documentation regarding
   `public key authentication <https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Public_Key_Authentication>`__
 
@@ -84,12 +84,13 @@ OpenSSH is the *de facto* standard for remote login with SSH protocol in Linux/M
 environments. Beyond login, it provides file transfer with ``scp`` and ``sftp``, it
 manages keys with ``ssh-keygen`` and ``ssh-copy-id`` and provide more advanced functionalities
 with ``ssh-agent``. More info on OpenSSH could be found `here <https://www.openssh.com/>`__.
+
 To discover if you have the OpenSSH client installed on your local (Unix) machine,
 simply type::
 
   $ ssh
 
-On your terminal. In case you don't have OpenSSH installed, you could install the
+on your terminal. In case you don't have OpenSSH installed, you could install the
 ``openssh-client`` package (there's also a ``openssh-server`` but is required only
 if you want to provide remote connections on your local machine)
 
@@ -99,7 +100,7 @@ Generate a public key pair with OpenSSH
 .. _openssh-keygen:
 
 The easiest way to generate a key pairs using ssh is by using ``ssh-keygen``. This
-util request to to provide the path where to store the key pair and a passphrase
+util requests to you to provide the path where to store the key pair and a passphrase
 required when using your key pairs. You could reply with no arguments (simply press
 ``enter`` key) to leave the default options::
 
@@ -122,7 +123,7 @@ prompted if you want to overwrite your key pair::
   key, you will not be able to connect remotely to other machines configured with
   the old key pair
 
-Please keep track of your public key (which is the one with the ``.pub`` extension
+Please keep track of your public key (which is the one with the ``.pub`` extension,
 the ``id_rsa.pub`` file). If you used the default options, such file is stored in your
 ``$HOME/.ssh/`` folder): This is the file you need to provide to your system
 administrator in order to be able to connect remotely. After that, please see
@@ -154,7 +155,7 @@ move to :ref:`Connecting with MobaXterm <mobaxterm-connect>` documentation.
 Windows App
 ~~~~~~~~~~~
 
-Windows 10 let you to install a Linux distribution from its app store with
+Windows 10 lets you to install a Linux distribution from its app store with
 *Windows Subsystem for Linux (WSL)*: this lets you to install almost a complete
 GNU/Linux environment directly on Windows without installing a virtual machine
 or setting up dualboot (see `here <https://docs.microsoft.com/en-us/windows/wsl/about>`__
@@ -179,8 +180,8 @@ Generate a public key pair with Windows App
 
 When you open your installed Linux application (like the Ubuntu App), you will have
 a full terminal like any Linux distribution. The instruction on how to generate a
-public key are the same of :ref:`Generate a public key pair with OpenSSH <openssh-keygen>`
-documentation. Also, connections to remote server are made using OpenSSH, see
+public key are the same of :ref:`Generate a public key pair with OpenSSH <openssh-keygen>`.
+Also, connections to remote server are made using OpenSSH, see
 :ref:`Connecting with OpenSSH <openssh-connect>` section
 
 Putty and WinSCP
@@ -188,7 +189,7 @@ Putty and WinSCP
 
 `Putty <https://www.putty.org/>`__ and `WinSCP <https://winscp.net/eng/index.php>`__
 are respectively two softwares for two different tasks: the first connects to the
-remote server and gives you only a terminal; The second could be useful for data
+remote servers and gives you only a terminal; The second could be useful for data
 transfer between remote and local directories.
 
 Generate a public key pair with PuttyGen
@@ -221,13 +222,13 @@ with your system administrator.
   *Putty Key Generator*
 
 Once you created (and saved) your Putty key file, see the :ref:`Connecting with Putty <putty-connect>`
-section to connect to your remote server. If you need more information on puttygen
+section to connect to your remote server. If you need more informations on puttygen
 and Putty key, see `This guide <https://www.ssh.com/academy/ssh/putty/windows/puttygen>`__.
 
 Remote connection to a Server
 -----------------------------
 
-In order to connect to a remote server with a public key pair, you public key file
+In order to connect to a remote server with a public key pair, your public key file
 need to be placed inside your ``$HOME/.ssh/authorized_keys`` file on remote host::
 
   $ tree .ssh/
@@ -236,7 +237,7 @@ need to be placed inside your ``$HOME/.ssh/authorized_keys`` file on remote host
   └── known_hosts
 
 Moreover, in order to connect, those files need to be accessed only by your user
-(with the ``700`` and ``600`` ``chmod`` permission for directory and files
+(with the ``700`` and ``600`` ``chmod`` permissions for directory and files
 respectively)::
 
   $ ll -d .ssh/
@@ -244,10 +245,10 @@ respectively)::
   $ ll .ssh/authorized_keys
   -rw------- 1 cozzip cozzip 3.2K May  6 10:02 .ssh/authorized_keys
 
-Those permission are **required** in order to allow remote connection. If not, you
+Those permission are **required** in order to allow remote connections. If not, you
 can't use your public key for authentication. To copy your public key in the
-remote ``$HOME/.ssh/authorized_keys`` files, you can copy your public key inside
-the file content or use ``ssh-copy-id`` from your *local* terminal (only for OpenSSH
+remote ``$HOME/.ssh/authorized_keys`` file, you can paste your public key inside
+this file or use ``ssh-copy-id`` from your *local* terminal (only for OpenSSH
 users)::
 
   $ ssh-copy-id -i $HOME/.ssh/id_rsa.pub <user>@<remote server>
@@ -264,7 +265,7 @@ and will check the correct permissions.
   a public key by yourself for the first time. This is why you have to provide
   the *public key* to the system administrator. After your access is granted,
   you can use ``ssh-copy-id`` to copy another *public key* (of another machine
-  for example) using the enabled key pair, for example::
+  for example) from a machine where the key pair is enabled, for example::
 
     $ ssh-copy-id -f -i /path/to/another/public_key.pub
 
@@ -280,7 +281,7 @@ Start a new connection
 .. _openssh-connect:
 
 In order to remote-connect using OpenSSH (once your public key is properly set),
-you will to call ``ssh`` command by specify your *remote username* and *remote machine*,
+you need to call ``ssh`` command by specify your *remote username* and *remote machine*,
 for example::
 
   $ ssh <user>@<remote server>
@@ -288,7 +289,7 @@ for example::
 This will be sufficent to login, if you have your **private key** in the default
 location (you haven't specified a different path for your key files during creation).
 In case you don't have your private key in the default location (or you have chosen
-a different name) you could provide your private key file with the ``-i`` identity
+a different name) you could provide your **private key** file with the ``-i`` identity
 option::
 
   $ ssh -i /path/to/your/private/id_rsa <user>@<remote server>
@@ -297,13 +298,14 @@ option::
 
   If you have choose a *passphrase* when creating your key pairs, you require to
   provide the same *passphrase* when connecting to a remote server with such key
-  pair. A more pretty solution could be load your key in a *ssh-agent* and provide
+  pair. A more pretty solution could be to load your key in a *ssh-agent* and provide
   the passphrase once. The agent will provide your keys everytime needed without
   asking for passphrase. Simply type::
 
     $ ssh-add /path/to/your/private/id_rsa
 
-  see `Passwordless Login <https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Public_Key_Authentication#Passwordless_Login>`__
+  before connecting with ``ssh``. See
+  `Passwordless Login <https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Public_Key_Authentication#Passwordless_Login>`__
   for more information
 
 .. warning::
@@ -322,13 +324,13 @@ option::
 
 .. danger::
 
-  Every time you start new a connection to a remote server, ssh checks server
+  Every time you start new a connection to a remote server, ``ssh`` checks server
   fingerprint with the information stored in ``.ssh/known_hosts``. If the server
   fingerprint is different, the connection is immediately terminated. There could
   be different reasons when you see this behaviour, for example your administrator
-  may have changed the destination server or maybe someone has hacked your server
-  configuration or connection. When you see an issue like this, please tell immediately
-  it to your system administrator.
+  may have changed the destination server using the same *server name* or maybe
+  someone has hacked your server configuration or connection. When you see an issue
+  like this, please tell immediately it to your system administrator.
 
 Closing a connection
 """"""""""""""""""""
@@ -337,7 +339,7 @@ To exit from the remote terminal and logount from the remote server, simply type
 
   $ exit
 
-In order to close the remote session.
+in order to close the remote session.
 
 OpenSSH connection options
 """"""""""""""""""""""""""
@@ -370,7 +372,7 @@ The ``IdentityFile`` could be used to define your private key location, in order
 to not provide your identity file everytime you start a new connection,
 ``ServerAliveInterval``, ``ServerAliveCountMax`` and ``ConnectTimeout`` are respectively
 timers which regulate the timeouts when connecting and in sending messages between
-client and servers. They could be useful when connecting using a unreliable network
+client and servers. They could be useful when connecting using a unreliable network.
 For more information on ssh ``config`` and keys see
 `Associating Keys Permanently with a Server <https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Public_Key_Authentication#Associating_Keys_Permanently_with_a_Server>`__,
 while for more information on ssh client options see the `ssh manual pages <https://linux.die.net/man/1/ssh>`__
@@ -379,7 +381,7 @@ Connecting with MobaXterm
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To connect with MobaXterm for the first time, it's better to create a new session
-by clicking on *Session* button and then on *SSH* button for session type, as shown
+by clicking on the *Session* button and then on the *SSH* button for session type, as shown
 in the following figure:
 
 .. _mobaxterm-connect:
@@ -387,16 +389,16 @@ in the following figure:
 .. image:: /_static/img/mobaxterm_new_session.png
 
 Set the remote server *hostname* or *ip address* in *Remote host* box. Click on
-*Specify username* checkbox and then type the username provided by you by the sysadmin.
+*Specify username* checkbox and then type the username provided to you by the sysadmin.
 Check the *Use private key* checkbox and if you have created your public key as
 described in the :ref:`MobaXterm section <mobaxterm-keygen>`, you will see the
 position of your public key file. Check if path is correct or set the correct path
-of your public key file if you have stored your public key in another location.
-In the *Bookmark settings* tab you can define a session name to easily find your
+of your public key file if you have stored it in another location.
+In the *Bookmark settings* tab you can define a session name to easily find all your
 saved sessions. After that, click on the *Ok* button to save your session configuration.
 You will see all your saved session by clicking on the *Sessions* tab (the tab
 with a *Star* on the left of the main session) and you can start a new connection
-by clicking to the session name you have configured previously. Fore more
+by clicking to the session name you have previously configured. Fore more
 informations, see `MobaXterm documentation <https://mobaxterm.mobatek.net/documentation.html>`__
 
 Connecting with Putty
@@ -405,11 +407,11 @@ Connecting with Putty
 .. _putty-connect:
 
 After opening *Putty* application, fill *Host Name* in *Session* tab with your
-remote server name or ip address:
+remote *server name* or *ip address*:
 
 .. image:: /_static/img/putty_session.png
 
-Next, under the *Connection->SSH->Auth* tab browse and locate your Putty key file
+Next, under the *Connection->SSH->Auth* tab browse and locate your *Putty key* file
 (the one with ``.ppk`` extension)
 
 .. image:: /_static/img/putty_auth.png
@@ -425,9 +427,9 @@ Copying files using OpenSSH
 
 .. _copying-files-using-openssh:
 
-There are two ways to copy a file using OpenSSH, they are ``scp`` and ``rsync``.
+There are two ways to copy a file using OpenSSH: ``scp`` and ``rsync``.
 ``scp`` is part of OpenSSH package while ``rsync`` is another utility to copy file
-which support ``SSH`` protocol. Despite the two methods are valid, ``rsync`` is the
+which supports ``SSH`` protocol. Despite the two methods are valid, ``rsync`` is the
 recommended way since it can do incremental copy (ie copy only new or updated files)
 and can preserve file permissions and times (which are useful to understand if a
 file is updated or not).
@@ -435,7 +437,7 @@ file is updated or not).
 SCP
 """
 
-``scp`` works like linux ``cp`` but support remote origin and destination. Simple
+``scp`` works like linux ``cp`` but support remote origin or destination. Simple
 prefix your source or destination path with ``<user>@<remote server>`` as you do when
 connecting using OpenSSH, for example to copy recursively from a remote folder in
 your local environment::
@@ -450,7 +452,7 @@ If you want to copy a local folder into a remote folder, simply add the
 .. note::
 
   remember to add a ``:`` between ``<user>@<remote server>`` and your remote folder,
-  otherwise you will do a local copy with as ``<user>@<remote server>`` as prefix.
+  otherwise you will do a local copy with ``<user>@<remote server>`` as prefix.
   ``<user>@<remote server>:`` without destination folder is a shortcut for your remote
   ``$HOME`` directory
 
@@ -473,8 +475,8 @@ Rsync
 ``rsync`` is the recommended way to backup or copy files from/to remote services:
 it checks contents in destination folder in order to save time and bandwith by copying
 only new or modified files. Command is similar to scp, however there are additional
-parameters that need to be mastered in order to take advantage of ``rsync``. For
-example, to copy file from local to remote your could do like this::
+parameters that need to be mastered in order to take full advantage of ``rsync``. For
+example, to copy files from local to remote your could do like this::
 
   $ rsync -vare ssh /local/src/path <user>@<remote server>:/remote/dst/path
 
@@ -485,13 +487,13 @@ Here are the main options of ``rsync``:
 - ``-r``: recursively
 - ``-e ssh``: ``-e`` define the protocol used in transfer, need to be followed immediately
   by ``ssh``. You can specify parameters in different order, but when you set ``-e``
-  parameter, you need to specify protocol.
+  parameter, you need to specify ``ssh`` protocol.
 
 There are other options that are useful and that can be added to ``rsync`` command
 line:
 
 - ``-P``: show progress during copying
-- ``-u``: skip files that are newer on the receiver
+- ``-u``: skip files that are newer on destination
 - ``-n``: *dry-run* (useful in testing ``rsync`` commands)
 - ``-z``: use *gzip* while transferring (useful with text files and slow connections)
 - ``--del``: delete destination files if they don't exists on source (use with caution,
@@ -531,9 +533,9 @@ click on a file to show/download it.
 Copying files using WinSCP
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Start a new WinSCP connection and by clicking on the *Advanced* button, in
-*SSH->Authentication* section provide your Putty key file. Next on the main
-section fill *User* and *Name server* with proper values to start a new connection
+Start a new WinSCP connection by clicking on the *Advanced* button, in
+*SSH->Authentication* section provide your *Putty key* file. Next, on the main
+section fill *User* and *Name server* fields with proper values to start a new connection
 as shown in figure:
 
 .. image:: /_static/img/winscp_conf.png
@@ -547,23 +549,25 @@ Mount remote folders using SSH
 ------------------------------
 
 It is possible to mount a remote folder in your local environment using ``sshfs``.
-Briefly, this utility let you to mount a remote folder into your local environment
+Briefly, this utility lets you to mount a remote folder into your local environment
 using ``SSH`` as protocol. This has the benefit that you could see the remote
 files like as they are on your local environment. For example, by mounting a
-folder like this you can edit your remote files with your preferred editor or
+folder using ``sshfs``, you can edit your remote files with your preferred editor or
 inspect remote file contents using your file browser.
-In linux, you can mount remote folder by installing ``sshfs`` packages. For MacOS,
-you need `oxfuse <https://osxfuse.github.io/>`__ packages. After installing required
-packages, you need to create destination path in which mount remote folder. For
-example::
+
+In linux, you can mount remote folder by installing ``sshfs`` package. For MacOS,
+you need `oxfuse <https://osxfuse.github.io/>`__ package. After installing required
+packages, you need to create the destination path in which you will mount the remote
+folder. For example::
 
   $ sudo mkdir /mnt/core
 
 .. hint::
 
-  If you create a directory outside your ``$HOME`` directory, you need to call
-  command with ``sudo`` in order to create such folder. Next, ensure you own such
-  directory in order to mount remote folder as a user with::
+  If you create a directory outside your ``$HOME`` directory, where you don't
+  have permissions, you need to call command with ``sudo`` in order to create
+  such folder. Next, ensure you own such directory in order to mount remote
+  folder (as a user without using ``sudo`` more)::
 
   $ sudo chown $USER:$USER /mnt/core
 
@@ -572,7 +576,10 @@ After that, you could mount the remote folder with::
   $ sshfs -o idmap=user <user>@<remote server>:<remote directory> /mnt/core/
 
 ``-o idmap=user`` is an option required in order to save/retrieve files with your
-ssh credentials. If you need to unmount a folder::
+``ssh`` credentials (this because your local user could be different from your remote
+user required to create/access files remotely).
+
+If you need to unmount a folder::
 
   $ fusermount -u /mnt/core
   # Or if you are on a mach and you don't have ``fuse`` installed
