@@ -129,6 +129,8 @@ in conda documentation for more informations
 A note on channels
 """"""""""""""""""
 
+.. _a-note-on-channels:
+
 Channels are repository where conda store packages. The ``default`` contains packages
 maintained by conda developers. There are others channels like `bioconda <https://bioconda.github.io/index.html>`__,
 which contains a lot of bioinformatics packages, `R <https://anaconda.org/r/repo>`__,
