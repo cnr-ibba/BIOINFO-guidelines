@@ -67,12 +67,13 @@ how you can install it)::
 
 You could also browse modules inside a different repository and branch, for example::
 
-  $ nf-core modules --repository cnr-ibba/nf-core-modules --branch master list
+  $ nf-core modules --repository cnr-ibba/nf-modules --branch master list
 
 .. hint::
 
   In your repositories you can work to a new module and make a pull request to
-  add your module to the community. See `nf-core guidelines <https://github.com/nf-core/modules#guidelines>`__
+  add your module to the community. See :ref:`Custom pipeline modules <custom-pipeline-modules>`
+  section to work with custom modules. See also `nf-core guidelines <https://github.com/nf-core/modules#guidelines>`__
   to understand how you could contribute to the community.
 
 Adding a module to a pipeline
@@ -85,4 +86,91 @@ You can download and add a module to your pipeline using ``nf-core/tools``::
 .. hint::
 
   It's possible to specify a different repository and branch from ``nf-core``
-  as we did in the :ref:`Browsing modules list <browse-modules-list>`
+  as we did in the :ref:`Browsing modules list <browse-modules-list>`, for example::
+
+    $ nf-core modules --repository cnr-ibba/nf-modules install .
+
+  and provide the module name when prompted (for example ``freebayes/single``)
+
+Custom pipeline modules
+-----------------------
+
+.. _custom-pipeline-modules:
+
+We provide custom DSL2 modules (not implemented by *nf-core* community) in our
+repository at `cnr-ibba/nf-modules <https://github.com/cnr-ibba/nf-modules>`__.
+This repository is not maintaned by *nf-core* community, its internal and intended
+to share modules accross pipelines and to test stuff locally. It's organized in a
+similar way to `nf-core/modules <https://github.com/nf-core/modules>`__, so it's
+possible to take a module and share it with the *nextflow* community (please see
+their `documentation <https://github.com/nf-core/modules#adding-a-new-module-file>`__).
+In order to get a list of available custom modules, specify custom modules repository
+using ``-r`` parameter, for example::
+
+  $ nf-core modules -r cnr-ibba/nf-modules list
+
+.. important::
+
+  `cnr-ibba/nf-modules <https://github.com/cnr-ibba/nf-modules>`__ is a private
+  repository (at the moment). In order to browse private repositories with ``nf-core``
+  script, you have to configure the `GitHub CLI auth <https://cli.github.com/manual/gh_auth_login>`__::
+
+    $ gh auth login
+
+  An provide here your credentials. This *CLI* utility will write the
+  ``$HOME/.config/gh/hosts.yml`` file with your credentials, which is a requirement
+  to satisfy in order to use ``nf-core`` with private repository modules.
+
+Add a custom module to a pipeline
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To add a custom module to your pipeline, move into your pipeline folder and call
+``nf-core install`` with your custom module repository as parameter, for example::
+
+  $ nf-core modules --repository cnr-ibba/nf-modules install .
+
+and specify your module (for example ``freebayes/single``) when prompted
+
+.. note::
+
+  the ``.`` directory is required to install the module in your pipeline folder
+
+Create a new module
+~~~~~~~~~~~~~~~~~~~
+
+In order to create a new module, clone first the private repository module. Then,
+in your local git module repository, create a new module like this::
+
+  $ nf-core modules create . --tool freebayes --author @bunop --label process_high --meta
+
+.. note::
+
+  The ``nf-core`` is yet simple at this moment, if you need to create a module with
+  the same prefix, like ``freebayes/single`` or ``freebayes/multi``, simply create
+  the base module (ie ``freebayes``) then copy and move stuff in subfolders.
+
+.. tip::
+
+  See `nf-core/README.md <https://github.com/nf-core/modules/blob/master/README.md>`__
+  to get a full list of available options.
+
+Testing a new module
+~~~~~~~~~~~~~~~~~~~~
+
+The custom repository module is configured to use *GitHub WorkFlows* in order to perform
+some tests on all modules. Please, try to define tests and confiuration files like other
+modules (you can take a look to community modules to get some examples). You can try to
+test some modules locally before submitting a **pull request** to the custom repository
+modules. The python package ``pytest-workflow`` is a requirement to make such tests.
+You need also to specify an environment between ``conda``, ``docker`` or ``singularity``
+in order to perform test. Use tags to specify which tests need to be run::
+
+  $ PROFILE=docker pytest --tag freebayes/single --symlink --keep-workflow-wd
+
+You need to check also syntax with ``nf-core`` script by specify which tests to call
+using *tags*::
+
+  $ nf-core modules lint . -t freebayes/single
+
+If you are successful in both tests, you have an higher chance that your tests will
+be executed without errors in GitHub workflow.

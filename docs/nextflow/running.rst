@@ -66,6 +66,25 @@ you can call directly nextflow, for example for the *rnaseq* pipeline::
   from your nextflow version installed and you couldn't execute the pipeline. Please
   see :ref:`this section <nextflow-version-required>` of nextflow trubleshooting.
 
+When calling nextflow using a community pipeline like ``nextflow run nf-core/rnaseq``,
+nextflow will download the latest pipeline version, and will place a local copy of
+the pipeline in your ``$HOME/.nextflow/assets`` folder. This local copy of
+the pipeline is called everytime you will call ``nextflow run`` using the same pipeline.
+If you need a particular version or branch of such pipeline, you can indicate such
+requirement with the ``-r`` option, for example::
+
+  $ nextflow pull nf-core/rnaseq -r 3.0
+
+.. warning::
+
+  Everytime you pull a pipeline version different from the latest, you **MUST** declare
+  the same version or branch when calling nextflow, for example::
+
+    $ nextflow run nf-core/rnaseq -r 3.0 --help
+
+  If you need to update your local pipeline to latest version see the
+  :ref:`Update a pipeline <update-a-pipelines>` section.
+
 Manage community pipelines with ``nf-core``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -189,6 +208,8 @@ documentation for more info.
 Update a pipeline
 ~~~~~~~~~~~~~~~~~
 
+.. _update-a-pipelines:
+
 If you manage community pipeline using ``nextflow`` or ``nf-core`` script (not using ``git``),
 you can have information on outdated pipelines with ``nf-core list`` command::
 
@@ -206,7 +227,7 @@ In this example, we can see that the ``rnaseq`` pipeline is just updated, while
 
   when you manage pipelines using nextflow software, pipelines are locally downloaded
   in your ``$HOME/.nextflow/assets/`` (see :ref:`Manage community pipelines with nf-core<manage-community-pipelines>`):
-  the informations you see reflects the updates of the community pipelines
+  the informations you see reflect the updates of the community pipelines
   compared to your local assets.
 
 In order to update a community pipeline, you need to call ``nextflow pull``, for
