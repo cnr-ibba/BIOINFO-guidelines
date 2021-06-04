@@ -81,16 +81,16 @@ Adding a module to a pipeline
 
 You can download and add a module to your pipeline using ``nf-core/tools``::
 
-  $ nf-core modules install . fastqc
+  $ nf-core modules install . --tool fastqc
+
+.. note::
+
+  the ``.`` directory is required to install the module in your pipeline folder
 
 .. hint::
 
-  It's possible to specify a different repository and branch from ``nf-core``
-  as we did in the :ref:`Browsing modules list <browse-modules-list>`, for example::
-
-    $ nf-core modules --repository cnr-ibba/nf-modules install .
-
-  and provide the module name when prompted (for example ``freebayes/single``)
+  if you don't provide the module with ``--tool`` option, ``nf-core`` will search
+  and prompt for for a module in ``nf-core/modules`` GitHub repository
 
 Custom pipeline modules
 -----------------------
@@ -117,8 +117,10 @@ using ``-r`` parameter, for example::
 
     $ gh auth login
 
-  An provide here your credentials. This *CLI* utility will write the
-  ``$HOME/.config/gh/hosts.yml`` file with your credentials, which is a requirement
+  An provide here your credentials for **GitHub.com** (using ``https`` as protocol
+  an providing a *personal token* with ``repo``, ``read:org``, ``workflow`` scopes
+  at least). This *CLI* utility will write the ``$HOME/.config/gh/hosts.yml``
+  file with your credentials (please, keep it private!!), which is a requirement
   to satisfy in order to use ``nf-core`` with private repository modules.
 
 Add a custom module to a pipeline
@@ -127,9 +129,7 @@ Add a custom module to a pipeline
 To add a custom module to your pipeline, move into your pipeline folder and call
 ``nf-core install`` with your custom module repository as parameter, for example::
 
-  $ nf-core modules --repository cnr-ibba/nf-modules install .
-
-and specify your module (for example ``freebayes/single``) when prompted
+  $ nf-core modules --repository cnr-ibba/nf-modules install . --tool freebayes/single
 
 .. note::
 
