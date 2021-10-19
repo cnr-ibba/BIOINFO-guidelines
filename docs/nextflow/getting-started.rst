@@ -22,7 +22,7 @@ software requirements with :doc:`conda <../terminal/conda>`,
 Learning Nextflow
 ~~~~~~~~~~~~~~~~~
 
-There are online a serie of resorces and tutorial about nextflow. The first is
+There are online a series of resources and tutorial about nextflow. The first is
 `this youtube playlist <https://www.youtube.com/watch?v=8_i8Tn335X0&list=PLPZ8WHdZGxmUv4W8ZRlmstkZwhb_fencI&ab_channel=Nextflow>`__
 (here are `the tutorial notes <https://seqera.io/training/>`__ to code along and
 a `git repository <https://github.com/bunop/nextflow-training>`__ adapted to work in a local environment).
@@ -77,7 +77,7 @@ but the recommended way is using pip::
   most update release and avoid some dependency issues with **bioconda**::
 
     $ conda create --name nf-core pip
-    $ source activate nf-core
+    $ conda activate nf-core
     $ pip install nf-core
 
   An alternative way to install nf-core (v14) with conda is by installing package

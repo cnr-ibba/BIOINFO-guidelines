@@ -34,7 +34,7 @@ syntax: with it, you can re-use modules in which calculations steps are defined
 by the community. In such way, you can avoid to write a full pipeline from yourself.
 
 The minimal set of files required to have a pipeline is to have locally both
-``main.nf`` and ``nextflow.config`` inside your project folder: whitout them you
+``main.nf`` and ``nextflow.config`` inside your project folder: without them you
 will not be able to add community modules to your pipelines using ``nf-core/tools``::
 
   $ mkdir my-new-pipeline
@@ -99,8 +99,8 @@ Custom pipeline modules
 
 We provide custom DSL2 modules (not implemented by *nf-core* community) in our
 repository at `cnr-ibba/nf-modules <https://github.com/cnr-ibba/nf-modules>`__.
-This repository is not maintaned by *nf-core* community, its internal and intended
-to share modules accross pipelines and to test stuff locally. It's organized in a
+This repository is not maintained by *nf-core* community, its internal and intended
+to share modules across pipelines and to test stuff locally. It's organized in a
 similar way to `nf-core/modules <https://github.com/nf-core/modules>`__, so it's
 possible to take a module and share it with the *nextflow* community (please see
 their `documentation <https://github.com/nf-core/modules#adding-a-new-module-file>`__).
@@ -158,7 +158,7 @@ Testing a new module
 ~~~~~~~~~~~~~~~~~~~~
 
 The custom repository module is configured to use *GitHub WorkFlows* in order to perform
-some tests on all modules. Please, try to define tests and confiuration files like other
+some tests on all modules. Please, try to define tests and configuration files like other
 modules (you can take a look to community modules to get some examples). You can try to
 test some modules locally before submitting a **pull request** to the custom repository
 modules. The python package ``pytest-workflow`` is a requirement to make such tests.

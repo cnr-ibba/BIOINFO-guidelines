@@ -26,7 +26,7 @@ reused in order to speed up the calculation process
 Execute a community pipeline
 ----------------------------
 
-Nextflow lets to build and share bioinformatics pipelines accross the community. The
+Nextflow lets to build and share bioinformatics pipelines across the community. The
 simples way to use nextflow is to identify the pipeline you need, check for its requirements
 and then launch it using your data. Since all the nextflow community pipelines
 are public, you could download and modify them according your needs.
@@ -64,12 +64,12 @@ you can call directly nextflow, for example for the *rnaseq* pipeline::
 
   It is possible that the nextflow version required by the pipeline is different
   from your nextflow version installed and you couldn't execute the pipeline. Please
-  see :ref:`this section <nextflow-version-required>` of nextflow trubleshooting.
+  see :ref:`this section <nextflow-version-required>` of nextflow troubleshooting.
 
 When calling nextflow using a community pipeline like ``nextflow run nf-core/rnaseq``,
 nextflow will download the latest pipeline version, and will place a local copy of
 the pipeline in your ``$HOME/.nextflow/assets`` folder. This local copy of
-the pipeline is called everytime you will call ``nextflow run`` using the same pipeline.
+the pipeline is called whenever you will call ``nextflow run`` using the same pipeline.
 If you need a particular version or branch of such pipeline, you can indicate such
 requirement with the ``-r`` option, for example::
 
@@ -77,7 +77,7 @@ requirement with the ``-r`` option, for example::
 
 .. warning::
 
-  Everytime you pull a pipeline version different from the latest, you **MUST** declare
+  Whenever you pull a pipeline version different from the latest, you **MUST** declare
   the same version or branch when calling nextflow, for example::
 
     $ nextflow run nf-core/rnaseq -r 3.0 --help
@@ -90,7 +90,7 @@ Manage community pipelines with ``nf-core``
 
 .. _manage-community-pipelines:
 
-Everytime you run a community pipeline, nextflow will download and cache it (in
+Whenever you run a community pipeline, nextflow will download and cache it (in
 your ``$HOME/.nextflow/assets/`` folder). You could check your installed community pipelines
 with::
 
@@ -157,10 +157,10 @@ Cleanup
 ~~~~~~~
 
 After a pipeline is completed with success, it's better to clean up ``work`` directory
-in order to save space. All the desidered outputs **need to be saved outside** this folder,
+in order to save space. All the desired outputs **need to be saved outside** this folder,
 in order to safely remove temporary data. There's a nextflow
 `clean <https://www.nextflow.io/docs/latest/cli.html#clean>`__ option which safely
-remove temporary files and nextflow logs. You can have informations on nextflow runs
+remove temporary files and nextflow logs. You can have information on nextflow runs
 by calling ``nextflow info`` inside your project folder::
 
   $ nextflow log
@@ -178,7 +178,7 @@ documentation for more info.
 .. note::
 
   When calling log, you can inspect the command line used to execute the pipeline.
-  You could also get informations about execution times. For more information, take a look at
+  You could also get information about execution times. For more information, take a look at
   `nextflow log <https://www.nextflow.io/docs/latest/cli.html#log>`__ documentation.
 
 .. hint::
@@ -196,7 +196,7 @@ documentation for more info.
 .. warning::
 
   calling ``nextflow clean -f`` without *sessionid*, or *run name* will only remove
-  temporary files from the last nextflow run, whitout removing files from other previous sessions.
+  temporary files from the last nextflow run, without removing files from other previous sessions.
   If you want to remove **ALL** your nextflow cache directories with a single command,
   you can do::
 
@@ -227,7 +227,7 @@ In this example, we can see that the ``rnaseq`` pipeline is just updated, while
 
   when you manage pipelines using nextflow software, pipelines are locally downloaded
   in your ``$HOME/.nextflow/assets/`` (see :ref:`Manage community pipelines with nf-core<manage-community-pipelines>`):
-  the informations you see reflect the updates of the community pipelines
+  the information you see reflect the updates of the community pipelines
   compared to your local assets.
 
 In order to update a community pipeline, you need to call ``nextflow pull``, for
