@@ -33,13 +33,25 @@ feature in nextflow is the `DSL2 <https://www.nextflow.io/docs/latest/dsl2.html>
 syntax: with it, you can re-use modules in which calculations steps are defined
 by the community. In such way, you can avoid to write a full pipeline from yourself.
 
-The minimal set of files required to have a pipeline is to have locally both
-``main.nf`` and ``nextflow.config`` inside your project folder: without them you
-will not be able to add community modules to your pipelines using ``nf-core/tools``::
+The minimal set of files required to have a pipeline is to have locally
+``main.nf``, ``nextflow.config`` and ``modules.json`` inside your project folder.
+You should have also a ``modules`` directory inside your project:: 
 
-  $ mkdir my-new-pipeline
+  $ mkdir -p my-new-pipeline/modules 
   $ cd my-new-pipeline
-  $ touch main.nf nextflow.config
+  $ touch main.nf nextflow.config modules.json
+
+Next you have to edit modules.json in order to have minimal informations::
+
+  {
+    "name": "<your pipeline name>",
+    "homePage": "<your pipeline repository URL>",
+    "repos": { }
+  }
+
+
+Without this requisites you will not be able to add community modules to your 
+pipelines using ``nf-core/tools``.
 
 .. tip::
 
@@ -63,17 +75,17 @@ Browsing modules list
 You can get a list of modules by using ``nf-core/tools`` (see :ref:`here <install-nf-core>`
 how you can install it)::
 
-  $ nf-core modules list
+  $ nf-core modules list remote
 
 You could also browse modules inside a different repository and branch, for example::
 
-  $ nf-core modules --repository cnr-ibba/nf-modules --branch master list
+  $ nf-core modules --github-repository cnr-ibba/nf-modules --branch master list remote
 
 .. hint::
 
   In your repositories you can work to a new module and make a pull request to
   add your module to the community. See :ref:`Custom pipeline modules <custom-pipeline-modules>`
-  section to work with custom modules. See also `nf-core guidelines <https://github.com/nf-core/modules#guidelines>`__
+  section to work with custom modules. See also `nf-core guidelines <https://nf-co.re/developers/guidelines>`__
   to understand how you could contribute to the community.
 
 Adding a module to a pipeline
@@ -81,16 +93,37 @@ Adding a module to a pipeline
 
 You can download and add a module to your pipeline using ``nf-core/tools``::
 
-  $ nf-core modules install . --tool fastqc
+  $ nf-core modules install --dir . fastqc
 
 .. note::
 
-  the ``.`` directory is required to install the module in your pipeline folder
+  The ``--dir .`` option is optional, the default installation path is the CWD
+  (that need to be your pipeline source directory)
 
 .. hint::
 
-  if you don't provide the module with ``--tool`` option, ``nf-core`` will search
+  If you don't provide the module, ``nf-core`` will search
   and prompt for for a module in ``nf-core/modules`` GitHub repository
+
+List all modules in a pipeline
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can have a full list of installed modules using:: 
+
+  $ nf-core modules list local
+
+Update a pipeline module
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can update a module simple by calling::
+
+  $ nf-core modules update fastqc
+
+.. hint:: 
+
+  Call ``nf-core modules update --help`` to get a list of the available options,
+  for example, if you need to install a specific version of a module
+
 
 Custom pipeline modules
 -----------------------
@@ -129,11 +162,7 @@ Add a custom module to a pipeline
 To add a custom module to your pipeline, move into your pipeline folder and call
 ``nf-core install`` with your custom module repository as parameter, for example::
 
-  $ nf-core modules --repository cnr-ibba/nf-modules install . --tool freebayes/single
-
-.. note::
-
-  the ``.`` directory is required to install the module in your pipeline folder
+  $ nf-core modules --repository cnr-ibba/nf-modules install freebayes/single
 
 Create a new module
 ~~~~~~~~~~~~~~~~~~~
@@ -141,18 +170,12 @@ Create a new module
 In order to create a new module, clone first the private repository module. Then,
 in your local git module repository, create a new module like this::
 
-  $ nf-core modules create . --tool freebayes --author @bunop --label process_high --meta
-
-.. note::
-
-  The ``nf-core`` is yet simple at this moment, if you need to create a module with
-  the same prefix, like ``freebayes/single`` or ``freebayes/multi``, simply create
-  the base module (ie ``freebayes``) then copy and move stuff in subfolders.
+  $ nf-core modules create freebayes/single --author @bunop --label process_high --meta
 
 .. tip::
 
-  See `nf-core/README.md <https://github.com/nf-core/modules/blob/master/README.md>`__
-  to get a full list of available options.
+  To get more information in creating modules see `Adding a new module <https://nf-co.re/developers/adding_modules>`__
+  guide.
 
 Testing a new module
 ~~~~~~~~~~~~~~~~~~~~
@@ -165,12 +188,21 @@ modules. The python package ``pytest-workflow`` is a requirement to make such te
 You need also to specify an environment between ``conda``, ``docker`` or ``singularity``
 in order to perform test. Use tags to specify which tests need to be run::
 
-  $ PROFILE=docker pytest --tag freebayes/single --symlink --keep-workflow-wd
+  $ NF_CORE_MODULES_TEST=1 PROFILE=docker pytest --tag freebayes/single --symlink --keep-workflow-wd
 
 You need to check also syntax with ``nf-core`` script by specify which tests to call
 using *tags*::
 
-  $ nf-core modules lint . -t freebayes/single
+  $ nf-core modules lint freebayes/single
 
 If you are successful in both tests, you have an higher chance that your tests will
 be executed without errors in GitHub workflow.
+
+Subworkflows
+------------
+
+A subworkflow is an experimental feature which allow to include a chain of modules 
+together (for example ``bam_sort_samtools``, which execute *samtools sort*, *samtools
+index* and then call the ``bam_stats_samtools``, which is another subworkflow. 
+There are imported in the main workflow (pipeline) like any others modules. More 
+information will be added in future.

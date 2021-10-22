@@ -24,6 +24,8 @@
         "resequencing",
         "rnaseq",
         "sessionid",
-        "subfolders"
+        "subfolders",
+        "subworkflow",
+        "Subworkflows"
     ]
 }
