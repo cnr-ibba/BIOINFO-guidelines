@@ -134,6 +134,40 @@ Nextflow best-practices
 
 Here are some tips that could be useful while running nextflow.
 
+Getting information from logs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+By calling ``nextflow log`` you can get information on your last nextflow runs,
+which includes timestamp, duration, status, *run name* and the command used when 
+the pipeline was called::
+
+  $ nextflow log
+  TIMESTAMP               DURATION        RUN NAME                STATUS  REVISION ID     SESSION ID                              COMMAND                            
+  2021-10-27 12:40:32     54.8s           serene_engelbart        OK      c44b10f3aa      598f0939-a7b0-497f-a16f-b2431a7e5ee3    nextflow run . -profile test,docker
+  2021-10-27 12:49:05     43.6s           evil_ride               OK      c44b10f3aa      a70a75e2-61fc-4407-aba4-19ac33f31774    nextflow run . -profile test,docker
+
+*Run name* is an arbitrary name assigned to your pipeline. By calling ``nextflow log``
+again and providing such name you can retrieve more information on single execution
+steps:: 
+
+  $ nextflow log serene_engelbart
+  /home/paolo/Projects/NEXTFLOWetude/nf-core-resequencing/work/5d/6ff357b9b679198557bf22d24adf1e
+  /home/paolo/Projects/NEXTFLOWetude/nf-core-resequencing/work/ff/dd919f582e8583a16aecc58f6cc093
+  /home/paolo/Projects/NEXTFLOWetude/nf-core-resequencing/work/74/944e234214bcca20209637a94c0ac2
+  /home/paolo/Projects/NEXTFLOWetude/nf-core-resequencing/work/31/b075adb744673b9cc8fb214729c455
+
+By defaults ``nextflow log <run name>`` will return only the working directory, to 
+get more informative results you need to specify some columns using ``-f`` parameter,
+for example:: 
+
+  $ nextflow log serene_engelbart -f 'process,status,exit,hash,duration,workdir'
+  NFCORE_RESEQUENCING:RESEQUENCING:INPUT_CHECK:SAMPLESHEET_CHECK  COMPLETED       0       5d/6ff357       1.8s    /home/paolo/Projects/NEXTFLOWetude/nf-core-resequencing/work/5d/6ff357b9b679198557bf22d24adf1e                                                               
+  NFCORE_RESEQUENCING:RESEQUENCING:FASTQC COMPLETED       0       ff/dd919f       7.2s    /home/paolo/Projects/NEXTFLOWetude/nf-core-resequencing/work/ff/dd919f582e8583a16aecc58f6cc093
+  NFCORE_RESEQUENCING:RESEQUENCING:FASTQC COMPLETED       0       74/944e23       5.2s    /home/paolo/Projects/NEXTFLOWetude/nf-core-resequencing/work/74/944e234214bcca20209637a94c0ac2
+  NFCORE_RESEQUENCING:RESEQUENCING:FASTQC COMPLETED       0       31/b075ad       7.2s    /home/paolo/Projects/NEXTFLOWetude/nf-core-resequencing/work/31/b075adb744673b9cc8fb214729c455
+
+Call ``nextflow log -l`` to have a full list available columns.
+
 Resume calculations
 ~~~~~~~~~~~~~~~~~~~
 
@@ -161,7 +195,7 @@ in order to save space. All the desired outputs **need to be saved outside** thi
 in order to safely remove temporary data. There's a nextflow
 `clean <https://www.nextflow.io/docs/latest/cli.html#clean>`__ option which safely
 remove temporary files and nextflow logs. You can have information on nextflow runs
-by calling ``nextflow info`` inside your project folder::
+by calling ``nextflow log`` inside your project folder::
 
   $ nextflow log
   TIMESTAMP               DURATION        RUN NAME                STATUS  REVISION ID     SESSION ID                              COMMAND
@@ -210,7 +244,7 @@ Update a pipeline
 
 .. _update-a-pipelines:
 
-If you manage community pipeline using ``nextflow`` or ``nf-core`` script (not using ``git``),
+If you manage community pipeline using ``nextflow`` or ``nf-core`` software (not using ``git``),
 you can have information on outdated pipelines with ``nf-core list`` command::
 
   $ nf-core list
@@ -259,3 +293,14 @@ with ``-r`` option::
   it when you call ``nextflow run`` with the same ``-r`` option. This is required
   if you need to run your analyses with an old pipeline version, or if your ``nextflow``
   executable doesn't support the latest pipeline version.
+
+Delete the local copy of a pipeline
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In order to remove a local copy of a pipeline (a pipeline installed in your cache
+using ``nextflow pull`` or ``nextflow run``), simply type::
+
+  $ nextflow drop <pipeline_name>
+
+where ``<pipeline_name>`` is a single row returned ``nextflow list`` (*github 
+organization/pipeline name*)
