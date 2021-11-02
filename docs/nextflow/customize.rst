@@ -83,9 +83,10 @@ You could also browse modules inside a different repository and branch, for exam
 
 .. hint::
 
-  In your repositories you can work to a new module and make a pull request to
-  add your module to the community. See :ref:`Custom pipeline modules <custom-pipeline-modules>`
-  section to work with custom modules. See also `nf-core guidelines <https://nf-co.re/developers/guidelines>`__
+  You can work to a new module and make a pull request to add it to the community. 
+  See :ref:`Custom pipeline modules <custom-pipeline-modules>`
+  section to work with custom modules. See also 
+  `nf-core guidelines <https://nf-co.re/developers/guidelines>`__
   to understand how you could contribute to the community.
 
 .. _adding-a-module-to-a-pipeline:
@@ -139,7 +140,7 @@ repository at `cnr-ibba/nf-modules <https://github.com/cnr-ibba/nf-modules>`__.
 This repository is not maintained by *nf-core* community, its internal and intended
 to share modules across pipelines and to test stuff locally. It's organized in a
 similar way to `nf-core/modules <https://github.com/nf-core/modules>`__, so it's
-possible to take a module and share it with the *nextflow* community (please see
+possible to take a module from here and share it with the *nextflow* community (please see
 their `documentation <https://github.com/nf-core/modules#adding-a-new-module-file>`__).
 In order to get a list of available custom modules, specify custom modules repository
 using ``-r`` parameter, for example::
@@ -225,7 +226,7 @@ you will probably need to write code using this format.
 The major changes provided by **DSL2** format are *modules*, as described 
 by this docs, which let you reuse softwares managed and provided by the community 
 simplifying your pipeline: the code required to run software and to provide/collect 
-input and output a provided by the modules, which can be :ref:`installed <adding-a-module-to-a-pipeline>` or 
+input and output are provided by the modules, which can be :ref:`installed <adding-a-module-to-a-pipeline>` or 
 :ref:`updated <update-a-pipeline-module>` as described by this guide.
 
 Another change introduced in **DSL2** is the different way you can pass data between
@@ -258,7 +259,7 @@ module itself without using the channels syntax, for example::
 
   BWA_MEM(TRIMGALORE.out.reads, BWA_INDEX.out.index)
 
-And values from a module step can be read as many times as needed.
+and values from a module step can be read as many times as needed.
 
 .. warning:: 
 
@@ -269,7 +270,7 @@ And values from a module step can be read as many times as needed.
 Write the configuration stuff outside your pipeline
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Since the aim of nextflow pipelines is the reproducibility and the portability,
+Since the aim of nextflow pipelines is reproducibility and portability,
 you should avoid to place your *analysis specific parameters* in your pipeline main 
 script: this force users to modify your pipeline according their needs and this 
 implies different pipeline scripts with differ only for a few things, for example 
@@ -293,7 +294,7 @@ An then calling nextflow by providing your custom parameters::
   $ nextflow run -resume main.nf -c custom.config --profile singularity
 
 Moreover, by writing specific configuration parameters let you to call a remote 
-pipeline with nextflow without collect nextflow code in your analysis directory.
+pipeline with ``nextflow run`` without collect nextflow code in your analysis directory.
 
 .. hint:: 
 
@@ -301,7 +302,7 @@ pipeline with nextflow without collect nextflow code in your analysis directory.
   ranked in order to decide which settings will be applied: you can override the 
   default configuration by using a configuration source with an higher priority, 
   for example the ``-c <config file>``, ``-params-file <file>`` or parameters 
-  provided with command line, where the last have the higher priority. See 
+  provided with command line are different locations where the last have the higher priority. See 
   `Configuration file <https://www.nextflow.io/docs/latest/config.html#configuration-file>`__
   section of nextflow documentation.
 
@@ -310,7 +311,7 @@ Add test data to your pipeline
 
 It frustrating writing a pipeline on a real dataset: steps could require a lot 
 of time to be completed and if you made any errors when calling software or when 
-collecting outputs, you will be noticed after a long period of time and you have 
+collecting outputs you will be noticed after a long period of time and you have 
 no way to recover the data you have with a nextflow error. 
 In *testing* and *revision* stages or when adding new features, consider 
 to work with a *reference data sets* like the 
