@@ -32,7 +32,7 @@ are welcome. Before starting to work on documentation, please follow those steps
 6. Before submitting modifications, please check that documentation compiles
    without errors and warnings by::
 
-     $ chdir docs
+     $ cd docs
      $ make clean
      $ make html
 

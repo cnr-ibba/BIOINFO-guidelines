@@ -26,7 +26,7 @@ reused in order to speed up the calculation process
 Execute a community pipeline
 ----------------------------
 
-Nextflow lets to build and share bioinformatics pipelines accross the community. The
+Nextflow lets to build and share bioinformatics pipelines across the community. The
 simples way to use nextflow is to identify the pipeline you need, check for its requirements
 and then launch it using your data. Since all the nextflow community pipelines
 are public, you could download and modify them according your needs.
@@ -64,12 +64,12 @@ you can call directly nextflow, for example for the *rnaseq* pipeline::
 
   It is possible that the nextflow version required by the pipeline is different
   from your nextflow version installed and you couldn't execute the pipeline. Please
-  see :ref:`this section <nextflow-version-required>` of nextflow trubleshooting.
+  see :ref:`this section <nextflow-version-required>` of nextflow troubleshooting.
 
 When calling nextflow using a community pipeline like ``nextflow run nf-core/rnaseq``,
 nextflow will download the latest pipeline version, and will place a local copy of
 the pipeline in your ``$HOME/.nextflow/assets`` folder. This local copy of
-the pipeline is called everytime you will call ``nextflow run`` using the same pipeline.
+the pipeline is called whenever you will call ``nextflow run`` using the same pipeline.
 If you need a particular version or branch of such pipeline, you can indicate such
 requirement with the ``-r`` option, for example::
 
@@ -77,7 +77,7 @@ requirement with the ``-r`` option, for example::
 
 .. warning::
 
-  Everytime you pull a pipeline version different from the latest, you **MUST** declare
+  Whenever you pull a pipeline version different from the latest, you **MUST** declare
   the same version or branch when calling nextflow, for example::
 
     $ nextflow run nf-core/rnaseq -r 3.0 --help
@@ -90,7 +90,7 @@ Manage community pipelines with ``nf-core``
 
 .. _manage-community-pipelines:
 
-Everytime you run a community pipeline, nextflow will download and cache it (in
+Whenever you run a community pipeline, nextflow will download and cache it (in
 your ``$HOME/.nextflow/assets/`` folder). You could check your installed community pipelines
 with::
 
@@ -134,6 +134,40 @@ Nextflow best-practices
 
 Here are some tips that could be useful while running nextflow.
 
+Getting information from logs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+By calling ``nextflow log`` you can get information on your last nextflow runs,
+which includes timestamp, duration, status, *run name* and the command used when 
+the pipeline was called::
+
+  $ nextflow log
+  TIMESTAMP               DURATION        RUN NAME                STATUS  REVISION ID     SESSION ID                              COMMAND                            
+  2021-10-27 12:40:32     54.8s           serene_engelbart        OK      c44b10f3aa      598f0939-a7b0-497f-a16f-b2431a7e5ee3    nextflow run . -profile test,docker
+  2021-10-27 12:49:05     43.6s           evil_ride               OK      c44b10f3aa      a70a75e2-61fc-4407-aba4-19ac33f31774    nextflow run . -profile test,docker
+
+*Run name* is an arbitrary name assigned to your pipeline. By calling ``nextflow log``
+again and providing such name you can retrieve more information on single execution
+steps:: 
+
+  $ nextflow log serene_engelbart
+  /home/paolo/Projects/NEXTFLOWetude/nf-core-resequencing/work/5d/6ff357b9b679198557bf22d24adf1e
+  /home/paolo/Projects/NEXTFLOWetude/nf-core-resequencing/work/ff/dd919f582e8583a16aecc58f6cc093
+  /home/paolo/Projects/NEXTFLOWetude/nf-core-resequencing/work/74/944e234214bcca20209637a94c0ac2
+  /home/paolo/Projects/NEXTFLOWetude/nf-core-resequencing/work/31/b075adb744673b9cc8fb214729c455
+
+By defaults ``nextflow log <run name>`` will return only the working directory, to 
+get more informative results you need to specify some columns using ``-f`` parameter,
+for example:: 
+
+  $ nextflow log serene_engelbart -f 'process,status,exit,hash,duration,workdir'
+  NFCORE_RESEQUENCING:RESEQUENCING:INPUT_CHECK:SAMPLESHEET_CHECK  COMPLETED       0       5d/6ff357       1.8s    /home/paolo/Projects/NEXTFLOWetude/nf-core-resequencing/work/5d/6ff357b9b679198557bf22d24adf1e                                                               
+  NFCORE_RESEQUENCING:RESEQUENCING:FASTQC COMPLETED       0       ff/dd919f       7.2s    /home/paolo/Projects/NEXTFLOWetude/nf-core-resequencing/work/ff/dd919f582e8583a16aecc58f6cc093
+  NFCORE_RESEQUENCING:RESEQUENCING:FASTQC COMPLETED       0       74/944e23       5.2s    /home/paolo/Projects/NEXTFLOWetude/nf-core-resequencing/work/74/944e234214bcca20209637a94c0ac2
+  NFCORE_RESEQUENCING:RESEQUENCING:FASTQC COMPLETED       0       31/b075ad       7.2s    /home/paolo/Projects/NEXTFLOWetude/nf-core-resequencing/work/31/b075adb744673b9cc8fb214729c455
+
+Call ``nextflow log -l`` to have a full list available columns.
+
 Resume calculations
 ~~~~~~~~~~~~~~~~~~~
 
@@ -157,11 +191,11 @@ Cleanup
 ~~~~~~~
 
 After a pipeline is completed with success, it's better to clean up ``work`` directory
-in order to save space. All the desidered outputs **need to be saved outside** this folder,
+in order to save space. All the desired outputs **need to be saved outside** this folder,
 in order to safely remove temporary data. There's a nextflow
 `clean <https://www.nextflow.io/docs/latest/cli.html#clean>`__ option which safely
-remove temporary files and nextflow logs. You can have informations on nextflow runs
-by calling ``nextflow info`` inside your project folder::
+remove temporary files and nextflow logs. You can have information on nextflow runs
+by calling ``nextflow log`` inside your project folder::
 
   $ nextflow log
   TIMESTAMP               DURATION        RUN NAME                STATUS  REVISION ID     SESSION ID                              COMMAND
@@ -178,7 +212,7 @@ documentation for more info.
 .. note::
 
   When calling log, you can inspect the command line used to execute the pipeline.
-  You could also get informations about execution times. For more information, take a look at
+  You could also get information about execution times. For more information, take a look at
   `nextflow log <https://www.nextflow.io/docs/latest/cli.html#log>`__ documentation.
 
 .. hint::
@@ -196,7 +230,7 @@ documentation for more info.
 .. warning::
 
   calling ``nextflow clean -f`` without *sessionid*, or *run name* will only remove
-  temporary files from the last nextflow run, whitout removing files from other previous sessions.
+  temporary files from the last nextflow run, without removing files from other previous sessions.
   If you want to remove **ALL** your nextflow cache directories with a single command,
   you can do::
 
@@ -210,7 +244,7 @@ Update a pipeline
 
 .. _update-a-pipelines:
 
-If you manage community pipeline using ``nextflow`` or ``nf-core`` script (not using ``git``),
+If you manage community pipeline using ``nextflow`` or ``nf-core`` software (not using ``git``),
 you can have information on outdated pipelines with ``nf-core list`` command::
 
   $ nf-core list
@@ -227,7 +261,7 @@ In this example, we can see that the ``rnaseq`` pipeline is just updated, while
 
   when you manage pipelines using nextflow software, pipelines are locally downloaded
   in your ``$HOME/.nextflow/assets/`` (see :ref:`Manage community pipelines with nf-core<manage-community-pipelines>`):
-  the informations you see reflect the updates of the community pipelines
+  the information you see reflect the updates of the community pipelines
   compared to your local assets.
 
 In order to update a community pipeline, you need to call ``nextflow pull``, for
@@ -259,3 +293,14 @@ with ``-r`` option::
   it when you call ``nextflow run`` with the same ``-r`` option. This is required
   if you need to run your analyses with an old pipeline version, or if your ``nextflow``
   executable doesn't support the latest pipeline version.
+
+Delete the local copy of a pipeline
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In order to remove a local copy of a pipeline (a pipeline installed in your cache
+using ``nextflow pull`` or ``nextflow run``), simply type::
+
+  $ nextflow drop <pipeline_name>
+
+where ``<pipeline_name>`` is a single row returned ``nextflow list`` (*github 
+organization/pipeline name*)

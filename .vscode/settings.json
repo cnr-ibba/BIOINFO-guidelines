@@ -1,0 +1,31 @@
+{
+    "restructuredtext.confPath": "${workspaceFolder}/docs",
+    "restructuredtext.builtDocumentationPath": "${workspaceRoot}/docs/_build/html",
+    "restructuredtext.updateOnTextChanged": "true",
+    "restructuredtext.updateDelay": 300,
+    "restructuredtext.languageServer.disabled": true,
+    "cSpell.words": [
+        "bioconda",
+        "BIOINFO",
+        "bioinformatics",
+        "bunop",
+        "CACHEDIR",
+        "conda",
+        "cpus",
+        "fastq",
+        "fastqc",
+        "freebayes",
+        "IBBA",
+        "methylseq",
+        "mkdir",
+        "Nextflow",
+        "pypi",
+        "pytest",
+        "resequencing",
+        "rnaseq",
+        "sessionid",
+        "subfolders",
+        "subworkflow",
+        "Subworkflows"
+    ]
+}
