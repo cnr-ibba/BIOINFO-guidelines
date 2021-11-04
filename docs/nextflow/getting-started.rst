@@ -136,11 +136,26 @@ private repository in GitHub, for example::
 
   providers {
     github {
-        user = '<your GitHub user>'
-        password = '<your GitHub password>'
+      user = '<your GitHub user>'
+      password = '<your GitHub password>'
     }
   }
 
 You could find more information in
 `SCM configuration file <https://www.nextflow.io/docs/latest/sharing.html?highlight=credentials#scm-configuration-file>`__
 section of nextflow documentation.
+
+Access to private nextflow modules
+""""""""""""""""""""""""""""""""""
+
+In order to get access to the private 
+`nextflow-modules <https://github.com/cnr-ibba/nf-modules>`__, you need to 
+configure `GitHub CLI <https://cli.github.com/>`__ in order to create the 
+``~/.config/gh/hosts.yml`` file, which is a fundamental requisite in order to 
+deal with private modules with ``nf-core modules``. 
+The easiest way to create this configuration is through *GitHub CLI*::
+
+  gh auth login 
+
+See the documentation on `gh auth login <https://cli.github.com/manual/gh_auth_login>`__
+to have more information

@@ -143,9 +143,9 @@ similar way to `nf-core/modules <https://github.com/nf-core/modules>`__, so it's
 possible to take a module from here and share it with the *nextflow* community (please see
 their `documentation <https://github.com/nf-core/modules#adding-a-new-module-file>`__).
 In order to get a list of available custom modules, specify custom modules repository
-using ``-r`` parameter, for example::
+using ``-g`` parameter (short option for ``--github-repository``), for example::
 
-  $ nf-core modules -r cnr-ibba/nf-modules list
+  $ nf-core modules -g cnr-ibba/nf-modules list remote
 
 .. important::
 
