@@ -220,3 +220,36 @@ a lot of disk space. You can free conda cache with::
 
 See `conda clean <https://docs.conda.io/projects/conda/en/latest/commands/clean.html>`__
 for more options.
+
+Setting environment variables
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In order to define specific environment variables in a conda environment, you 
+can use the `config API <https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#setting-environment-variables>`__
+or create specific `environment files <https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#setting-environment-variables>`__
+where variables are changed and restored respectively by activating and deactivating
+the conda environment. The *config API* is the recommended and the easiest way
+to define environment variables. In this example we will add a specific *JAVA library*
+path to ``LD_LIBRARY_PATH``: first locate the directory with the *shared library*
+to include, then call ``conda env config vars set`` to define and store the environment
+variable. For the *JAVA* version we want to include, this library is located in 
+``$(JAVA_HOME)/lib/server``, where ``JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64``,
+so::
+
+  $ cd /usr/lib/jvm/java-11-openjdk-amd64/lib/server
+  $ conda env config vars set LD_LIBRARY_PATH=$PWD:$LD_LIBRARY_PATH
+
+After doing this, the conda environment should be *reactivated* (you could deactivate and 
+reactivate the same environment again) in order to get effects. You can inspect 
+the new environment variable by calling ``echo <variable name>``, for example::
+
+  $ echo $LD_LIBRARY_PATH
+
+or get the full list of custom variables using::
+
+  $ conda env config vars list
+
+Remember that when defining environment variables as collection of paths, the desired
+path should be *prepended* to current paths, in order to retrieve the desired files 
+before the other positions. The current path should be updated and not replaced since it 
+could contains useful information. 
