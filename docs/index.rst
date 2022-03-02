@@ -27,6 +27,7 @@ section of our documentation.
     :caption: The Terminal
 
     terminal/ssh
+    terminal/tmux
     terminal/conda
     terminal/docker
     terminal/singularity
