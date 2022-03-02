@@ -9,8 +9,8 @@ About Tmux
 
 Tmux is a virtual terminal and is useful in a remote environment (like after connecting
 with `ssh`) since lets you to call *commands* and *softwares* in one or more virtual 
-*tabs*, which will not be interrupted if the network goes down or you need to 
-terminate your local terminal (ie you need to go home :-)). From the tmux man pages
+*windows*, which will not be interrupted if the network goes down or you need to 
+terminate your local terminal (ie you need to go home :-)). From the tmux man pages:
 
 .. epigraph::
 
@@ -19,34 +19,34 @@ terminate your local terminal (ie you need to go home :-)). From the tmux man pa
     detached from a screen and continue running in the background, then later 
     reattached
 
-Tmux is already installed in our *core* shared machine and need to be started
+Tmux is already installed in our *core* shared machine and should be started
 **immediately** after connecting with SSH, on the remote environment: you could 
 even install and start tmux in your local environment, but if you connect to the 
 remote machine in a tmux local terminal, your tasks will be interrupted when 
-network have issues or you local environment is turned off.
+network has issues or you local environment is turned off.
 
 .. hint:: 
 
-    the main idea with tmux is to start a session remotely, in order to detach
+    The main idea with tmux is to start a session remotely, in order to detach
     and leave your process in background, even after logging out the remote 
     environment. All the information returned to the virtual terminal will be 
-    available when reconnecting to the same tmux session, even using another 
-    connection or another device
+    available when reconnecting to the same tmux session and window, even by 
+    using another connection or another device.
 
 Tmux sessions
 -------------
 
 You should create a tmux session using different *names*, for example using the 
-project names you are working on. This let you to define multiple sessions and to 
+name of projects you are working on. This let you to define multiple sessions and to 
 work at different projects at the same time, and let you to switch from one terminal
 to another if your are waiting for your program to finish. Here is how to start 
 a new tmux session::
 
     $ tmux new -s <session name>
 
-where ``<session name>`` will be the name of your session. This will start a new 
-terminal inside a tmux session. To connect to an existent tmux session, first
-display your running session names with::
+where ``<session name>`` will be the name of your session. By creating a new session,
+a new terminal inside a tmux window is started. To connect to an existent tmux 
+session, first display your active and running session names with::
 
     $ tmux ls 
 
@@ -59,7 +59,7 @@ Tmux control command
 
 After a tmux terminal is started, you will start a new terminal inside a tmux 
 session and you can work in the same way you could work outside tmux. If you need 
-to take control to the tmux terminal, you need a combination of a prefix key, 
+to take control to the tmux terminal, you need a combination of a prefix key, which is
 ``C-b (Ctrl-b)`` by default, followed by a command key. For instance, to leave 
 the current tmux session, leaving the terminal and its processes running in background
 you need to press ``Ctrl-b`` and then the letter ``d`` (which stands for *detach*
@@ -96,8 +96,8 @@ Here are some resources where you can find more informations and tips:
 * `Tactical tmux: The 10 Most Important Commands <https://danielmiessler.com/study/tmux/>`__
 * `tmux(1) — Linux manual page <https://man7.org/linux/man-pages/man1/tmux.1.html>`__
 
-Termination a session
-~~~~~~~~~~~~~~~~~~~~~
+Terminate a session
+~~~~~~~~~~~~~~~~~~~
 
 In order to terminate and close a session, you have to exit from all your opened 
 windows inside a session. To do this, you simply ``exit`` on the window terminals
@@ -115,7 +115,7 @@ Customize Tmux
 
 You can change your tmux appearance, or change control command keys. You need to 
 create a ``.tmux.conf`` file in your home directory, in which define the stuff you need.
-Here are some resource where you can find how to customize tmux:
+Here are some resources where you can find how to customize tmux:
 
 * `Tools I use: Tmux <https://justin.abrah.ms/dotfiles/tmux.html>`__
 * `Practical Tmux <https://mutelight.org/practical-tmux>`__
