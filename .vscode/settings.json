@@ -27,5 +27,8 @@
         "subfolders",
         "subworkflow",
         "Subworkflows"
-    ]
+    ],
+    "esbonio.server.enabled": false,
+    "esbonio.sphinx.buildDir": "/home/paolo/Projects/BIOINFO-guidelines/docs/_build",
+    "esbonio.sphinx.confDir": "/home/paolo/Projects/BIOINFO-guidelines/docs"
 }

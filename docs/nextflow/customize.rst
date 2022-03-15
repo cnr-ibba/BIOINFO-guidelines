@@ -39,7 +39,7 @@ You should have also a ``modules`` directory inside your project::
 
   $ mkdir -p my-new-pipeline/modules 
   $ cd my-new-pipeline
-  $ touch main.nf nextflow.config modules.json
+  $ touch main.nf nextflow.config modules.json README.md
 
 Next you have to edit modules.json in order to have minimal informations::
 
@@ -172,8 +172,15 @@ To add a custom module to your pipeline, move into your pipeline folder and call
 Create a new module
 ~~~~~~~~~~~~~~~~~~~
 
-In order to create a new module, clone first the private repository module. Then,
-in your local git module repository, create a new module like this::
+You can create a new module inside a pipeline folder or inside a *modules* git cloned
+folder. If you create a module inside a pipeline, you will create such module in the 
+``modules/local/`` folder of the pipeline, and such model will exists *only* in your 
+pipeline; If you create a module inside a *modules* folder, you can then install 
+such modules in every pipeline using ``nf-core modules install``. Creating a module
+in a *modules* github folder is also the way to contribute to Nextflow community.
+The command acts in the same way for both the two scenarios: relying on your project,
+``nf-core modules`` will determine if your folder is a pipeline or a *modules* 
+repository clone::
 
   $ nf-core modules create freebayes/single --author @bunop --label process_high --meta
 
