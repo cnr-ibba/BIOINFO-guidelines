@@ -1,6 +1,4 @@
 {
-    "restructuredtext.confPath": "${workspaceFolder}/docs",
-    "restructuredtext.builtDocumentationPath": "${workspaceRoot}/docs/_build/html",
     "restructuredtext.updateOnTextChanged": "true",
     "restructuredtext.updateDelay": 300,
     "restructuredtext.languageServer.disabled": true,
@@ -29,6 +27,7 @@
         "Subworkflows"
     ],
     "esbonio.server.enabled": false,
-    "esbonio.sphinx.buildDir": "/home/paolo/Projects/BIOINFO-guidelines/docs/_build",
-    "esbonio.sphinx.confDir": "/home/paolo/Projects/BIOINFO-guidelines/docs"
+    "esbonio.sphinx.buildDir": "${workspaceRoot}/docs/_build",
+    "esbonio.sphinx.confDir": "${workspaceFolder}/docs",
+    "makefile.makefilePath": "docs/Makefile"
 }

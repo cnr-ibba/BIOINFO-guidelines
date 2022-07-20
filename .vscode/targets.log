@@ -1,0 +1,355 @@
+make all -f /home/paolo/Projects/BIOINFO-guidelines/docs/Makefile --print-data-base --no-builtin-variables --no-builtin-rules --question
+/bin/sh: 1: sphinx-build: not found
+make: *** [/home/paolo/Projects/BIOINFO-guidelines/docs/Makefile:20: /home/paolo/Projects/BIOINFO-guidelines/docs/Makefile] Error 127
+
+# GNU Make 4.3
+# Built for x86_64-pc-linux-gnu
+# Copyright (C) 1988-2020 Free Software Foundation, Inc.
+# License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+# This is free software: you are free to change and redistribute it.
+# There is NO WARRANTY, to the extent permitted by law.
+
+# Make data base, printed on Wed Jul 20 14:07:09 2022
+
+# Variables
+
+# environment
+GDK_BACKEND = x11
+# environment
+LC_ALL = C
+# environment
+GTK_RC_FILES = /etc/gtk/gtkrc:/home/paolo/.gtkrc:/home/paolo/.config/gtkrc
+# environment
+MINICONDA_DIR = /usr/local/anaconda
+# environment
+VSCODE_CWD = /home/paolo
+# default
+MAKE_COMMAND := make
+# environment
+QT_ACCESSIBILITY = 1
+# environment
+GOPATH = /opt/go
+# environment
+rvm_bin_path = /home/paolo/Softwares/rvm/bin
+# automatic
+@D = $(patsubst %/,%,$(dir $@))
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# default
+.VARIABLES := 
+# environment
+PWD = /home/paolo/Projects/BIOINFO-guidelines
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# automatic
+%F = $(notdir $%)
+# environment
+VSCODE_CODE_CACHE_PATH = /home/paolo/.config/Code/CachedData/b06ae3b2d2dbfe28bca3134cc6be65935cdfea6a
+# environment
+XDG_SESSION_PATH = /org/freedesktop/DisplayManager/Session1
+# environment
+LANG = C
+# environment
+XAUTHORITY = /home/paolo/.Xauthority
+# default
+.LOADED := 
+# default
+.INCLUDE_DIRS = /usr/local/include /usr/include /usr/include
+# environment
+GEM_PATH = /home/paolo/Softwares/rvm/gems/ruby-2.7.0:/home/paolo/Softwares/rvm/gems/ruby-2.7.0@global
+# makefile
+MAKEFLAGS = prR
+# makefile (from '/home/paolo/Projects/BIOINFO-guidelines/docs/Makefile', line 8)
+SOURCEDIR = .
+# makefile
+CURDIR := /home/paolo/Projects/BIOINFO-guidelines
+# environment
+PERL5LIB = /home/paolo/Softwares/perl5/lib/perl5
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+# environment
+LESSOPEN = | /usr/bin/lesspipe %s
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# environment
+PAM_KWALLET5_LOGIN = /run/user/1000/kwallet5.socket
+# environment
+MFLAGS = -prR
+# environment
+SSH_AUTH_SOCK = /tmp/ssh-Q9ZhP1oNBJgs/agent.1195
+# default
+.SHELLFLAGS := -c
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# environment
+XCURSOR_THEME = breeze_cursors
+# environment
+XDG_SESSION_DESKTOP = KDE
+# makefile (from '/home/paolo/Projects/BIOINFO-guidelines/docs/Makefile', line 1)
+MAKEFILE_LIST := /home/paolo/Projects/BIOINFO-guidelines/docs/Makefile
+# environment
+CONDA_SHLVL = 0
+# automatic
+@F = $(notdir $@)
+# environment
+VSCODE_PID = 17629
+# environment
+XDG_SESSION_TYPE = x11
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# environment
+MY_RUBY_HOME = /home/paolo/Softwares/rvm/rubies/ruby-2.7.0
+# environment
+CONDA_PYTHON_EXE = /usr/local/Miniconda3-py39_4.9.2-Linux-x86_64/bin/python
+# environment
+SESSION_MANAGER = local/bullseye-laptop:@/tmp/.ICE-unix/1428,unix/bullseye-laptop:/tmp/.ICE-unix/1428
+# automatic
+*F = $(notdir $*)
+# environment
+CHROME_DESKTOP = code-url-handler.desktop
+# environment
+DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# environment
+NXF_OPTS = -Xms1g -Xmx4g
+# environment
+VSCODE_NLS_CONFIG = {"locale":"en","availableLanguages":{},"_languagePackSupport":true}
+# default
+MAKE_HOST := x86_64-pc-linux-gnu
+# makefile
+SHELL = /bin/sh
+# default
+MAKECMDGOALS := all
+# environment
+PHANTOMJS_PLATFORM = linux
+# environment
+SHLVL = 1
+# environment
+rvm_path = /home/paolo/Softwares/rvm
+# environment
+GCC_COLORS = error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01
+# environment
+MAKELEVEL := 0
+# default
+MAKE = $(MAKE_COMMAND)
+# environment
+PATH = /home/paolo/.poetry/bin:/opt/go/bin:/home/paolo/Softwares/rvm/gems/ruby-2.7.0/bin:/home/paolo/Softwares/rvm/gems/ruby-2.7.0@global/bin:/home/paolo/Softwares/rvm/rubies/ruby-2.7.0/bin:/home/paolo/.local/bin:/home/paolo/bin:/usr/local/Miniconda3-py39_4.9.2-Linux-x86_64/condabin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/opt/go/1.14.4/bin:/opt/go/packages/bin:/usr/local/anaconda/bin:/home/paolo/Softwares/rvm/bin
+# default
+MAKEFILES := 
+# environment
+LANGUAGE = en_US.UTF-8
+# makefile (from '/home/paolo/Projects/BIOINFO-guidelines/docs/Makefile', line 7)
+SPHINXBUILD = sphinx-build
+# automatic
+^F = $(notdir $^)
+# environment
+GOROOT = /opt/go/1.14.4
+# environment
+LESSCLOSE = /usr/bin/lesspipe %s %s
+# automatic
+?F = $(notdir $?)
+# environment
+KDE_APPLICATIONS_AS_SCOPE = 1
+# environment
+XDG_SEAT = seat0
+# environment
+PERL_LOCAL_LIB_ROOT = /home/paolo/Softwares/perl5
+# environment
+XDG_CURRENT_DESKTOP = KDE
+# environment
+LS_COLORS = 
+# automatic
++F = $(notdir $+)
+# environment
+XDG_SEAT_PATH = /org/freedesktop/DisplayManager/Seat0
+# environment
+DESKTOP_SESSION = plasma
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = KDE
+# environment
+IRBRC = /home/paolo/Softwares/rvm/rubies/ruby-2.7.0/.irbrc
+# 'override' directive
+GNUMAKEFLAGS := 
+# environment
+LOGNAME = paolo
+# environment
+XDG_VTNR = 7
+# makefile
+.DEFAULT_GOAL := help
+# environment
+rvm_version = 1.29.10 (latest)
+# environment
+DISPLAY = :0
+# environment
+USER = paolo
+# environment
+GTK_MODULES = gail:atk-bridge
+# default
+MAKE_VERSION := 4.3
+# environment
+KDE_SESSION_UID = 1000
+# makefile (from '/home/paolo/Projects/BIOINFO-guidelines/docs/Makefile', line 6)
+SPHINXOPTS = 
+# environment
+SSH_AGENT_PID = 1297
+# environment
+_ = /usr/share/code/code
+# environment
+NXF_SINGULARITY_CACHEDIR = /home/paolo/.singularity_cache
+# environment
+XDG_RUNTIME_DIR = /run/user/1000
+# environment
+GEM_HOME = /home/paolo/Softwares/rvm/gems/ruby-2.7.0
+# environment
+GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
+# environment
+_CE_M = 
+# environment
+XDG_SESSION_CLASS = user
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+# environment
+GTK2_RC_FILES = /etc/gtk-2.0/gtkrc:/home/paolo/.gtkrc-2.0:/home/paolo/.config/gtkrc-2.0
+# environment
+HOME = /home/paolo
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# environment
+VSCODE_IPC_HOOK = /run/user/1000/vscode-aaff7f48-1.69.1-main.sock
+# environment
+XDG_SESSION_ID = 3
+# environment
+XCURSOR_SIZE = 24
+# environment
+PERL_MM_OPT = INSTALL_BASE=/home/paolo/Softwares/perl5
+# default
+.RECIPEPREFIX := 
+# automatic
+<F = $(notdir $<)
+# default
+SUFFIXES := 
+# environment
+QT_AUTO_SCREEN_SCALE_FACTOR = 0
+# environment
+PERL_MB_OPT = --install_base "/home/paolo/Softwares/perl5"
+# environment
+KDE_SESSION_VERSION = 5
+# default
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync check-symlink load
+# environment
+PHANTOMJS_ARCH = x64
+# environment
+rvm_prefix = /home/paolo/Softwares
+# makefile (from '/home/paolo/Projects/BIOINFO-guidelines/docs/Makefile', line 9)
+BUILDDIR = _build
+# environment
+KDE_FULL_SESSION = true
+# environment
+RUBY_VERSION = ruby-2.7.0
+# environment
+CONDA_EXE = /usr/local/Miniconda3-py39_4.9.2-Linux-x86_64/bin/conda
+# environment
+_CE_CONDA = 
+# variable set hash-table stats:
+# Load=120/1024=12%, Rehash=0, Collisions=6/157=4%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# . (device 65026, inode 3682523): No files, no impossibilities so far.
+
+# No files, no impossibilities in 1 directories.
+
+# Implicit Rules
+
+%: Makefile
+#  recipe to execute (from '/home/paolo/Projects/BIOINFO-guidelines/docs/Makefile', line 20):
+	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+
+# 1 implicit rules, 0 (0.0%) terminal.
+# Files
+
+/home/paolo/Projects/BIOINFO-guidelines/docs/Makefile: Makefile
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: '/home/paolo/Projects/BIOINFO-guidelines/docs/Makefile'
+#  Modification time never checked.
+#  File has been updated.
+#  Failed to be updated.
+ 
+# automatic
+# @ := /home/paolo/Projects/BIOINFO-guidelines/docs/Makefile
+# automatic
+# * := /home/paolo/Projects/BIOINFO-guidelines/docs/Makefile
+# automatic
+# < := Makefile
+# automatic
+# + := Makefile
+# automatic
+# % := 
+# automatic
+# ^ := Makefile
+# automatic
+# ? := Makefile
+# automatic
+# | := 
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=5/17=29%
+#  recipe to execute (from '/home/paolo/Projects/BIOINFO-guidelines/docs/Makefile', line 20):
+	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+
+Makefile:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+all:
+#  Command line target.
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+help:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from '/home/paolo/Projects/BIOINFO-guidelines/docs/Makefile', line 13):
+	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+
+.PHONY: help Makefile
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# files hash-table stats:
+# Load=7/1024=1%, Rehash=0, Collisions=0/23=0%
+# VPATH Search Paths
+
+# No 'vpath' search paths.
+
+# No general ('VPATH' variable) search path.
+
+# strcache buffers: 1 (0) / strings = 11 / storage = 134 B / avg = 12 B
+# current buf: size = 8162 B / used = 134 B / count = 11 / avg = 12 B
+
+# strcache performance: lookups = 21 / hit rate = 47%
+# hash-table stats:
+# Load=11/8192=0%, Rehash=0, Collisions=0/21=0%
+# Finished Make data base on Wed Jul 20 14:07:09 2022
+
+ 

@@ -1,0 +1,6 @@
+make /home/paolo/Projects/BIOINFO-guidelines/docs/Makefile -f /home/paolo/Projects/BIOINFO-guidelines/docs/Makefile --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/paolo/Projects/BIOINFO-guidelines'
+sphinx-build -M /home/paolo/Projects/BIOINFO-guidelines/docs/Makefile "." "_build"  
+make: '/home/paolo/Projects/BIOINFO-guidelines/docs/Makefile' is up to date.
+make: Leaving directory '/home/paolo/Projects/BIOINFO-guidelines'
+ 
