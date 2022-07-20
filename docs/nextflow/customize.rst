@@ -35,13 +35,13 @@ by the community. In such way, you can avoid to write a full pipeline from yours
 
 The minimal set of files required to have a pipeline is to have locally
 ``main.nf``, ``nextflow.config`` and ``modules.json`` inside your project folder.
-You should have also a ``modules`` directory inside your project:: 
+You should have also a ``modules`` directory inside your project::
 
-  $ mkdir -p my-new-pipeline/modules 
+  $ mkdir -p my-new-pipeline/modules
   $ cd my-new-pipeline
   $ touch main.nf nextflow.config modules.json README.md
 
-Next you have to edit modules.json in order to have minimal informations::
+Next you have to edit modules.json in order to have minimal information::
 
   {
     "name": "<your pipeline name>",
@@ -50,7 +50,7 @@ Next you have to edit modules.json in order to have minimal informations::
   }
 
 
-Without this requisites you will not be able to add community modules to your 
+Without this requisites you will not be able to add community modules to your
 pipelines using ``nf-core/tools``.
 
 .. tip::
@@ -83,9 +83,9 @@ You could also browse modules inside a different repository and branch, for exam
 
 .. hint::
 
-  You can work to a new module and make a pull request to add it to the community. 
+  You can work to a new module and make a pull request to add it to the community.
   See :ref:`Custom pipeline modules <custom-pipeline-modules>`
-  section to work with custom modules. See also 
+  section to work with custom modules. See also
   `nf-core guidelines <https://nf-co.re/developers/guidelines>`__
   to understand how you could contribute to the community.
 
@@ -111,7 +111,7 @@ You can download and add a module to your pipeline using ``nf-core/tools``::
 List all modules in a pipeline
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can have a full list of installed modules using:: 
+You can have a full list of installed modules using::
 
   $ nf-core modules list local
 
@@ -124,7 +124,7 @@ You can update a module simple by calling::
 
   $ nf-core modules update fastqc
 
-.. hint:: 
+.. hint::
 
   Call ``nf-core modules update --help`` to get a list of the available options,
   for example, if you need to install a specific version of a module
@@ -173,13 +173,13 @@ Create a new module
 ~~~~~~~~~~~~~~~~~~~
 
 You can create a new module inside a pipeline folder or inside a *modules* git cloned
-folder. If you create a module inside a pipeline, you will create such module in the 
-``modules/local/`` folder of the pipeline, and such model will exists *only* in your 
-pipeline; If you create a module inside a *modules* folder, you can then install 
+folder. If you create a module inside a pipeline, you will create such module in the
+``modules/local/`` folder of the pipeline, and such model will exists *only* in your
+pipeline; If you create a module inside a *modules* folder, you can then install
 such modules in every pipeline using ``nf-core modules install``. Creating a module
 in a *modules* github folder is also the way to contribute to Nextflow community.
 The command acts in the same way for both the two scenarios: relying on your project,
-``nf-core modules`` will determine if your folder is a pipeline or a *modules* 
+``nf-core modules`` will determine if your folder is a pipeline or a *modules*
 repository clone::
 
   $ nf-core modules create freebayes/single --author @bunop --label process_high --meta
@@ -213,10 +213,10 @@ be executed without errors in GitHub workflow.
 Subworkflows
 ------------
 
-A subworkflow is an experimental feature which allow to include a chain of modules 
+A subworkflow is an experimental feature which allow to include a chain of modules
 together (for example ``bam_sort_samtools``, which execute *samtools sort*, *samtools
-index* and then call the ``bam_stats_samtools``, which is another subworkflow. 
-There are imported in the main workflow (pipeline) like any others modules. More 
+index* and then call the ``bam_stats_samtools``, which is another subworkflow.
+There are imported in the main workflow (pipeline) like any others modules. More
 information will be added in future.
 
 Pipeline best practices
@@ -225,50 +225,50 @@ Pipeline best practices
 Use DSL2 syntax when possible
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-**DSL2** is the newest pipeline standard and the nextflow community is currently 
-moving to this format. This means that community pipelines will be updated to fully 
+**DSL2** is the newest pipeline standard and the nextflow community is currently
+moving to this format. This means that community pipelines will be updated to fully
 support this standard and if you plan to submit your pipeline to the community
-you will probably need to write code using this format. 
+you will probably need to write code using this format.
 
-The major changes provided by **DSL2** format are *modules*, as described 
-by this docs, which let you reuse softwares managed and provided by the community 
-simplifying your pipeline: the code required to run software and to provide/collect 
-input and output are provided by the modules, which can be :ref:`installed <adding-a-module-to-a-pipeline>` or 
+The major changes provided by **DSL2** format are *modules*, as described
+by this docs, which let you reuse softwares managed and provided by the community
+simplifying your pipeline: the code required to run software and to provide/collect
+input and output are provided by the modules, which can be :ref:`installed <adding-a-module-to-a-pipeline>` or
 :ref:`updated <update-a-pipeline-module>` as described by this guide.
 
 Another change introduced in **DSL2** is the different way you can pass data between
 different pipeline steps. With the old standard, the only way is by using channels:
 this implies that after consuming values from a channel you cannot reuse those values
-in another pipeline step. For example if one step produces and output required 
+in another pipeline step. For example if one step produces and output required
 by two or more steps, you have to put data in two or more channels, like this::
 
   output:
   file '*.fq' into trimmed_reads, quantifier_input_reads
 
-and once ``trimmed_reads`` values are consumed, you cannot read these values in 
-another step. Another example could be a step in which 
-you align reads to an indexed genome made by a different step: since the genome 
+and once ``trimmed_reads`` values are consumed, you cannot read these values in
+another step. Another example could be a step in which
+you align reads to an indexed genome made by a different step: since the genome
 index is emitted once from the indexing step, you will be able to align only one
-sample if you pass the channels as they are in input: the only way to align all 
-your samples is to use the 
+sample if you pass the channels as they are in input: the only way to align all
+your samples is to use the
 `combine operator <https://www.nextflow.io/docs/latest/operator.html#combine>`__
-and put all values in a new channel:: 
+and put all values in a new channel::
 
   trimmed_reads.combine(genome_index).set{ align_input }
 
-and then read those values as a tuple:: 
+and then read those values as a tuple::
 
   input:
   tuple file(sample), file(genome) from align_input
 
-In the newest **DSL2** version, you can specify the *output* values from the 
+In the newest **DSL2** version, you can specify the *output* values from the
 module itself without using the channels syntax, for example::
 
   BWA_MEM(TRIMGALORE.out.reads, BWA_INDEX.out.index)
 
 and values from a module step can be read as many times as needed.
 
-.. warning:: 
+.. warning::
 
   ``set`` and ``into`` operators used in previous version are removed in **DSL2**.
   See `DSL 2 <https://www.nextflow.io/docs/latest/dsl2.html>`__ nextflow documentation
@@ -278,14 +278,14 @@ Write the configuration stuff outside your pipeline
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Since the aim of nextflow pipelines is reproducibility and portability,
-you should avoid to place your *analysis specific parameters* in your pipeline main 
-script: this force users to modify your pipeline according their needs and this 
-implies different pipeline scripts with differ only for a few things, for example 
-where the input files are. If you place your configuration files outside your main 
-script, you can re-use the same parameters within different scripts and keep 
-your main file unmodified: this keeps the stuff simple and let you to focus only 
+you should avoid to place your *analysis specific parameters* in your pipeline main
+script: this force users to modify your pipeline according their needs and this
+implies different pipeline scripts with differ only for a few things, for example
+where the input files are. If you place your configuration files outside your main
+script, you can re-use the same parameters within different scripts and keep
+your main file unmodified: this keeps the stuff simple and let you to focus only
 on important changes with your *CVS*. For example, you could define a ``custom.config``
-*JSON* in which specify your specific requirements:: 
+*JSON* in which specify your specific requirements::
 
   params {
     // Input / Output parameters
@@ -300,39 +300,39 @@ An then calling nextflow by providing your custom parameters::
 
   $ nextflow run -resume main.nf -c custom.config --profile singularity
 
-Moreover, by writing specific configuration parameters let you to call a remote 
+Moreover, by writing specific configuration parameters let you to call a remote
 pipeline with ``nextflow run`` without collect nextflow code in your analysis directory.
 
-.. hint:: 
+.. hint::
 
-  nextflow looks for configurations in different locations, and each location is 
-  ranked in order to decide which settings will be applied: you can override the 
-  default configuration by using a configuration source with an higher priority, 
-  for example the ``-c <config file>``, ``-params-file <file>`` or parameters 
-  provided with command line are different locations where the last have the higher priority. See 
+  nextflow looks for configurations in different locations, and each location is
+  ranked in order to decide which settings will be applied: you can override the
+  default configuration by using a configuration source with an higher priority,
+  for example the ``-c <config file>``, ``-params-file <file>`` or parameters
+  provided with command line are different locations where the last have the higher priority. See
   `Configuration file <https://www.nextflow.io/docs/latest/config.html#configuration-file>`__
   section of nextflow documentation.
 
 Add test data to your pipeline
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-It frustrating writing a pipeline on a real dataset: steps could require a lot 
-of time to be completed and if you made any errors when calling software or when 
-collecting outputs you will be noticed after a long period of time and you have 
-no way to recover the data you have with a nextflow error. 
-In *testing* and *revision* stages or when adding new features, consider 
-to work with a *reference data sets* like the 
+It frustrating writing a pipeline on a real dataset: steps could require a lot
+of time to be completed and if you made any errors when calling software or when
+collecting outputs you will be noticed after a long period of time and you have
+no way to recover the data you have with a nextflow error.
+In *testing* and *revision* stages or when adding new features, consider
+to work with a *reference data sets* like the
 one provided by `nextflow community <https://github.com/nf-core/test-datasets>`__
-or add some public data to your pipeline. Please, remember to not track big files 
+or add some public data to your pipeline. Please, remember to not track big files
 with your CVS: you should provide the minimal requirements to get your pipeline
-running as intended in the shortest time. You should also consider 
-to provide a ``test`` profile with the required parameters which let you to test 
-your pipeline like this:: 
+running as intended in the shortest time. You should also consider
+to provide a ``test`` profile with the required parameters which let you to test
+your pipeline like this::
 
   $ nextflow run . -profile test,singularity
 
-Where the ``test`` profile is specified in ``nextflow.config`` and refers to 
-the *test dataset* you provide with your pipeline:: 
+Where the ``test`` profile is specified in ``nextflow.config`` and refers to
+the *test dataset* you provide with your pipeline::
 
   profiles {
     ...
@@ -346,5 +346,5 @@ the *test dataset* you provide with your pipeline::
     }
   }
 
-This type of test could be used even with CI system, like 
+This type of test could be used even with CI system, like
 `GitHub workflow <https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions>`__.
