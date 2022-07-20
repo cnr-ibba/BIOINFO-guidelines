@@ -22,6 +22,7 @@
         "resequencing",
         "rnaseq",
         "sessionid",
+        "slurm",
         "subfolders",
         "subworkflow",
         "Subworkflows"

@@ -28,6 +28,7 @@ section of our documentation.
 
     terminal/ssh
     terminal/tmux
+    terminal/slurm
     terminal/conda
     terminal/docker
     terminal/singularity
