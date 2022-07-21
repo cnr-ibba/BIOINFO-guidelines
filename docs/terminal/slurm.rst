@@ -134,7 +134,7 @@ For example, to collect information on partitions, you can do the following::
     OverTimeLimit=NONE PreemptMode=OFF
     State=UP TotalCPUs=40 TotalNodes=2 SelectTypeParameters=NONE
     JobDefaults=(null)
-    DefMemPerNode=UNLIMITED MaxMemPerNode=UNLIMITED
+    DefMemPerCPU=4096 MaxMemPerNode=UNLIMITED
 
   PartitionName=testing
     AllowGroups=ALL AllowAccounts=ALL AllowQos=ALL
@@ -146,7 +146,7 @@ For example, to collect information on partitions, you can do the following::
     OverTimeLimit=NONE PreemptMode=OFF
     State=UP TotalCPUs=40 TotalNodes=2 SelectTypeParameters=NONE
     JobDefaults=(null)
-    DefMemPerNode=UNLIMITED MaxMemPerNode=UNLIMITED
+    DefMemPerCPU=4096 MaxMemPerNode=UNLIMITED
 
 If you require information relying on resource name, you can use the proper *name*
 after the ``scontrol show <resource>`` command, for example to collect information on
@@ -154,19 +154,19 @@ after the ``scontrol show <resource>`` command, for example to collect informati
 
   $ scontrol show nodes node1
   NodeName=node1 Arch=x86_64 CoresPerSocket=8
-    CPUAlloc=8 CPUTot=16 CPULoad=8.02
+    CPUAlloc=0 CPUTot=16 CPULoad=0.00
     AvailableFeatures=(null)
     ActiveFeatures=(null)
     Gres=(null)
     NodeAddr=node1 NodeHostName=node1 Version=21.08.5
     OS=Linux 5.15.0-40-generic #43-Ubuntu SMP Wed Jun 15 12:54:21 UTC 2022
-    RealMemory=32000 AllocMem=16384 FreeMem=8246 Sockets=2 Boards=1
-    State=MIXED ThreadsPerCore=1 TmpDisk=0 Weight=1 Owner=N/A MCS_label=N/A
+    RealMemory=32000 AllocMem=0 FreeMem=9310 Sockets=2 Boards=1
+    State=IDLE ThreadsPerCore=1 TmpDisk=0 Weight=1 Owner=N/A MCS_label=N/A
     Partitions=long,testing
-    BootTime=2022-07-08T10:53:31 SlurmdStartTime=2022-07-14T11:00:14
-    LastBusyTime=2022-07-20T15:09:05
+    BootTime=2022-07-08T10:53:31 SlurmdStartTime=2022-07-21T12:22:43
+    LastBusyTime=2022-07-21T12:35:09
     CfgTRES=cpu=16,mem=32000M,billing=16
-    AllocTRES=cpu=8,mem=16G
+    AllocTRES=
     CapWatts=n/a
     CurrentWatts=0 AveWatts=0
     ExtSensorsJoules=n/s ExtSensorsWatts=0 ExtSensorsTemp=n/s
@@ -187,16 +187,135 @@ to have a comparison between commands for the two scheduler ecosystem.
 Submitting jobs
 ---------------
 
+You are allowed to submit jobs in all partitions, however they are configured
+for different purposes. For example, in the ``testing`` partition you aren't allowed to
+submit a job exceeding the default time-limit, since this partition is intended
+for testing purpose. If your don't have an idea on when jour job is expected
+to finish, you will need to submit jour job in the default ``long`` partition with
+no time limits. Moreover partitions are configured for allowing *4Gb* of RAM memory
+for each CPU allocated, if your process requires more than this default limit,
+it will fail. Considering this, you are enforced to declare clearly your needs by
+allocating your resources: declaring more than you really require could result in
+jobs waiting for resources to come, while declaring less than required will result
+in a failed job.
+
+.. hint::
+
+  Submitting jobs is the only way to get access to the computational power of
+  *working* nodes, since users are not allowed to log in into them
+
 Allocate resources and submit a command immediately
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Creating a sbatch script
-~~~~~~~~~~~~~~~~~~~~~~~~
+You can allocate and submit a job with ``srun``, for example::
+
+  $ srun <command>
+
+Will allocate the default resource for a job an will execute ``<command>`` once
+the job starts. After executing command, the job will terminate an release the
+allocated resources. You can change the number of CPUs or the memory required
+with the ``--cpus-per-task`` and ``--mem`` parameters, for example::
+
+  $ srun --cpus-per-task 2 --mem=4G <command>
+
+or shorter::
+
+  $ srun -c 2 --mem=4G <command>
+
+Partition can be specified with the ``-p`` or ``--partition`` command::
+
+  $ srun -c 2 --mem=4G -p testing <command>
+
+.. hint::
+
+  ``srun`` will allocate resources and will execute commands in *parallel*. You
+  may use ``srun`` with *MPI* programs
 
 .. _interactive-jobs:
 
 Interactive jobs
 ~~~~~~~~~~~~~~~~
+
+Interactive jobs can be launched with the ``--pty bash`` option like this::
+
+  $ srun -c 2 --mem=4G -p testing --pty bash
+
+you don't need to specify a command when launching an interactive job: when an
+interactive jobs start, it will open a new terminal on the *working* node in which
+you can do all the stuff. When you have completed your task, you have to ``exit``
+the interactive session to free resources.
+
+.. important::
+
+  Resources are limited, so it's important that you free resource when have you
+  finished your tasks by leaving the interactive job console with the ``exit``
+  command.
+
+A different approach is to allocate resources with ``salloc`` and then call ``srun``
+with the desidered command. However, this approach will result in a new terminal
+session, in which resources are allocated until exiting terminal with ``exit`` command.
+The ``salloc`` will open a new terminal in which your resources are allocated, then
+you have to call ``srun --pty bash`` (without any other options, since they are
+already allocated) to start your new terminal session in the interactive job::
+
+  $ salloc --cpus-per-task 2 --mem=4G
+  salloc: Granted job allocation 901
+  $ srun --pty /bin/bash
+  $ <command 1>
+  $ <command 2>
+  ...
+  $ exit
+  $ exit
+  salloc: Relinquishing job allocation 901
+  salloc: Job allocation 901 has been revoked.
+
+.. warning::
+
+  when you allocate a resource with ``salloc``, you will grant resource as stated
+  by ``salloc`` output, even if you don't call ``srun``. You will need to ``exit``
+  once for the interactive session called by ``srun --pty bash`` and ``exit`` one
+  more time to free your allocated resources. Resources will not be free until
+  the message ``Job allocation <job id> has been revoked.`` is displayed.
+
+Creating a sbatch script
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Creating a *sbatch* script if the recommended way to plan and execute complex
+script on clusters. A *sbatch* script is a kind of *bash* script in which we can
+specify resources using ``#SBATCH`` comment with the ``salloc`` or ``srun`` parameter
+we saw before. After that, we can specify the command to execute. Here is a simple
+template for a sbatch job::
+
+  #!/bin/bash
+  #SBATCH --job-name=serial_job_test    # Job name
+  #SBATCH --ntasks=1                    # Run on a single task
+  #SBATCH --cpus-per-task=1             # Declare 1 CPUs per task
+  #SBATCH --mem=1gb                     # Job memory request
+  #SBATCH --time=00:05:00               # Time limit hrs:min:sec
+  #SBATCH --output=serial_test_%j.log   # Standard output and error log
+
+  <command 1>
+  <command 2>
+
+Next, you can submit your *sbatch* script with ``sbatch`` commands. You can override
+the parameters specified in script by providing the appropriate parameter at launch
+time::
+
+  $ sbatch --cpus-per-task 2 --mem=4G <sbatch script>
+
+Cancelling a job
+----------------
+
+You can cancel a job using ``scancel`` and specifying a *job id*::
+
+  $ scancel <job id>
+
+Or jou can cancell **all** your submitted job with ``-u``::
+
+  $ cancel -u <your username>
+
+It is possible to filter out job by *state* or other attributes. Please check
+``scancel`` documentation.
 
 SLURM as Nextflow executor
 --------------------------
