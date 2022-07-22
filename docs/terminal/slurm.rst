@@ -25,26 +25,23 @@ SLURM description from the `official documentation <https://slurm.schedmd.com/qu
   by managing a queue of pending work.
 
 SLURM (or any other scheduling system) can be used to avoid loading a server more
-than its capacity and to reserve and ensure resource which can be used when running
+than its capacity and to reserve and ensure resources to be used when running
 a script or an executable: the scheduler will start a job only when resources are
 free and will ensure that no other jobs compete for the same resources.
 
-Using SLURM
------------
+Cluster environment @IBBA
+-------------------------
 
 A minimal SLURM cluster installation is composed by a *master* node, which is responsible
-to manage job *queues* (or better *partitions* in a SLURM ecosistem), one or more
-*working* nodes, which are the resources were jobs are executed and one (or more)
-*controller* node, which is the instance where users can submit their jobs. Here at
+to manage job *queues* (or better *partitions* in a SLURM ecosystem), one or more
+*working* nodes, which are the resources were jobs are executed, and one or more
+*controller* nodes, which are the instances in which users can submit their jobs. Here at
 IBBA we have a *controller* node which is the same host people uses when login
 to their remote account, and two working nodes which are used for job execution.
 There is also a *master* instance where people can access, however this instance is
 very limited in size and must be used only to manage jobs. Moreover, the same
-management utilities are available from the controller node, so you don't need to
+management utilities are available also from the controller node, so you don't need to
 login into master node to manage your jobs.
-
-About cluster environment
-~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The other prerequisite to use slurm is users consistency between controller and
 working nodes: in our local installation users are managed through an LDAP server,
@@ -52,11 +49,19 @@ are *homes* are mounted through NFS on all cluster nodes: this means that a scri
 or a software installed and working on the controller host is supposed to work
 in the same way even in master and worker nodes. You don't need to move files
 from controller node to working nodes, the same environment should be applied
-in each cluster nodes.
+in each cluster nodes. This means that a conda environment configured in the
+*login* node is supposed to work also in a *worker* node, since your home folder
+is mounted in the same position in all the environment. Moreover :doc:`singularity`
+is installed in each worker and login nodes.
 
-From here and for the rest of this documentation, we suppose the user logged on
-the *controller* node: user can't login to the *working* nodes, with the only
-exception of :ref:`interactive jobs <interactive-jobs>`.
+.. important::
+
+  From here and for the rest of this documentation, we suppose that the user is logged on
+  the *controller* node: user can't login to the *working* nodes, with the only
+  exception of :ref:`interactive jobs <interactive-jobs>`.
+
+Using SLURM
+-----------
 
 Get information on partitions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -192,9 +197,9 @@ for different purposes. For example, in the ``testing`` partition you aren't all
 submit a job exceeding the default time-limit, since this partition is intended
 for testing purpose. If your don't have an idea on when jour job is expected
 to finish, you will need to submit jour job in the default ``long`` partition with
-no time limits. Moreover partitions are configured for allowing *4Gb* of RAM memory
-for each CPU allocated, if your process requires more than this default limit,
-it will fail. Considering this, you are enforced to declare clearly your needs by
+no time limits. Moreover partitions are configured to apply some default values
+to the submitted job, for example by limiting the RAM usage when not specified.
+Considering this, you are enforced to declare clearly your needs by
 allocating your resources: declaring more than you really require could result in
 jobs waiting for resources to come, while declaring less than required will result
 in a failed job.
@@ -202,7 +207,15 @@ in a failed job.
 .. hint::
 
   Submitting jobs is the only way to get access to the computational power of
-  *working* nodes, since users are not allowed to log in into them
+  *working* nodes, since users are not allowed to log in into them and the *controller*
+  node is not intended to support long or intensive tasks.
+
+.. warning::
+
+  Partitions are configured for allowing *4Gb* of RAM memory
+  for each CPU allocated, if your process requires more than this default limit,
+  it will fail.
+
 
 Allocate resources and submit a command immediately
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
