@@ -8,7 +8,7 @@ About Conda
 -----------
 
 Conda is a software which allows you to manage software installations in distinct
-environments. It was born to support the python ecosistem, however most softwares
+environments. It was born to support the python ecosystem, however most softwares
 has been supported by conda, for example `R`_ and its packages, and there are
 channels like `bioconda`_, which collect and maintain a lot of useful softwares.
 The main advantage in using conda environments is that packages could be installed
@@ -19,7 +19,7 @@ unistallation could be done by erasing the conda installation folder.
 From the `conda`_ official documentation:
 
 .. _R: https://docs.anaconda.com/anaconda/user-guide/tasks/using-r-language/
-.. _conda:  https://docs.conda.io/en/latest/index.html
+.. _conda: https://docs.conda.io/en/latest/index.html
 .. _`bioconda`: https://bioconda.github.io/
 
 .. epigraph::
@@ -119,7 +119,7 @@ option. You could also specify which package to install when creating an environ
   conda create --name <env name> [package1] [package2]
 
 See `Managing environment <https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html>`__
-in conda documentation for more informations
+in conda documentation for more information
 
 .. hint::
 
@@ -166,7 +166,7 @@ that you want to import, for example::
 .. hint::
 
   When you export an environment with conda, yon don't simply export infomations
-  to re-build your environment relying on package version, but you also track informations
+  to re-build your environment relying on package version, but you also track information
   about the **package build version**, in order to be able to download the same file
   required to install a particular library.
   Sometimes is difficult to be able to re-create an exported environment, for example
@@ -224,7 +224,7 @@ for more options.
 Setting environment variables
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In order to define specific environment variables in a conda environment, you 
+In order to define specific environment variables in a conda environment, you
 can use the `config API <https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#setting-environment-variables>`__
 or create specific `environment files <https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#setting-environment-variables>`__
 where variables are changed and restored respectively by activating and deactivating
@@ -232,15 +232,15 @@ the conda environment. The *config API* is the recommended and the easiest way
 to define environment variables. In this example we will add a specific *JAVA library*
 path to ``LD_LIBRARY_PATH``: first locate the directory with the *shared library*
 to include, then call ``conda env config vars set`` to define and store the environment
-variable. For the *JAVA* version we want to include, this library is located in 
+variable. For the *JAVA* version we want to include, this library is located in
 ``$(JAVA_HOME)/lib/server``, where ``JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64``,
 so::
 
   $ cd /usr/lib/jvm/java-11-openjdk-amd64/lib/server
   $ conda env config vars set LD_LIBRARY_PATH=$PWD:$LD_LIBRARY_PATH
 
-After doing this, the conda environment should be *reactivated* (you could deactivate and 
-reactivate the same environment again) in order to get effects. You can inspect 
+After doing this, the conda environment should be *reactivated* (you could deactivate and
+reactivate the same environment again) in order to get effects. You can inspect
 the new environment variable by calling ``echo <variable name>``, for example::
 
   $ echo $LD_LIBRARY_PATH
@@ -250,6 +250,6 @@ or get the full list of custom variables using::
   $ conda env config vars list
 
 Remember that when defining environment variables as collection of paths, the desired
-path should be *prepended* to current paths, in order to retrieve the desired files 
-before the other positions. The current path should be updated and not replaced since it 
-could contains useful information. 
+path should be *prepended* to current paths, in order to retrieve the desired files
+before the other positions. The current path should be updated and not replaced since it
+could contains useful information.

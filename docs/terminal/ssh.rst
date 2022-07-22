@@ -159,7 +159,7 @@ Windows 10 lets you to install a Linux distribution from its app store with
 *Windows Subsystem for Linux (WSL)*: this lets you to install almost a complete
 GNU/Linux environment directly on Windows without installing a virtual machine
 or setting up dualboot (see `here <https://docs.microsoft.com/en-us/windows/wsl/about>`__
-for more informations). There are two major release of WSL, WSL1 and WSL2
+for more information). There are two major release of WSL, WSL1 and WSL2
 (see `here <https://docs.microsoft.com/en-us/windows/wsl/compare-versions>`__
 to see differences between the two versions). Briefly WSL1 was the first attempt to
 import a Linux kernel in Windows and is lighter and easier to install compared to WSL2.
@@ -222,7 +222,7 @@ with your system administrator.
   *Putty Key Generator*
 
 Once you created (and saved) your Putty key file, see the :ref:`Connecting with Putty <putty-connect>`
-section to connect to your remote server. If you need more informations on puttygen
+section to connect to your remote server. If you need more information on puttygen
 and Putty key, see `This guide <https://www.ssh.com/academy/ssh/putty/windows/puttygen>`__.
 
 Remote connection to a Server
@@ -399,7 +399,7 @@ saved sessions. After that, click on the *Ok* button to save your session config
 You will see all your saved session by clicking on the *Sessions* tab (the tab
 with a *Star* on the left of the main session) and you can start a new connection
 by clicking to the session name you have previously configured. Fore more
-informations, see `MobaXterm documentation <https://mobaxterm.mobatek.net/documentation.html>`__
+information, see `MobaXterm documentation <https://mobaxterm.mobatek.net/documentation.html>`__
 
 Connecting with Putty
 ~~~~~~~~~~~~~~~~~~~~~
@@ -585,5 +585,5 @@ If you need to unmount a folder::
   # Or if you are on a mach and you don't have ``fuse`` installed
   $ sudo umount /mnt/core
 
-For more informations, see
+For more information, see
 `How To Use SSHFS to Mount Remote File Systems Over SSH <https://www.digitalocean.com/community/tutorials/how-to-use-sshfs-to-mount-remote-file-systems-over-ssh>`__
