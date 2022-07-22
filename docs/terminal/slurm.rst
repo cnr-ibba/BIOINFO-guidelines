@@ -51,7 +51,7 @@ in the same way even in master and worker nodes. You don't need to move files
 from controller node to working nodes, the same environment should be applied
 in each cluster nodes. This means that a conda environment configured in the
 *login* node is supposed to work also in a *worker* node, since your home folder
-is mounted in the same position in all the environment. Moreover :doc:`singularity`
+is mounted in the same position in all the environment. Moreover :doc:`singularity <../general/singularity>`
 is installed in each worker and login nodes.
 
 .. important::

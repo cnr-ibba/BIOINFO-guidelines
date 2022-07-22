@@ -20,18 +20,19 @@ section of our documentation.
     :caption: Introduction
 
     contributing
+    general/conda
+    general/docker
+    general/singularity
     general/sharing
 
 .. toctree::
     :maxdepth: 2
     :caption: The Terminal
 
+    terminal/R
+    terminal/slurm
     terminal/ssh
     terminal/tmux
-    terminal/slurm
-    terminal/conda
-    terminal/docker
-    terminal/singularity
 
 .. toctree::
     :maxdepth: 2
