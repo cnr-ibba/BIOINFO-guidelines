@@ -545,6 +545,76 @@ as shown in figure:
   If you have an OpenSSH key pair, you can automatically convert it into Putty
   key file. WinSCP will make the conversion for you.
 
+Configure SSH for remote sessions
+---------------------------------
+
+There are some options that can be set up in your ``$HOME/.ssh/config`` file, which
+can be helpful with your SSH connections. For example, you can define time intervals
+in which your local terminal send *messages* to the remote server and wait for its
+replies, in order to keep connection alive and help avoiding terminal freezing
+during an SSH section. Those parameters are ``ServerAliveInterval``, ``ServerAliveCountMax``
+and ``ConnectTimeout`` which can be configured like the following::
+
+  # These settings will make the SSH client or server send a null packet to the
+  # other side every ServerAliveInterval seconds, and give up if it doesn’t receive a
+  # null response after ServerAliveCountMax tries, at which point the connection is
+  # likely to have been discarded anyway.
+
+  # Sets a timeout interval in seconds after which if no data has been received from
+  # the server, ssh(1) will send a message through the encrypted channel to
+  # request a response from the server.  The default is 0, indicating that these messages
+  # will not be sent to the server, or 300 if the BatchMode option is set. This option
+  # applies to protocol version 2 only.  ProtocolKeepAlives and SetupTimeOut are Debian-specific
+  # compatibility aliases for this option.
+  ServerAliveInterval=60
+
+  # Sets the number of server alive messages (see below) which may be sent without ssh(1)
+  # receiving any messages back from the server.  If this threshold is reached while
+  # server alive messages are being sent, ssh will disconnect from the server, terminating
+  # the session.  It is important to note that the use of server alive messages is very
+  # different from TCPKeepAlive (below).  The server alive messages are sent through
+  # the encrypted channel and therefore will not be spoofable.  The TCP keepalive option
+  # enabled by TCPKeepAlive is spoofable.  The server alive mechanism is valuable when
+  # the client or server depend on knowing when a connection has become inactive.
+  ServerAliveCountMax=20
+
+  # TCPKeepAlive operates on the TCP layer. It sends an empty TCP ACK packet. Firewalls
+  # can be configured to ignore these packets, so if you go through a firewall that
+  # drops idle connections, these may not keep the connection alive. The TCP keepalive
+  # option enabled by TCPKeepAlive is spoofable. Default yes
+  # TCPKeepAlive yes
+
+  # Specifies the timeout (in seconds) used when connecting to the SSH server,
+  # instead of using the default system TCP timeout. This timeout is applied both
+  # to establishing the connection and to performing the initial SSH protocol hand‐
+  # shake and key exchange.
+  ConnectTimeout=60
+
+These configurations applied like here are applied in *each* SSH connection. You
+can also configure parameters in order to be applied only on certain connections like
+this::
+
+  Host localhost
+    UserKnownHostsFile=/dev/null
+    StrictHostKeyChecking=no
+    ServerAliveInterval=30
+    ServerAliveCountMax=40
+
+in the previous case, the default values of ``ServerAliveInterval`` and ``ServerAliveCountMax``
+are replaced by these new ones, which will be applied only on ``localhost`` (for
+example, when you use *tunnels* to reach remote *ports* through a firewalled network).
+``Host`` syntax supports wildcards, like ``192.168.1.*`` or ``*.ibba.cnr.it``: in
+these cases, configurations will be applied on all SSH session matching these patterns.
+
+.. hint::
+
+  Sometimes you work with a very slow connection, so it will be useful raising the
+  values of ``ServerAliveInterval`` and ``ServerAliveCountMax`` in order to avoid
+  to be closed out from the remote terminal. However, raising this values a lot will
+  freeze your terminal for a long time in the case that your connection is lost.
+  Please consider to raise up this parameters accordingly your needs
+
+
 Mount remote folders using SSH
 ------------------------------
 
