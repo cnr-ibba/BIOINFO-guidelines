@@ -9,7 +9,7 @@ About SLURM
 
 SLURM is a cluster management and job scheduling system for linux clusters. At
 IBBA, we maintain a very small cluster instance which can be used to test pipelines
-and scripts by allocating resources and exploiting all the resource we have. Here's
+and scripts by allocating resources and exploiting all the computational power we have. Here's
 SLURM description from the `official documentation <https://slurm.schedmd.com/quickstart.html>`__:
 
 .. epigraph::
@@ -45,7 +45,7 @@ login into master node to manage your jobs.
 
 The other prerequisite to use slurm is users consistency between controller and
 working nodes: in our local installation users are managed through an LDAP server,
-are *homes* are mounted through NFS on all cluster nodes: this means that a script
+and *homes* are mounted through NFS on all cluster nodes: this means that a script
 or a software installed and working on the controller host is supposed to work
 in the same way even in master and worker nodes. You don't need to move files
 from controller node to working nodes, the same environment should be applied
@@ -94,7 +94,7 @@ documentation to get a better explanation of such command.
 .. hint::
 
   The SLURM scheduler installed in our infrastructure is more sophisticated than
-  a generic FIFO scheduler: a job with a time limit definition can be executed with
+  a generic *FIFO* scheduler: a job with a time limit definition can be executed with
   an higher priority than a job without it. Submitting jobs through the ``testing``
   partition can be useful when debugging pipelines or scripts.
 
@@ -224,8 +224,8 @@ You can allocate and submit a job with ``srun``, for example::
 
   $ srun <command>
 
-Will allocate the default resource for a job an will execute ``<command>`` once
-the job starts. After executing command, the job will terminate an release the
+will allocate the default resource for a job and will execute ``<command>`` once
+the job starts. After executing command, the job will terminate and will release the
 allocated resources. You can change the number of CPUs or the memory required
 with the ``--cpus-per-task`` and ``--mem`` parameters, for example::
 
@@ -258,7 +258,7 @@ interactive jobs start, it will open a new terminal on the *working* node in whi
 you can do all the stuff. When you have completed your task, you have to ``exit``
 the interactive session to free resources.
 
-.. important::
+.. warning::
 
   Resources are limited, so it's important that you free resource when have you
   finished your tasks by leaving the interactive job console with the ``exit``
@@ -295,7 +295,7 @@ Creating a sbatch script
 
 Creating a *sbatch* script if the recommended way to plan and execute complex
 script on clusters. A *sbatch* script is a kind of *bash* script in which we can
-specify resources using ``#SBATCH`` comment with the ``salloc`` or ``srun`` parameter
+specify resources using ``#SBATCH`` comment with the ``salloc`` or ``srun`` parameters
 we saw before. After that, we can specify the command to execute. Here is a simple
 template for a sbatch job::
 
@@ -310,8 +310,8 @@ template for a sbatch job::
   <command 1>
   <command 2>
 
-Next, you can submit your *sbatch* script with ``sbatch`` commands. You can override
-the parameters specified in script by providing the appropriate parameter at launch
+Next, you can submit your *sbatch* script with ``sbatch`` command. You can override
+the parameters specified in scripts by providing the appropriate parameter at launch
 time::
 
   $ sbatch --cpus-per-task 2 --mem=4G <sbatch script>

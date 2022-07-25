@@ -552,8 +552,9 @@ There are some options that can be set up in your ``$HOME/.ssh/config`` file, wh
 can be helpful with your SSH connections. For example, you can define time intervals
 in which your local terminal send *messages* to the remote server and wait for its
 replies, in order to keep connection alive and help avoiding terminal freezing
-during an SSH section. Those parameters are ``ServerAliveInterval``, ``ServerAliveCountMax``
-and ``ConnectTimeout`` which can be configured like the following::
+during a SSH section. Those parameters are ``ServerAliveInterval``, ``ServerAliveCountMax``
+and ``ConnectTimeout`` which can be configured like the following in your
+``$HOME/.ssh/config`` file::
 
   # These settings will make the SSH client or server send a null packet to the
   # other side every ServerAliveInterval seconds, and give up if it doesn’t receive a
@@ -601,8 +602,8 @@ this::
     ServerAliveCountMax=40
 
 in the previous case, the default values of ``ServerAliveInterval`` and ``ServerAliveCountMax``
-are replaced by these new ones, which will be applied only on ``localhost`` (for
-example, when you use *tunnels* to reach remote *ports* through a firewalled network).
+are replaced by these new ones, which will be applied only when connecting to ``localhost``
+ (for example, when you use *tunnels* to reach remote *ports* through a firewalled network).
 ``Host`` syntax supports wildcards, like ``192.168.1.*`` or ``*.ibba.cnr.it``: in
 these cases, configurations will be applied on all SSH session matching these patterns.
 
@@ -612,8 +613,8 @@ these cases, configurations will be applied on all SSH session matching these pa
   values of ``ServerAliveInterval`` and ``ServerAliveCountMax`` in order to avoid
   to be closed out from the remote terminal. However, raising this values a lot will
   freeze your terminal for a long time in the case that your connection is lost.
-  Please consider to raise up this parameters accordingly your needs
-
+  Please consider to raise up this parameters accordingly your needs but not exceed
+  reasonable times.
 
 Mount remote folders using SSH
 ------------------------------
