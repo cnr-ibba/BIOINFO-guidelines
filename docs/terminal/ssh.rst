@@ -170,7 +170,7 @@ virtualization is completed supported by Windows, so this means that you can't i
 another VM Hypervisor (such as oracle *VirtualBox* or *VMware*) and exploit all
 its advanced functionalities.
 At the moment, configuring WSL1 or WSL2 is quite tricky, so please follow the
-official Microsoft documentaion on
+official Microsoft documentation on
 `Windows Subsystem for Linux Installation Guide for Windows 10 <https://docs.microsoft.com/en-us/windows/wsl/install-win10>`__.
 After enabling WSL, you can install any distribution you like from Windows App
 Store.
@@ -327,7 +327,7 @@ option::
   Every time you start new a connection to a remote server, ``ssh`` checks server
   fingerprint with the information stored in ``.ssh/known_hosts``. If the server
   fingerprint is different, the connection is immediately terminated. There could
-  be different reasons when you see this behaviour, for example your administrator
+  be different reasons when you see this behavior, for example your administrator
   may have changed the destination server using the same *server name* or maybe
   someone has hacked your server configuration or connection. When you see an issue
   like this, please tell immediately it to your system administrator.

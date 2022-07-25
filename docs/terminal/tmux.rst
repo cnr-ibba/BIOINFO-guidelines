@@ -66,7 +66,7 @@ you need to press ``Ctrl-b`` and then the letter ``d`` (which stands for *detach
 from your current session). Other useful command keys are:
 
 +----------------------+------------------------------------------------------------+
-| Command              | Behaviour                                                  |
+| Command              | Behavior                                                   |
 +======================+============================================================+
 | ``Ctrl-b`` + ``d``   | *Detach* the current session                               |
 +----------------------+------------------------------------------------------------+

@@ -55,7 +55,7 @@ the selected secondary groups as owner::
   -rw-rw-r-- 1 cozzip core 0 Jan 19 12:51 test_group
 
 When you change the secondary group with ``newgrp``, you will make a new login
-with the secondary group. To return to the original behaviour, you need to exit
+with the secondary group. To return to the original behavior, you need to exit
 from the group login with ``exit`` command
 
 .. hint::
