@@ -1,6 +1,4 @@
 {
-    "restructuredtext.confPath": "${workspaceFolder}/docs",
-    "restructuredtext.builtDocumentationPath": "${workspaceRoot}/docs/_build/html",
     "restructuredtext.updateOnTextChanged": "true",
     "restructuredtext.updateDelay": 300,
     "restructuredtext.languageServer.disabled": true,
@@ -24,8 +22,13 @@
         "resequencing",
         "rnaseq",
         "sessionid",
+        "slurm",
         "subfolders",
         "subworkflow",
         "Subworkflows"
-    ]
+    ],
+    "esbonio.server.enabled": false,
+    "esbonio.sphinx.buildDir": "${workspaceRoot}/docs/_build",
+    "esbonio.sphinx.confDir": "${workspaceFolder}/docs",
+    "makefile.makefilePath": "docs/Makefile"
 }

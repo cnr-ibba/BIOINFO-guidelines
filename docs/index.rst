@@ -8,7 +8,7 @@ Welcome to BIOINFO Guidelines's documentation!
 
 In these pages we want to track our general documentation and guidelines at *IBBA-CNR*.
 The aim of this repository is to describe some useful procedures to newcomers
-and save useful informations for ourself. We try to generalize
+and save useful information for ourself. We try to generalize
 how much as possible in writing this documentation, so maybe this documentation
 works also for you.
 
@@ -20,16 +20,19 @@ section of our documentation.
     :caption: Introduction
 
     contributing
+    general/conda
+    general/docker
+    general/singularity
     general/sharing
 
 .. toctree::
     :maxdepth: 2
     :caption: The Terminal
 
+    terminal/R
+    terminal/slurm
     terminal/ssh
-    terminal/conda
-    terminal/docker
-    terminal/singularity
+    terminal/tmux
 
 .. toctree::
     :maxdepth: 2

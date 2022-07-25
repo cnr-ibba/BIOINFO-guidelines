@@ -159,7 +159,7 @@ Windows 10 lets you to install a Linux distribution from its app store with
 *Windows Subsystem for Linux (WSL)*: this lets you to install almost a complete
 GNU/Linux environment directly on Windows without installing a virtual machine
 or setting up dualboot (see `here <https://docs.microsoft.com/en-us/windows/wsl/about>`__
-for more informations). There are two major release of WSL, WSL1 and WSL2
+for more information). There are two major release of WSL, WSL1 and WSL2
 (see `here <https://docs.microsoft.com/en-us/windows/wsl/compare-versions>`__
 to see differences between the two versions). Briefly WSL1 was the first attempt to
 import a Linux kernel in Windows and is lighter and easier to install compared to WSL2.
@@ -170,7 +170,7 @@ virtualization is completed supported by Windows, so this means that you can't i
 another VM Hypervisor (such as oracle *VirtualBox* or *VMware*) and exploit all
 its advanced functionalities.
 At the moment, configuring WSL1 or WSL2 is quite tricky, so please follow the
-official Microsoft documentaion on
+official Microsoft documentation on
 `Windows Subsystem for Linux Installation Guide for Windows 10 <https://docs.microsoft.com/en-us/windows/wsl/install-win10>`__.
 After enabling WSL, you can install any distribution you like from Windows App
 Store.
@@ -222,7 +222,7 @@ with your system administrator.
   *Putty Key Generator*
 
 Once you created (and saved) your Putty key file, see the :ref:`Connecting with Putty <putty-connect>`
-section to connect to your remote server. If you need more informations on puttygen
+section to connect to your remote server. If you need more information on puttygen
 and Putty key, see `This guide <https://www.ssh.com/academy/ssh/putty/windows/puttygen>`__.
 
 Remote connection to a Server
@@ -327,7 +327,7 @@ option::
   Every time you start new a connection to a remote server, ``ssh`` checks server
   fingerprint with the information stored in ``.ssh/known_hosts``. If the server
   fingerprint is different, the connection is immediately terminated. There could
-  be different reasons when you see this behaviour, for example your administrator
+  be different reasons when you see this behavior, for example your administrator
   may have changed the destination server using the same *server name* or maybe
   someone has hacked your server configuration or connection. When you see an issue
   like this, please tell immediately it to your system administrator.
@@ -399,7 +399,7 @@ saved sessions. After that, click on the *Ok* button to save your session config
 You will see all your saved session by clicking on the *Sessions* tab (the tab
 with a *Star* on the left of the main session) and you can start a new connection
 by clicking to the session name you have previously configured. Fore more
-informations, see `MobaXterm documentation <https://mobaxterm.mobatek.net/documentation.html>`__
+information, see `MobaXterm documentation <https://mobaxterm.mobatek.net/documentation.html>`__
 
 Connecting with Putty
 ~~~~~~~~~~~~~~~~~~~~~
@@ -545,6 +545,77 @@ as shown in figure:
   If you have an OpenSSH key pair, you can automatically convert it into Putty
   key file. WinSCP will make the conversion for you.
 
+Configure SSH for remote sessions
+---------------------------------
+
+There are some options that can be set up in your ``$HOME/.ssh/config`` file, which
+can be helpful with your SSH connections. For example, you can define time intervals
+in which your local terminal send *messages* to the remote server and wait for its
+replies, in order to keep connection alive and help avoiding terminal freezing
+during a SSH section. Those parameters are ``ServerAliveInterval``, ``ServerAliveCountMax``
+and ``ConnectTimeout`` which can be configured like the following in your
+``$HOME/.ssh/config`` file::
+
+  # These settings will make the SSH client or server send a null packet to the
+  # other side every ServerAliveInterval seconds, and give up if it doesn’t receive a
+  # null response after ServerAliveCountMax tries, at which point the connection is
+  # likely to have been discarded anyway.
+
+  # Sets a timeout interval in seconds after which if no data has been received from
+  # the server, ssh(1) will send a message through the encrypted channel to
+  # request a response from the server.  The default is 0, indicating that these messages
+  # will not be sent to the server, or 300 if the BatchMode option is set. This option
+  # applies to protocol version 2 only.  ProtocolKeepAlives and SetupTimeOut are Debian-specific
+  # compatibility aliases for this option.
+  ServerAliveInterval=60
+
+  # Sets the number of server alive messages (see below) which may be sent without ssh(1)
+  # receiving any messages back from the server.  If this threshold is reached while
+  # server alive messages are being sent, ssh will disconnect from the server, terminating
+  # the session.  It is important to note that the use of server alive messages is very
+  # different from TCPKeepAlive (below).  The server alive messages are sent through
+  # the encrypted channel and therefore will not be spoofable.  The TCP keepalive option
+  # enabled by TCPKeepAlive is spoofable.  The server alive mechanism is valuable when
+  # the client or server depend on knowing when a connection has become inactive.
+  ServerAliveCountMax=20
+
+  # TCPKeepAlive operates on the TCP layer. It sends an empty TCP ACK packet. Firewalls
+  # can be configured to ignore these packets, so if you go through a firewall that
+  # drops idle connections, these may not keep the connection alive. The TCP keepalive
+  # option enabled by TCPKeepAlive is spoofable. Default yes
+  # TCPKeepAlive yes
+
+  # Specifies the timeout (in seconds) used when connecting to the SSH server,
+  # instead of using the default system TCP timeout. This timeout is applied both
+  # to establishing the connection and to performing the initial SSH protocol hand‐
+  # shake and key exchange.
+  ConnectTimeout=60
+
+These configurations applied like here are applied in *each* SSH connection. You
+can also configure parameters in order to be applied only on certain connections like
+this::
+
+  Host localhost
+    UserKnownHostsFile=/dev/null
+    StrictHostKeyChecking=no
+    ServerAliveInterval=30
+    ServerAliveCountMax=40
+
+in the previous case, the default values of ``ServerAliveInterval`` and ``ServerAliveCountMax``
+are replaced by these new ones, which will be applied only when connecting to ``localhost``
+ (for example, when you use *tunnels* to reach remote *ports* through a firewalled network).
+``Host`` syntax supports wildcards, like ``192.168.1.*`` or ``*.ibba.cnr.it``: in
+these cases, configurations will be applied on all SSH session matching these patterns.
+
+.. hint::
+
+  Sometimes you work with a very slow connection, so it will be useful raising the
+  values of ``ServerAliveInterval`` and ``ServerAliveCountMax`` in order to avoid
+  to be closed out from the remote terminal. However, raising this values a lot will
+  freeze your terminal for a long time in the case that your connection is lost.
+  Please consider to raise up this parameters accordingly your needs but not exceed
+  reasonable times.
+
 Mount remote folders using SSH
 ------------------------------
 
@@ -585,5 +656,5 @@ If you need to unmount a folder::
   # Or if you are on a mach and you don't have ``fuse`` installed
   $ sudo umount /mnt/core
 
-For more informations, see
+For more information, see
 `How To Use SSHFS to Mount Remote File Systems Over SSH <https://www.digitalocean.com/community/tutorials/how-to-use-sshfs-to-mount-remote-file-systems-over-ssh>`__

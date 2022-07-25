@@ -17,7 +17,7 @@ on your groups by calling ``id`` or ``groups`` command with your username::
 
   $ groups cozzip
   cozzip : cozzip core
-  $ id # username is optional to get own informations with id
+  $ id # username is optional to get own information with id
   uid=1000(cozzip) gid=1000(cozzip) groups=1000(cozzip),1004(core)
 
 Usually your primary group is the first group you get with ``groups`` commands,
@@ -30,7 +30,7 @@ while the others are secondary group. You can have the same information by inspe
   cozzip:x:1000:
   core:x:1004:cozzip
 
-For more informations see `Mastering user groups on Linux <https://www.networkworld.com/article/3409781/mastering-user-groups-on-linux.html>`__
+For more information see `Mastering user groups on Linux <https://www.networkworld.com/article/3409781/mastering-user-groups-on-linux.html>`__
 
 Log in into a new group
 -----------------------
@@ -55,13 +55,13 @@ the selected secondary groups as owner::
   -rw-rw-r-- 1 cozzip core 0 Jan 19 12:51 test_group
 
 When you change the secondary group with ``newgrp``, you will make a new login
-with the secondary group. To return to the original behaviour, you need to exit
+with the secondary group. To return to the original behavior, you need to exit
 from the group login with ``exit`` command
 
 .. hint::
 
   if you copy files using ``rsync`` you can use ``--chown=<user>:<group>`` option
-  to set destination ownership. For more informations, please see :ref:`rsync section <copy-files-with-rsync>`
+  to set destination ownership. For more information, please see :ref:`rsync section <copy-files-with-rsync>`
   in :ref:`Copying files using OpenSSH <copying-files-using-openssh>`.
 
 .. warning::
@@ -142,7 +142,7 @@ the standard ``775`` is the ``sgid`` octal code)
   or when extracting files from archives, please check that permissions are correct.**
   If you transfer files using ``rsync``, you could set ``sgid`` in source folder
   and transfer attributes with ``-a`` option. See :ref:`rsync section <copy-files-with-rsync>`
-  for more informations.
+  for more information.
 
 For more information on special permission, see
 `Linux permissions: SUID, SGID, and sticky bit <https://www.redhat.com/sysadmin/suid-sgid-sticky-bit>`__

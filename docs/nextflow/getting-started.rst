@@ -14,8 +14,8 @@ locally on your laptop and eventually in HPC environments or any other resource
 that could scale with your data. This could be achieved by writing pipelines in
 `Nextflow scripting <https://www.nextflow.io/docs/latest/script.html>`__ language
 (or `DSL2 <https://www.nextflow.io/docs/latest/dsl2.html>`__) and managing your
-software requirements with :doc:`conda <../terminal/conda>`,
-:doc:`singularity <../terminal/singularity>` or :doc:`docker <../terminal/docker>`.
+software requirements with :doc:`conda <../general/conda>`,
+:doc:`singularity <../general/singularity>` or :doc:`docker <../general/docker>`.
 
 .. _learning-nextflow:
 
@@ -148,14 +148,14 @@ section of nextflow documentation.
 Access to private nextflow modules
 """"""""""""""""""""""""""""""""""
 
-In order to get access to the private 
-`nextflow-modules <https://github.com/cnr-ibba/nf-modules>`__, you need to 
-configure `GitHub CLI <https://cli.github.com/>`__ in order to create the 
-``~/.config/gh/hosts.yml`` file, which is a fundamental requisite in order to 
-deal with private modules with ``nf-core modules``. 
+In order to get access to the private
+`nextflow-modules <https://github.com/cnr-ibba/nf-modules>`__, you need to
+configure `GitHub CLI <https://cli.github.com/>`__ in order to create the
+``~/.config/gh/hosts.yml`` file, which is a fundamental requisite in order to
+deal with private modules with ``nf-core modules``.
 The easiest way to create this configuration is through *GitHub CLI*::
 
-  gh auth login 
+  gh auth login
 
 See the documentation on `gh auth login <https://cli.github.com/manual/gh_auth_login>`__
 to have more information

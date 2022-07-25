@@ -7,8 +7,8 @@ Running Nextflow
 A note on profiles
 ------------------
 
-Despite nextflow could be run using :doc:`conda <../terminal/conda>`,
-:doc:`singularity <../terminal/singularity>`, :doc:`docker <../terminal/docker>`
+Despite nextflow could be run using :doc:`conda <../general/conda>`,
+:doc:`singularity <../general/singularity>`, :doc:`docker <../general/docker>`
 or other profiles, the recommended profile to use is **singularity**: this solution
 in fact manages all software dependencies in a unique file and could be cached and
 reused in order to speed up the calculation process
@@ -138,17 +138,17 @@ Getting information from logs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 By calling ``nextflow log`` you can get information on your last nextflow runs,
-which includes timestamp, duration, status, *run name* and the command used when 
+which includes timestamp, duration, status, *run name* and the command used when
 the pipeline was called::
 
   $ nextflow log
-  TIMESTAMP               DURATION        RUN NAME                STATUS  REVISION ID     SESSION ID                              COMMAND                            
+  TIMESTAMP               DURATION        RUN NAME                STATUS  REVISION ID     SESSION ID                              COMMAND
   2021-10-27 12:40:32     54.8s           serene_engelbart        OK      c44b10f3aa      598f0939-a7b0-497f-a16f-b2431a7e5ee3    nextflow run . -profile test,docker
   2021-10-27 12:49:05     43.6s           evil_ride               OK      c44b10f3aa      a70a75e2-61fc-4407-aba4-19ac33f31774    nextflow run . -profile test,docker
 
 *Run name* is an arbitrary name assigned to your pipeline. By calling ``nextflow log``
 again and providing such name you can retrieve more information on single execution
-steps:: 
+steps::
 
   $ nextflow log serene_engelbart
   /home/paolo/Projects/NEXTFLOWetude/nf-core-resequencing/work/5d/6ff357b9b679198557bf22d24adf1e
@@ -156,12 +156,12 @@ steps::
   /home/paolo/Projects/NEXTFLOWetude/nf-core-resequencing/work/74/944e234214bcca20209637a94c0ac2
   /home/paolo/Projects/NEXTFLOWetude/nf-core-resequencing/work/31/b075adb744673b9cc8fb214729c455
 
-By defaults ``nextflow log <run name>`` will return only the working directory, to 
+By defaults ``nextflow log <run name>`` will return only the working directory, to
 get more informative results you need to specify some columns using ``-f`` parameter,
-for example:: 
+for example::
 
   $ nextflow log serene_engelbart -f 'process,status,exit,hash,duration,workdir'
-  NFCORE_RESEQUENCING:RESEQUENCING:INPUT_CHECK:SAMPLESHEET_CHECK  COMPLETED       0       5d/6ff357       1.8s    /home/paolo/Projects/NEXTFLOWetude/nf-core-resequencing/work/5d/6ff357b9b679198557bf22d24adf1e                                                               
+  NFCORE_RESEQUENCING:RESEQUENCING:INPUT_CHECK:SAMPLESHEET_CHECK  COMPLETED       0       5d/6ff357       1.8s    /home/paolo/Projects/NEXTFLOWetude/nf-core-resequencing/work/5d/6ff357b9b679198557bf22d24adf1e
   NFCORE_RESEQUENCING:RESEQUENCING:FASTQC COMPLETED       0       ff/dd919f       7.2s    /home/paolo/Projects/NEXTFLOWetude/nf-core-resequencing/work/ff/dd919f582e8583a16aecc58f6cc093
   NFCORE_RESEQUENCING:RESEQUENCING:FASTQC COMPLETED       0       74/944e23       5.2s    /home/paolo/Projects/NEXTFLOWetude/nf-core-resequencing/work/74/944e234214bcca20209637a94c0ac2
   NFCORE_RESEQUENCING:RESEQUENCING:FASTQC COMPLETED       0       31/b075ad       7.2s    /home/paolo/Projects/NEXTFLOWetude/nf-core-resequencing/work/31/b075adb744673b9cc8fb214729c455
@@ -302,5 +302,5 @@ using ``nextflow pull`` or ``nextflow run``), simply type::
 
   $ nextflow drop <pipeline_name>
 
-where ``<pipeline_name>`` is a single row returned ``nextflow list`` (*github 
+where ``<pipeline_name>`` is a single row returned ``nextflow list`` (*github
 organization/pipeline name*)
