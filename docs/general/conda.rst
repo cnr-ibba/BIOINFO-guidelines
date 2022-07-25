@@ -224,6 +224,8 @@ for more options.
 Setting environment variables
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. _conda_environment_variables:
+
 In order to define specific environment variables in a conda environment, you
 can use the `config API <https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#setting-environment-variables>`__
 or create specific `environment files <https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#setting-environment-variables>`__
