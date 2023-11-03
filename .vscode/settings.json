@@ -23,6 +23,7 @@
         "rnaseq",
         "sessionid",
         "slurm",
+        "sshfs",
         "subfolders",
         "subworkflow",
         "Subworkflows"
