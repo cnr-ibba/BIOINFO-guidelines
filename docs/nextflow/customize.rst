@@ -102,7 +102,7 @@ or ``-config`` option:
 
 .. hint::
 
-  Since this parameters will override the default ones, it's better to declare only
+  Since these parameters will override the default ones, it's better to declare only
   the minimal parameters required by your pipeline.
 
 You can also declare resources dynamically. For example, you can make use of the
@@ -205,7 +205,7 @@ can define a profile like this in your ``custom.config`` file::
 In this example, each process will be submitted to the ``g100_usr_prod`` partition
 using the ``normal`` quality of service, and those parameters may depend on the
 environment in which this pipeline is supposed to run. In another environment,
-those parameter will not apply, so there's no deed to use this specific profile
+those parameter will not apply, so there's no need to use this specific profile
 in a different environment. You can the call your pipeline using the ``-profile``
 option::
 
@@ -550,5 +550,5 @@ Lower resources usage
 
 You should consider to lower the resources required by your pipeline. This will
 avoid the costs of allocating more resources than needed and will let you complete
-your analysis in a shorter time. Take a look at `Lowering pipeline requirements`_
-documentation section.
+your analysis in a shorter time when resources are limited.
+Take a look at `Lowering pipeline requirements`_ documentation section.

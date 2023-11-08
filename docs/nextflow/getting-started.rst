@@ -103,7 +103,7 @@ Configuring nextflow
 
 Nextflow can be customized in different ways: there are configuration files,
 which can be used to customize a single pipeline execution, and environment
-variables, which can be used to customize the Nextflow runtime and the underlying
+variables, which can be used to customize the nextflow runtime and the underlying
 Java virtual machine. There's also a ``$HOME/.nextflow/config`` file which can
 be used to customize the default configuration of nextflow, for example by limiting
 resources usage::
