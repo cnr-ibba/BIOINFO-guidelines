@@ -100,6 +100,14 @@ You could search for a specific pipeline by providing a name as an argument::
 
   $ nf-core list rna
 
+You can download a pipeline with its container dependencies. This will be helpful
+when running nextflow in an environment without internet connection::
+
+  $ nf-core download nf-core/rnaseq -r 3.12.0
+
+this command let the possibility to amend singularity images in your
+``$NXF_SINGULARITY_CACHEDIR``, which means that images will not be placed in the
+archive but in your local folder.
 The most interesting thing is the possibility to configure params with::
 
   $ nf-core launch rnaseq
@@ -133,6 +141,21 @@ Nextflow best-practices
 -----------------------
 
 Here are some tips that could be useful while running nextflow.
+
+Run a pipeline with test data
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you run a pipeline for the first time, it's better to use test data in order
+to check if the pipeline is working as expected. All the community pipelines have
+a ``-profile test`` option which will download a small dataset and run the pipeline
+on it. For example, to run the ``nf-core/rnaseq`` pipeline with test data, you can
+do::
+
+  $ nextflow run nf-core/rnaseq -profile test,singularity -resume
+
+This will also download the required dependencies (like the singularity images).
+Next time you will run the pipeline, nextflow will use the cached images and will
+not download them again.
 
 Getting information from logs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

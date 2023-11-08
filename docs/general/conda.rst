@@ -202,7 +202,6 @@ machine without internet connection. You can install conda-pack with::
 
 Then you can pack an environment with::
 
-  $ conda activate R-4.3
   $ conda pack -n R-4.3 -o R-4.3.tar.gz
 
 .. hint::

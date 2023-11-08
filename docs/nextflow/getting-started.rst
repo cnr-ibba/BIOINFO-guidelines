@@ -96,8 +96,10 @@ but the recommended way is using pip::
     $ source activate nf-core
     $ nf-core --help
 
+.. _configuring_nextflow:
+
 Configuring nextflow
-~~~~~~~~~~~~~~~~~~~~
+--------------------
 
 Nextflow can be customized in different ways: there are configuration files,
 which can be used to customize a single pipeline execution, and environment
@@ -127,7 +129,7 @@ articles.
 .. _set-singularity-cache:
 
 Setting ``NXF_SINGULARITY_CACHEDIR``
-""""""""""""""""""""""""""""""""""""
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Using nextflow with singularity lets you to define a directory where remote Singularity
 images are stored. This could speed up **a lot** pipelines execution times, since images
@@ -151,8 +153,10 @@ inside this directory
 
   When using a computing cluster it must be a shared folder accessible from all computing nodes.
 
+.. _nextflow_environment_variables:
+
 Other nextflow environment variables
-""""""""""""""""""""""""""""""""""""
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 There are others environment variables which could be useful to set in order to
 customize your nextflow experience. You could find a list of them in the
@@ -207,7 +211,7 @@ Those environment variables could be set in your ``$HOME/.profile`` (Debian) or
 .. _nextflow-private-repo:
 
 Access to private repositories
-""""""""""""""""""""""""""""""
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The file ``$HOME/.nextflow/scm`` can store the configuration required to access to
 private repository in GitHub, for example::
@@ -224,7 +228,7 @@ You could find more information in
 section of nextflow documentation.
 
 Access to private nextflow modules
-""""""""""""""""""""""""""""""""""
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In order to get access to the private
 `nextflow-modules <https://github.com/cnr-ibba/nf-modules>`__, you need to
