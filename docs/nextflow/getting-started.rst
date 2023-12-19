@@ -96,13 +96,40 @@ but the recommended way is using pip::
     $ source activate nf-core
     $ nf-core --help
 
+.. _configuring_nextflow:
+
 Configuring nextflow
-~~~~~~~~~~~~~~~~~~~~
+--------------------
+
+Nextflow can be customized in different ways: there are configuration files,
+which can be used to customize a single pipeline execution, and environment
+variables, which can be used to customize the nextflow runtime and the underlying
+Java virtual machine. There's also a ``$HOME/.nextflow/config`` file which can
+be used to customize the default configuration of nextflow, for example by limiting
+resources usage::
+
+  executor {
+    name = 'slurm'
+    queueSize = 50
+    submitRateLimit = '10 sec'
+  }
+
+In this way is possible to setup a default configuration for all your pipelines,
+by limiting the job submission in order to avoid to overload the cluster scheduler.
+Nextflow configuration files are stored in multiple locations, and are loaded in
+different order. This means that you can have a default configuration file in
+``$HOME/.nextflow/config`` and a pipeline specific configuration file in the
+pipeline directory, and the latter will override the former. You could find more
+information in the `nextflow documentation <https://www.nextflow.io/docs/latest/config.html#configuration-file>`__.
+There are some tips for HPC users, please take a look at nextflow forum for
+`5 Nextflow Tips for HPC Users <https://www.nextflow.io/blog/2021/5_tips_for_hpc_users.html>`__
+and `Five more tips for Nextflow user on HPC <https://www.nextflow.io/blog/2021/5-more-tips-for-nextflow-user-on-hpc.html>`__
+articles.
 
 .. _set-singularity-cache:
 
 Setting ``NXF_SINGULARITY_CACHEDIR``
-""""""""""""""""""""""""""""""""""""
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Using nextflow with singularity lets you to define a directory where remote Singularity
 images are stored. This could speed up **a lot** pipelines execution times, since images
@@ -126,10 +153,65 @@ inside this directory
 
   When using a computing cluster it must be a shared folder accessible from all computing nodes.
 
+.. _nextflow_environment_variables:
+
+Other nextflow environment variables
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+There are others environment variables which could be useful to set in order to
+customize your nextflow experience. You could find a list of them in the
+`nextflow documentation <https://www.nextflow.io/docs/latest/config.html#environment-variables>`__.
+Here are a selection of them:
+
+.. list-table:: Nextflow environment variables
+   :header-rows: 1
+   :widths: 25 50 25
+
+   *  - Name
+      - Description
+      - Example
+   *  - NXF_EXECUTOR
+      - Defines the default process executor
+      - ``slurm``
+   *  - NXF_OPTS
+      - | Provides extra options for the Java and Nextflow runtime.
+        | It must be a blank separated list of ``-Dkey[=value]`` properties
+      - ``-Xms500M -Xmx2G``
+   *  - NXF_SINGULARITY_CACHEDIR
+      - | Directory where remote Singularity images are stored.
+        | When using a computing cluster it must be a shared
+        | folder accessible from all compute nodes.
+      - ``$WORK/nxf_singularity_cache``
+   *  - NXF_WORK
+      - | Directory where working files are stored
+        | (usually your scratch directory)
+      - ``"$CINECA_SCRATCH/nxf_work"``
+   *  - NXF_OFFLINE
+      - | When true disables the project automatic download and
+        | update from remote repositories (default: ``false``).
+      - ``true``
+   *  - NXF_ANSI_LOG
+      - | Enables/disables ANSI console output
+        | (default ``true`` when ANSI terminal is detected).
+      - ``false``
+
+Those environment variables could be set in your ``$HOME/.profile`` (Debian) or
+``$HOME/.bash_profile`` (Red-Hat) configuration files, for example:
+
+.. code-block:: bash
+
+  # Nextflow custom environment variables
+  export NXF_EXECUTOR=slurm
+  export NXF_OPTS="-Xms500M -Xmx2G"
+  export NXF_SINGULARITY_CACHEDIR="$WORK/nxf_singularity_cache"
+  export NXF_WORK="$CINECA_SCRATCH/nxf_work"
+  export NXF_OFFLINE='true'
+  export NXF_ANSI_LOG='false'
+
 .. _nextflow-private-repo:
 
 Access to private repositories
-""""""""""""""""""""""""""""""
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The file ``$HOME/.nextflow/scm`` can store the configuration required to access to
 private repository in GitHub, for example::
@@ -146,7 +228,7 @@ You could find more information in
 section of nextflow documentation.
 
 Access to private nextflow modules
-""""""""""""""""""""""""""""""""""
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In order to get access to the private
 `nextflow-modules <https://github.com/cnr-ibba/nf-modules>`__, you need to

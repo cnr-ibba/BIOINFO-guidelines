@@ -111,6 +111,17 @@ required when using your key pairs. You could reply with no arguments (simply pr
   Your identification has been saved in <your home>/.ssh/id_rsa
   Your public key has been saved in <your home>/.ssh/id_rsa.pub
 
+.. hint::
+
+  The default paths for public/private rsa key pairs are ``<your home>/.ssh/id_rsa``
+  and ``<your home>/.ssh/id_rsa.pub``. We suggest to keep the default paths for
+  simplicity. If you specify custom paths or files for key pairs, you will need
+  to specify the private key path when using SSH, for example to connect to a
+  remote server with :ref:`ssh <openssh-connect>`
+  when copying files using :ref:`rsync <copy-files-with-rsync>` with ``ssh``
+  remote protocol or using :ref:`scp <copy-files-with-scp>` and to mount remote
+  folders using :ref:`sshfs <mount_using_sshfs>`
+
 In case you have already generated a key pair with the same file name, you are
 prompted if you want to overwrite your key pair::
 
@@ -236,6 +247,8 @@ need to be placed inside your ``$HOME/.ssh/authorized_keys`` file on remote host
   ├── authorized_keys
   └── known_hosts
 
+.. _ssh_folder_permissions:
+
 Moreover, in order to connect, those files need to be accessed only by your user
 (with the ``700`` and ``600`` ``chmod`` permissions for directory and files
 respectively)::
@@ -335,7 +348,7 @@ option::
 Closing a connection
 """"""""""""""""""""
 
-To exit from the remote terminal and logount from the remote server, simply type::
+To exit from the remote terminal and logout from the remote server, simply type::
 
   $ exit
 
@@ -351,7 +364,7 @@ You could also choose to override global configuration by specifing the same par
 in the specific remote section. The ``$HOME/.ssh/config`` could be structured like
 this::
 
-  # these settings are applied everytime you start a ssh connection
+  # these settings are applied every time you start a ssh connection
   ServerAliveInterval=60
   ServerAliveCountMax=20
   ConnectTimeout=60
@@ -369,7 +382,7 @@ this::
     IdentityFile /path/to/your/private/id_rsa
 
 The ``IdentityFile`` could be used to define your private key location, in order
-to not provide your identity file everytime you start a new connection,
+to not provide your identity file every time you start a new connection,
 ``ServerAliveInterval``, ``ServerAliveCountMax`` and ``ConnectTimeout`` are respectively
 timers which regulate the timeouts when connecting and in sending messages between
 client and servers. They could be useful when connecting using a unreliable network.
@@ -437,6 +450,8 @@ file is updated or not).
 SCP
 """
 
+.. _copy-files-with-scp:
+
 ``scp`` works like linux ``cp`` but support remote origin or destination. Simple
 prefix your source or destination path with ``<user>@<remote server>`` as you do when
 connecting using OpenSSH, for example to copy recursively from a remote folder in
@@ -462,7 +477,7 @@ If you want to copy a local folder into a remote folder, simply add the
   timings: your copied file will have the created/modified time when the copy occurs,
   and you can't define the most updated file simply relying on date. Moreover, if you
   remote copy a folder using ``scp``, you will copy the whole directory content,
-  indipendently if destination files are already present or aren't changed. This
+  independently if destination files are already present or aren't changed. This
   need to be taken into consideration for example if there are network issues during
   copying and you need to executing the same command again: for those reasons,
   ``rsync`` is the recommended way to copy or backup files using ``OpenSSH``.
@@ -473,7 +488,7 @@ Rsync
 .. _copy-files-with-rsync:
 
 ``rsync`` is the recommended way to backup or copy files from/to remote services:
-it checks contents in destination folder in order to save time and bandwith by copying
+it checks contents in destination folder in order to save time and bandwidth by copying
 only new or modified files. Command is similar to scp, however there are additional
 parameters that need to be mastered in order to take full advantage of ``rsync``. For
 example, to copy files from local to remote your could do like this::
@@ -603,7 +618,7 @@ this::
 
 in the previous case, the default values of ``ServerAliveInterval`` and ``ServerAliveCountMax``
 are replaced by these new ones, which will be applied only when connecting to ``localhost``
- (for example, when you use *tunnels* to reach remote *ports* through a firewalled network).
+(for example, when you use *tunnels* to reach remote *ports* through a firewalled network).
 ``Host`` syntax supports wildcards, like ``192.168.1.*`` or ``*.ibba.cnr.it``: in
 these cases, configurations will be applied on all SSH session matching these patterns.
 
@@ -616,8 +631,85 @@ these cases, configurations will be applied on all SSH session matching these pa
   Please consider to raise up this parameters accordingly your needs but not exceed
   reasonable times.
 
+SSH Muliplexing
+~~~~~~~~~~~~~~~
+
+.. epigraph::
+
+  Multiplexing is the ability to send more than one signal over a single line or
+  connection. In OpenSSH, multiplexing can re-use an existing outgoing
+  TCP connection for multiple concurrent SSH sessions to a remote SSH server,
+  avoiding the overhead of creating a new TCP connection and reauthenticating
+  each time.
+
+When using multiplexing you will connect once and then all the other connections
+to the same resource will re-use the already defined connection, thus avoiding
+the creation of new TCP connection and the negotiation of a secure connection.
+This will help a lot when using ``ssh-agent`` or others authentication softwares
+like the `step client <https://smallstep.com/docs/step-cli/installation/>`__:
+you will need to authenticate in a terminal and then you can login from different
+terminals or applications like `VSCode <https://code.visualstudio.com/>`__.
+Activities that repeatedly open new connections can be significantly sped up
+using multiplexing. In order to use SSH with multiplexing, add this to your
+``$HOME/.ssh/config`` file::
+
+  # inspired from https://superuser.com/a/879696
+  Host <an alias for your host>
+      HostName <the full hostname or ip address>
+      User <your remote username>
+      ControlPath ~/.ssh/controlmasters/%r@%h:%p
+      ControlMaster auto
+      ControlPersist 10m
+
+The ``Host`` directive can accept the full hostname, the IP address or an alias
+for your connection. If you specify an alias, you will need to specify the
+full domain name or ip address with the ``HostName`` directive. The
+``ControlMaster auto`` directive will create a new multiplex connection if doesn't
+exists, will reuse the connection if already established and will remove the
+connection after a certain amount of time defined by the ``ControlPersist`` directive.
+Next you will need to ensure that the ``ControlPath`` path (without the ``%r@%h:%p``
+token) is present, for example with:
+
+.. code-block:: bash
+
+  mkdir ~/.ssh/controlmasters
+
+.. hint::
+
+  Mind to :ref:`ssh folder permissions <ssh_folder_permissions>` when dealing
+  with ssh folder.
+
+After that you can connect to the remote server using SSH as usual.
+
+.. hint::
+
+  You can check connection status using:
+
+  .. code-block:: bash
+
+    ssh -O check <user>@<remote server>
+
+    ## Or if you defined a connection alias, like the example
+
+    ssh -O check <alias>
+
+.. warning::
+
+  If you lose the network connection, the multiplexed connection is not more valid.
+  You will need to manually remove the ``ControlPath`` file or terminate the
+  multiplexed connection with:
+
+  .. code-block:: bash
+
+    ssh -O stop <user>@<remote server> # Or ssh -O stop <alias>
+
+For more information, see `OpenSSH/Cookbook/Multiplexing <https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Multiplexing>`__
+and `How To Reuse SSH Connection... <https://www.cyberciti.biz/faq/linux-unix-reuse-openssh-connection/>`__
+
 Mount remote folders using SSH
 ------------------------------
+
+.. _mount_using_sshfs:
 
 It is possible to mount a remote folder in your local environment using ``sshfs``.
 Briefly, this utility lets you to mount a remote folder into your local environment
@@ -649,6 +741,11 @@ After that, you could mount the remote folder with::
 ``-o idmap=user`` is an option required in order to save/retrieve files with your
 ``ssh`` credentials (this because your local user could be different from your remote
 user required to create/access files remotely).
+
+.. hint::
+
+  there's also the `-o follow_symlinks` option, which is useful when mounting
+  a folder with symlinks pointing outside the mounted folder
 
 If you need to unmount a folder::
 

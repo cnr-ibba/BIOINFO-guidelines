@@ -183,3 +183,41 @@ this::
 This will download all the requirements and will put nextflow in your current directory.
 Change the nextflow default permissions to ``755`` and move such executable in a
 directory with a higher position in your ``$PATH`` environment, for example ``$HOME/bin``
+
+Cannot execute nextflow interactively
+-------------------------------------
+
+In HPC environment when the resources are limited in the login nodes, nextflow cannot
+be executed interactively. In such case, nextflow need to be submitted to a job
+scheduler. For example, in a SLURM environment, you can define a nextflow job
+like this:
+
+.. code-block:: bash
+
+  #!/bin/bash
+  #SBATCH --nodes=1                       # 1 node
+  #SBATCH --ntasks-per-node=1             # 1 tasks per node
+  #SBATCH --cpus-per-task=2               # 2 CPUs per task
+  #SBATCH --time=4-00:00:00               # time limits: see queue and QoS
+  #SBATCH --mem=4G                        # 4GB to manage process
+  #SBATCH --error=nextflow.err            # standard error file
+  #SBATCH --output=nextflow.out           # standard output file
+  #SBATCH --job-name=nf-core-rnaseq       # job name
+  #SBATCH --account=IscrC_NF-PIPE         # account name
+  #SBATCH --partition=g100_usr_prod       # partition name (see https://wiki.u-gov.it/confluence/display/SCAIUS/UG3.3%3A+GALILEO100+UserGuide)
+  #SBATCH --qos=g100_qos_lprod            # quality of service (see https://wiki.u-gov.it/confluence/display/SCAIUS/UG3.3%3A+GALILEO100+UserGuide)
+  nextflow run nf-core/rnaseq -r 3.12.0 -profile "singularity,cineca" -resume -config custom.config -params-file rnaseq-nf-params.json
+
+Next you will require to configure nextflow to not working interactively and
+limiting some resources. Take a look at :ref:`environment-variables <nextflow_environment_variables>`
+and :ref:`Configuring nextflow <configuring_nextflow>` sections of this guide.
+
+Terminating nextflow execution
+------------------------------
+
+If you need to terminate a nextflow execution, you can send a ``SIGTERM`` signal
+for example with ``Ctrl+C``. This will terminate all running processes and will
+turn off the pipeline execution removing the temporary *lock* files. If you require
+to terminate a running process which nextflow can't terminate, you will need to
+terminate such process manually, for example using ``scancel`` on a SLURM environment
+or by killing such process if you are running nextflow with a local executor.

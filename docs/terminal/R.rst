@@ -49,10 +49,10 @@ session. However if you plan to manage packages installation by yourself,
 if you require the most update packages or your packages need to be installed from
 source since they are not included in conda repositories, the most effective way is to
 install the less from conda and then install your required packages from sources.
-To create a new environment in ``conda`` with the latest version (*4.2.0* at the
+To create a new environment in ``conda`` with the latest version (*4.3.1* at the
 moment) you can do like this::
 
-  conda create --channel R --name R-4.2 r-base=4.2
+  conda create --channel R --name R-4.3 r-base=4.3
 
 .. hint::
 
@@ -95,7 +95,7 @@ in which we add some dependencies require to compile these packages. Here
 is how it looks like the singularity ``.def`` file::
 
   Bootstrap: docker
-  From: rocker/r-base:4.2.0
+  From: rocker/r-base:4.3.1
   Stage: build
 
   %post
