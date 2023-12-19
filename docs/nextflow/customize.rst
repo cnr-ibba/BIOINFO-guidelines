@@ -7,16 +7,16 @@ Customize a Pipeline
 Cloning a pipeline
 ------------------
 
-The easiest way to modifying an existing pipeline is to clone them from the github
+The easiest way to modifying an existing pipeline is to clone it from the github
 repository::
 
-  $ git clone https://github.com/nf-core/rnaseq
+  git clone https://github.com/nf-core/rnaseq
 
 .. hint::
 
   nextflow itself can clone a pipeline like git does::
 
-    $ nextflow clone nextflow-io/rnaseq
+    nextflow clone nf-core/rnaseq
 
 .. warning::
 
@@ -209,7 +209,7 @@ those parameter will not apply, so there's no need to use this specific profile
 in a different environment. You can the call your pipeline using the ``-profile``
 option::
 
-  $ nextflow run -profile cineca,singularity ...
+  nextflow run -profile cineca,singularity ...
 
 Creating a new pipeline
 -----------------------
@@ -225,11 +225,11 @@ The minimal set of files required to have a pipeline is to have locally
 ``main.nf``, ``nextflow.config`` and ``modules.json`` inside your project folder.
 You should have also a ``modules`` directory inside your project::
 
-  $ mkdir -p my-new-pipeline/modules
-  $ cd my-new-pipeline
-  $ touch main.nf nextflow.config modules.json README.md
+  mkdir -p my-new-pipeline/modules
+  cd my-new-pipeline
+  touch main.nf nextflow.config modules.json README.md .nf-core.yml
 
-Next you have to edit modules.json in order to have minimal information::
+Next you have to edit ``modules.json`` in order to have minimal information::
 
   {
     "name": "<your pipeline name>",
@@ -249,7 +249,7 @@ pipelines using ``nf-core/tools``.
 
   You could also create a new pipeline using the ``nf-core`` template::
 
-    $ nf-core create
+    nf-core create
 
   This template is required if you want to submit your pipeline to the ``nf-core`` community.
   Please see the `join the community <https://nf-co.re/developers/adding_pipelines#join-the-community>`__
@@ -263,11 +263,12 @@ Browsing modules list
 You can get a list of modules by using ``nf-core/tools`` (see :ref:`here <install-nf-core>`
 how you can install it)::
 
-  $ nf-core modules list remote
+  nf-core modules list remote
 
 You could also browse modules inside a different repository and branch, for example::
 
-  $ nf-core modules --github-repository cnr-ibba/nf-modules --branch master list remote
+  nf-core modules --github-repository https://github.com/cnr-ibba/nf-modules.git \
+    --branch master list remote
 
 .. hint::
 
@@ -284,7 +285,7 @@ Adding a module to a pipeline
 
 You can download and add a module to your pipeline using ``nf-core/tools``::
 
-  $ nf-core modules install --dir . fastqc
+  nf-core modules install --dir . fastqc
 
 .. note::
 
@@ -296,12 +297,67 @@ You can download and add a module to your pipeline using ``nf-core/tools``::
   If you don't provide the module, ``nf-core`` will search
   and prompt for for a module in ``nf-core/modules`` GitHub repository
 
+Add a simple workflow
+~~~~~~~~~~~~~~~~~~~~~
+
+In order to have a minimal pipeline, you need to add at least an unnamed workflow
+to your pipeline. Moreover, you should declare the input channels and the modules
+or the processes you plan to use. Suppose to create a minimal pipeline to do a *fastqc*
+analysis on a set of reads. You can install the ``fastqc`` module as described
+above and then add a workflow like this in your ``main.nf``::
+
+  // Declare syntax version
+  nextflow.enable.dsl=2
+
+  include { FASTQC } from './modules/nf-core/fastqc/main'
+
+  workflow {
+      reads_ch = Channel.fromFilePairs(params.input, checkIfExists: true)
+          .map { it ->
+              [[id: it[1][0].baseName], it[1]]
+          }
+          // .view()
+
+      FASTQC(reads_ch)
+  }
+
+In this case ``FASTQC`` expect to receive a channel with *meta* information, so
+this is why we create an input channel and then we add *meta* relying on file names.
+Please refer to the module ``main.nf`` file to understand how to call a module
+and how to pass parameters to it. Next you will need also a minimal
+``nextflow.config`` configuration file to run your pipeline, in order
+to define where *softwares* could be found, and other useful options::
+
+  params {
+      input                       = null
+  }
+
+  profiles {
+      docker {
+          docker.enabled          = true
+          docker.userEmulation    = true
+      }
+  }
+
+  docker.registry      = 'quay.io'
+
+Next, you can call your pipeline like this::
+
+  nextflow run main.nf -profile docker --input "data/*_{1,2}.fastq.gz"
+
+You can create different workflows and call them in your main workflow, or you
+can install a subworkflow as like as you install a module. Also you can add
+more options to your ``nextflow.config`` file, or define a custom profile
+for modules, in order to provide more options to your pipeline. Please refer
+to nextflow documentation to get more information on how to customize your
+pipeline.
+
 List all modules in a pipeline
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can have a full list of installed modules using::
 
-  $ nf-core modules list local
+  nf-core modules list local
 
 .. _update-a-pipeline-module:
 
@@ -310,13 +366,12 @@ Update a pipeline module
 
 You can update a module simple by calling::
 
-  $ nf-core modules update fastqc
+  nf-core modules update fastqc
 
 .. hint::
 
   Call ``nf-core modules update --help`` to get a list of the available options,
   for example, if you need to install a specific version of a module
-
 
 Custom pipeline modules
 -----------------------
@@ -333,21 +388,7 @@ their `documentation <https://github.com/nf-core/modules#adding-a-new-module-fil
 In order to get a list of available custom modules, specify custom modules repository
 using ``-g`` parameter (short option for ``--github-repository``), for example::
 
-  $ nf-core modules -g cnr-ibba/nf-modules list remote
-
-.. important::
-
-  `cnr-ibba/nf-modules <https://github.com/cnr-ibba/nf-modules>`__ is a private
-  repository (at the moment). In order to browse private repositories with ``nf-core``
-  script, you have to configure the `GitHub CLI auth <https://cli.github.com/manual/gh_auth_login>`__::
-
-    $ gh auth login
-
-  and provide here your credentials for **GitHub.com** (using ``https`` as protocol
-  an providing a *personal token* with ``repo``, ``read:org``, ``workflow`` scopes
-  at least). This *CLI* utility will write the ``$HOME/.config/gh/hosts.yml``
-  file with your credentials (please, keep it private!!), which is a requirement
-  to satisfy in order to use ``nf-core`` with private repository modules.
+  nf-core modules -g https://github.com/cnr-ibba/nf-modules.git list remote
 
 Add a custom module to a pipeline
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -355,7 +396,7 @@ Add a custom module to a pipeline
 To add a custom module to your pipeline, move into your pipeline folder and call
 ``nf-core install`` with your custom module repository as parameter, for example::
 
-  $ nf-core modules --repository cnr-ibba/nf-modules install freebayes/single
+  nf-core modules --repository cnr-ibba/nf-modules install freebayes/single
 
 Create a new module
 ~~~~~~~~~~~~~~~~~~~
@@ -370,7 +411,7 @@ The command acts in the same way for both the two scenarios: relying on your pro
 ``nf-core modules`` will determine if your folder is a pipeline or a *modules*
 repository clone::
 
-  $ nf-core modules create freebayes/single --author @bunop --label process_high --meta
+  nf-core modules create freebayes/single --author @bunop --label process_high --meta
 
 .. tip::
 
@@ -388,12 +429,13 @@ modules. The python package ``pytest-workflow`` is a requirement to make such te
 You need also to specify an environment between ``conda``, ``docker`` or ``singularity``
 in order to perform test. Use tags to specify which tests need to be run::
 
-  $ NF_CORE_MODULES_TEST=1 PROFILE=docker pytest --tag freebayes/single --symlink --keep-workflow-wd
+  NF_CORE_MODULES_TEST=1 PROFILE=docker pytest --symlink --keep-workflow-wd \
+    --git-aware --tag freebayes/single
 
 You need to check also syntax with ``nf-core`` script by specify which tests to call
 using *tags*::
 
-  $ nf-core modules lint freebayes/single
+  nf-core modules lint freebayes/single
 
 If you are successful in both tests, you have an higher chance that your tests will
 be executed without errors in GitHub workflow.
@@ -496,7 +538,7 @@ syntax::
 Then, you can call nextflow by providing your custom parameters and configuration
 file::
 
-  $ nextflow run -resume main.nf -params-file params.json \
+  nextflow run -resume main.nf -params-file params.json \
     -config custom.config -profile singularity
 
 .. hint::
@@ -525,7 +567,7 @@ running as intended in the shortest time. You should also consider
 to provide a ``test`` profile with the required parameters which let you to test
 your pipeline like this::
 
-  $ nextflow run . -profile test,singularity
+  nextflow run . -profile test,singularity
 
 Where the ``test`` profile is specified in ``nextflow.config`` and refers to
 the *test dataset* you provide with your pipeline::

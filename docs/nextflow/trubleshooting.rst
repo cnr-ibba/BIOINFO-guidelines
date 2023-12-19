@@ -211,3 +211,13 @@ like this:
 Next you will require to configure nextflow to not working interactively and
 limiting some resources. Take a look at :ref:`environment-variables <nextflow_environment_variables>`
 and :ref:`Configuring nextflow <configuring_nextflow>` sections of this guide.
+
+Terminating nextflow execution
+------------------------------
+
+If you need to terminate a nextflow execution, you can send a ``SIGTERM`` signal
+for example with ``Ctrl+C``. This will terminate all running processes and will
+turn off the pipeline execution removing the temporary *lock* files. If you require
+to terminate a running process which nextflow can't terminate, you will need to
+terminate such process manually, for example using ``scancel`` on a SLURM environment
+or by killing such process if you are running nextflow with a local executor.
