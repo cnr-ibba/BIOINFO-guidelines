@@ -88,7 +88,7 @@ You can explore the conda environment available with::
   $ conda env list
   # conda environments:
   #
-  R-3.6                    /home/cozzip/.conda/envs/R-3.6
+  R-4.3                    /home/cozzip/.conda/envs/R-4.3
   base                  *  /usr/local/Miniconda3-py38_4.8.3-Linux-x86_64
   nf-core                  /usr/local/Miniconda3-py38_4.8.3-Linux-x86_64/envs/nf-core
 
@@ -102,7 +102,7 @@ in the bash prompt.
 
 You could enable a conda environment using ``conda activate``, for example::
 
-  $ conda activate R-3.6
+  $ conda activate R-4.3
 
 You should see that the environment name near the bash prompt changed to the desidered
 environment. In order to exit the current environment (and return to your previous
@@ -139,8 +139,8 @@ contains community packages, often more updated that the official channels. If y
 search or want to install a package in a different channel than the ``default``, you
 have to specify with the ``--channel`` option::
 
-  $ conda search --channel R r-base=3.6
-  $ conda create --channel R --name R-3.6 r-base=3.6
+  $ conda search --channel R r-base=4.3
+  $ conda create --channel R --name R-4.3 r-base=4.3
 
 You can find more information on `Managing channels <https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-channels.html>`__
 in conda documentation.
@@ -160,8 +160,8 @@ Export a conda environment
 You could export conda environment in a file. First, you have to activate the environment
 that you want to import, for example::
 
-  $ conda activate R-3.6
-  $ conda env export > R-3.6.yml
+  $ conda activate R-4.3
+  $ conda env export > R-4.3.yml
 
 .. hint::
 
@@ -175,7 +175,7 @@ that you want to import, for example::
   during environment import. For such cases, its better to export a conda
   environment without **build specifications**, like this::
 
-    $ conda env export --no-builds > R-3.6.yml
+    $ conda env export --no-builds > R-4.3.yml
 
   This will track all your package version without the file hash stored in conda
   channels. This require more time when restoring an environment, however you will
@@ -188,7 +188,48 @@ Import a conda environment
 You could create a new environment relying on the exported file, for example on
 a different machine::
 
-  $ conda env create -f R-3.6.yml
+  $ conda env create -f R-4.3.yml
+
+Conda-pack
+~~~~~~~~~~
+
+Conda-pack is a tool which allows you to pack a conda environment in a single
+file. This file can be moved to a different machine and unpacked in a different
+location. This is useful when you want to move a conda environment to a different
+machine without internet connection. You can install conda-pack with::
+
+  $ conda install conda-pack
+
+Then you can pack an environment with::
+
+  $ conda pack -n R-4.3 -o R-4.3.tar.gz
+
+.. hint::
+
+  ``conda-pack`` is already installed in our shared **core** environment using
+  the default ``base`` conda environment
+
+.. warning::
+
+  ``conda-pack`` will made a copy of all dependencies of your environment, thus
+  the resulting file could be very large. You will make not use of conda packages
+  caches, consider to use ``conda-pack`` only when is impossible to make an
+  environment using the standard conda commands.
+
+You can unpack the environment in a different location with::
+
+  $ mkdir R-4.3
+  $ cd R-4.3
+  $ tar -xzf ../R-4.3.tar.gz
+  $ source bin/activate
+
+.. hint::
+
+  If you unpack the environment in the conda environment folder (ie. ``$HOME.conda/envs``),
+  you can activate the environment without specifying the full path (using the
+  standard *conda activate* command, like ``conda activate R-4.3``), since conda
+  will search for environments in the default location. Remember that you have to
+  create the destination path, since the archive will not create it for you.
 
 Remove an environment
 ~~~~~~~~~~~~~~~~~~~~~
@@ -196,7 +237,7 @@ Remove an environment
 You can remove an environment by specifying its *name*: this environment shouldn't
 be active when removing::
 
-  $ conda env remove --name R-3.6
+  $ conda env remove --name R-4.3
 
 Conda best practices
 --------------------
@@ -207,7 +248,7 @@ Specify package version if possible
 Specifying package version could save a lot of time, for example when you need
 to resolve dependencies with channels::
 
-  $ conda create --channel conda-forge --channel R --name R-4.0 r-base=4.0
+  $ conda create --channel conda-forge --channel R --name R-4.3 r-base=4.3
 
 Clean up
 ~~~~~~~~
@@ -255,3 +296,43 @@ Remember that when defining environment variables as collection of paths, the de
 path should be *prepended* to current paths, in order to retrieve the desired files
 before the other positions. The current path should be updated and not replaced since it
 could contains useful information.
+
+.. warning::
+
+  It's a bad idea to set the ``$PATH`` environment variable using the *config API*,
+  since when disabling the conda environment, the ``$PATH`` will be unset, causing
+  your terminal not working correctly. If you need to add a path to ``$PATH``, you
+  need to manually edit the ``env_vars.sh`` files. Ensure to activate your desidered
+  environment (in order to resolve the ``$CONDA_PREFIX`` environment variable) and
+  then:
+
+  .. code-block:: bash
+
+    cd $CONDA_PREFIX
+    mkdir -p ./etc/conda/activate.d
+    mkdir -p ./etc/conda/deactivate.d
+    touch ./etc/conda/activate.d/env_vars.sh
+    touch ./etc/conda/deactivate.d/env_vars.sh
+
+  Next, edit the ``./etc/conda/activate.d/env_vars.sh`` file and modify the ``$PATH``
+  variable, for example:
+
+  .. code-block:: bash
+
+    #!/bin/sh
+
+    export PATH="/home/core/software/sratoolkit/bin:$PATH"
+
+  If you desire, you can restore the previous ``$PATH`` value by editing the
+  ``./etc/conda/deactivate.d/env_vars.sh`` file:
+
+  .. code-block:: bash
+
+    #!/bin/sh
+
+    # remove a particular directory from $PATH (define a new $PATH without it)
+    # see: https://unix.stackexchange.com/a/496050
+    export PATH=$(echo $PATH | tr ":" "\n" | grep -v '/home/core/software/sratoolkit/bin' | xargs | tr ' ' ':')
+
+  See conda `Manaing environments <https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#macos-and-linux>`__
+  for more information.

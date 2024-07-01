@@ -22,23 +22,25 @@ are welcome. Before starting to work on documentation, please follow those steps
 3. Start a new branch, preferably as indicating the issue number of the issue you have
    opened on original repository (for example, if you created the issue #3, you should
    use ``issue-3`` as branch name)
-4. Install ``sphinx`` requirements by using::
+4. Install ``conda`` (or ``miniconda``) if you don't have it yet. You could find
+   it at `Anaconda website <https://www.anaconda.com/distribution/>`__
+5. Install ``sphinx`` requirements by using::
 
-      pip install -r requirements.txt
+      conda env create -f environment.yml
 
    Inside project directory. You could install them in a conda environment, if you prefer
-5. Work on documentation by adding or modifying files according your need. Track
+6. Work on documentation by adding or modifying files according your need. Track
    your modifications using git
-6. Before submitting modifications, please check that documentation compiles
+7. Before submitting modifications, please check that documentation compiles
    without errors and warnings by::
 
-     $ cd docs
-     $ make clean
-     $ make html
+      $ cd docs
+      $ make clean
+      $ make html
 
-7. If documentation works as you intended, you could push your work on your GitHub
+8. If documentation works as you intended, you could push your work on your GitHub
    account and start *from here* a new pull request
-8. Give some times to the maintainers to review your code. If they requests you some
+9. Give some times to the maintainers to review your code. If they requests you some
    modifications, please work in the same branch you used before and send your revision
    by committing in the same branch. Don't create a new branch or a new pull request,
    if you push your modifications on the same branch with a open pull request it will
