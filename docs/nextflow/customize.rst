@@ -74,7 +74,9 @@ for a process by name, the second one let you to specify the requirements for ev
 process having the same label. To lower resources requirements, it's better to
 start by redefining the most used labels, like ``process_high`` and ``process_medium``,
 and then redefine single process by names. Start with an empty configuration
-file and add a ``process`` scope like this::
+file and add a ``process`` scope like this:
+
+.. code-block:: groovy
 
   process {
       withLabel:process_single {
@@ -107,7 +109,18 @@ or ``-config`` option:
 
 You can also declare resources dynamically. For example, you can make use of the
 ``check_max`` function, but you will require to define the ``check_max`` function
-in your custom configuration file::
+in your custom configuration file. Remember also to specify ``max_memory``, ``max_cpus``
+and ``max_time`` in your *custom configuration file*:
+
+.. code-block:: groovy
+
+  params {
+      // Max resource options
+      // Defaults only, expecting to be overwritten
+      // need to be specified in order to ``check_max`` function to work
+      max_memory                 = '64.GB'
+      max_cpus                   = 32
+      max_time                   = '240.h'}
 
   process {
       withLabel:process_medium {
@@ -166,7 +179,9 @@ Provide custom parameters to a process
 
 Some modules may require additional parameters to be provided in order to work
 correctly. This parameters can be specified with the ``ext.args`` variable within
-the process scope in the custom configuration file, for example::
+the process scope in the custom configuration file, for example:
+
+.. code-block:: groovy
 
   process {
       withName:process_fastqc {
@@ -192,7 +207,9 @@ test data.
 A profile is defined in a configuration file, which is specified
 using the ``-profile`` option when running nextflow. A profile require a name
 which is used to identify the profile and a set of parameters. For example, you
-can define a profile like this in your ``custom.config`` file::
+can define a profile like this in your ``custom.config`` file:
+
+.. code-block:: groovy
 
   profiles {
       cineca {
@@ -229,7 +246,9 @@ You should have also a ``modules`` directory inside your project::
   cd my-new-pipeline
   touch main.nf nextflow.config modules.json README.md .nf-core.yml
 
-Next you have to edit ``modules.json`` in order to have minimal information::
+Next you have to edit ``modules.json`` in order to have minimal information:
+
+.. code-block:: json
 
   {
     "name": "<your pipeline name>",
@@ -304,7 +323,9 @@ In order to have a minimal pipeline, you need to add at least an unnamed workflo
 to your pipeline. Moreover, you should declare the input channels and the modules
 or the processes you plan to use. Suppose to create a minimal pipeline to do a *fastqc*
 analysis on a set of reads. You can install the ``fastqc`` module as described
-above and then add a workflow like this in your ``main.nf``::
+above and then add a workflow like this in your ``main.nf``:
+
+.. code-block:: groovy
 
   // Declare syntax version
   nextflow.enable.dsl=2
@@ -326,7 +347,9 @@ this is why we create an input channel and then we add *meta* relying on file na
 Please refer to the module ``main.nf`` file to understand how to call a module
 and how to pass parameters to it. Next you will need also a minimal
 ``nextflow.config`` configuration file to run your pipeline, in order
-to define where *softwares* could be found, and other useful options::
+to define where *softwares* could be found, and other useful options:
+
+.. code-block:: groovy
 
   params {
       input                       = null
@@ -516,7 +539,9 @@ script, you can re-use the same parameters within different scripts and keep
 your main file unmodified: this keeps the stuff simple and let you to focus only
 on important changes with your *CVS*. For example, you could define a
 custom ``params.json`` *JSON* config file in which specify your
-specific requirements::
+specific requirements:
+
+.. code-block:: json
 
   {
       "readPaths": "$baseDir/fastq/*.fastq.gz",
@@ -526,7 +551,9 @@ specific requirements::
 
 All the other parameters which cannot be specified using the command line interface
 need to be provided in a *custom configuration* file using the standard nextflow
-syntax::
+syntax:
+
+.. code-block:: groovy
 
   profiles {
       slurm {
@@ -570,7 +597,9 @@ your pipeline like this::
   nextflow run . -profile test,singularity
 
 Where the ``test`` profile is specified in ``nextflow.config`` and refers to
-the *test dataset* you provide with your pipeline::
+the *test dataset* you provide with your pipeline:
+
+.. code-block:: groovy
 
   profiles {
     ...
