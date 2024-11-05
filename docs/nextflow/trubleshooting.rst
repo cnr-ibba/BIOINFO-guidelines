@@ -38,7 +38,9 @@ You can get the same information by getting logs from the nextflow row. For exam
 supposing that our last run is named ``sharp_feynman`` (you can get information about
 run name using ``nextflow log`` or ``nextflow log -quiet``), you can get information
 about steps working dir by printing specific *fields* with ``nextflow log``, for
-example::
+example:
+
+.. code-block:: bash
 
   $ nextflow log sharp_feynman -f 'process,status,exit,hash,duration,workdir'
   remove_whitespaces      COMPLETED       0       bd/2ebe9a       551ms   /home/cozzip/nf-mirna/work/bd/2ebe9a9f2e1703a18059fbdf1191e7
@@ -64,7 +66,9 @@ same folder we get from nextflow error report.
   an error in nextflow configuration.
 
 Now is time to understand what happened. Enter in the failed job work directory an
-list all files (including hidden ones) with `ls -a`::
+list all files (including hidden ones) with `ls -a`:
+
+.. code-block:: bash
 
   $ ls -a .command*
   .command.begin  .command.err  .command.log  .command.out  .command.run  .command.sh
@@ -77,23 +81,29 @@ parameter in the pipeline configuration files.
 
 In order to have information on errors, we can manually execute the nextflow steps:
 first of all, we need to export an environment variable in order to increase
-nextflow verbosity::
+nextflow verbosity:
 
-  $ export NXF_DEBUG=2
+.. code-block:: bash
+
+  export NXF_DEBUG=2
 
 Next we can execute the ``.command.run`` scripts, which is executed by nextflow and
-that call ``.command.sh``::
+that call ``.command.sh``:
 
-  $ bash .command.run
+.. code-block:: bash
+
+  bash .command.run
 
 Command is expected to fail (since nextflow returned an error previously). However
 by setting ``NXF_DEBUG=2``, we can see all commands launched by nextflow and in
 particular the ``singularity`` command launched by nextflow. Next we can take such
 command, simplify it and launch a singularity session in order to test our command
 using a terminal inside the same singularity container used by our pipeline
-step, for example with::
+step, for example with:
 
-  $ singularity exec -B $HOME -B /home/ -B $PWD/ /home/core/nxf_singularity_cache/bunop-mirdeep2.img  /bin/bash
+.. code-block:: bash
+
+  singularity exec -B $HOME -B /home/ -B $PWD/ /home/core/nxf_singularity_cache/bunop-mirdeep2.img  /bin/bash
 
 Where all ``-B`` parameters indicate all folders that will be mounted inside our
 container (such as our ``$HOME`` directory, the ``/home`` directory, which is the
@@ -139,11 +149,13 @@ into ``$NXF_SINGULARITY_CACHEDIR`` cache directory. Track the failed ``command``
 in nextflow output, then move in ``$NXF_SINGULARITY_CACHEDIR`` directory and call
 such command manually. After downloading the image, rename the file and remove the
 ``.pulling.[0-9]*`` from the image name (nextflow images should end with ``.img``
-extension). For example in the previous case::
+extension). For example in the previous case:
 
-  $ cd $NXF_SINGULARITY_CACHEDIR
-  $ singularity pull  --name quay.io-biocontainers-bioconductor-summarizedexperiment-1.18.1--r40_0.img.pulling.1610634041691 docker://quay.io/biocontainers/bioconductor-summarizedexperiment:1.18.1--r40_0 > /dev/null
-  $ mv quay.io-biocontainers-bioconductor-summarizedexperiment-1.18.1--r40_0.img.pulling.1610634041691 quay.io-biocontainers-bioconductor-summarizedexperiment-1.18.1--r40_0.img
+.. code-block:: bash
+
+  cd $NXF_SINGULARITY_CACHEDIR
+  singularity pull  --name quay.io-biocontainers-bioconductor-summarizedexperiment-1.18.1--r40_0.img.pulling.1610634041691 docker://quay.io/biocontainers/bioconductor-summarizedexperiment:1.18.1--r40_0 > /dev/null
+  mv quay.io-biocontainers-bioconductor-summarizedexperiment-1.18.1--r40_0.img.pulling.1610634041691 quay.io-biocontainers-bioconductor-summarizedexperiment-1.18.1--r40_0.img
 
 After that, you could resume your nextflow pipeline by adding the ``-resume`` option
 in your command line in order using the cached results of the previous calculations
@@ -169,20 +181,49 @@ the pipeline that is compatible with your nextflow version. You can have informa
 on version on `nf-core pipeline <https://nf-co.re/pipelines>`__ or directly
 from the GitHub project of `nf-core <https://github.com/nf-core>`__ organization.
 Once you find your desidered version, you have to declare it with the parameter
-``-r`` when calling nextflow, for example::
+``-r`` when calling nextflow, for example:
 
-  $ nextflow run nf-core/rnaseq -r 2.0 -profile test,singularity -resume
+.. code-block:: bash
+
+  nextflow run nf-core/rnaseq -r 2.0 -profile test,singularity -resume
 
 The second option is to upgrade your nextflow version. You can install a specific
 version of nextflow from the `nextflow release page <https://github.com/nextflow-io/nextflow/releases>`__
 Copy the nextflow asset link present in every release, and then install nextflow like
-this::
+this:
 
-  $ wget -qO- https://github.com/nextflow-io/nextflow/releases/download/v20.12.0-edge/nextflow-20.12.0-edge-all | bash
+.. code-block:: bash
+
+  wget -qO- https://github.com/nextflow-io/nextflow/releases/download/v20.12.0-edge/nextflow-20.12.0-edge-all | bash
 
 This will download all the requirements and will put nextflow in your current directory.
 Change the nextflow default permissions to ``755`` and move such executable in a
 directory with a higher position in your ``$PATH`` environment, for example ``$HOME/bin``
+
+Cannot find pipeline version
+----------------------------
+
+Sometimes is possible that you cannot find a specific version of a pipeline that
+you know is present in the remote repository with an error like this::
+
+  Cannot find revision `x.x.x` -- Make sure that it exists in the remote repository
+
+This could happen if your local version of the pipeline (in your ``$HOME/.nextflow/assets/``)
+is not updated with the remote repository. In this case, you need to synchronize your local
+version with the remote repository, for example:
+
+.. code-block:: bash
+
+  nextflow pull nf-core/methylseq
+
+You can also specify a specific version of the pipeline to pull, for example:
+
+.. code-block:: bash
+
+  nextflow pull nf-core/methylseq -r 2.7.1
+
+This will update your local version of the pipeline, and you will be able to call
+the desired version of the pipeline.
 
 Cannot execute nextflow interactively
 -------------------------------------
