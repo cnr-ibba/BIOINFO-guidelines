@@ -41,7 +41,7 @@ section of our documentation.
     nextflow/getting-started
     nextflow/running
     nextflow/customize
-    nextflow/trubleshooting
+    nextflow/troubleshooting
 
 Indices and tables
 ==================

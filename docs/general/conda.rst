@@ -12,10 +12,10 @@ environments. It was born to support the python ecosystem, however most software
 has been supported by conda, for example `R`_ and its packages, and there are
 channels like `bioconda`_, which collect and maintain a lot of useful softwares.
 The main advantage in using conda environments is that packages could be installed
-directly with their dependencies, whitout the needing to compile everything. Moreover
+directly with their dependencies, without the needing to compile everything. Moreover
 conda and its environments can be installed by an user without administrative privileges.
 Packages and dependencies are installed inside user directories, and a complete
-unistallation could be done by erasing the conda installation folder.
+uninstallation can be done by erasing the conda installation folder.
 From the `conda`_ official documentation:
 
 .. _R: https://docs.anaconda.com/anaconda/user-guide/tasks/using-r-language/
@@ -38,7 +38,7 @@ Is Conda already installed?
 
 Conda isn't installed by default on your system. However on a shared resource or
 a remote machine could be already installed by the system administrator. Try to
-undertstand if conda is installed using ``which``, for example::
+understand if conda is installed using ``which``, for example::
 
   (base) cozzip@cloud1:~$ which conda
   /usr/local/Miniconda3-py38_4.8.3-Linux-x86_64/bin/conda
@@ -62,9 +62,9 @@ Conda is installed with a a lot of dependencies, like spyder editor, jupyter not
 and many other packages. Miniconda is a lighter version of anaconda, which installs
 only the minimal packages required to work correctly with conda. In general, you could
 decide to install the whole Conda in a local installation, since in your personal computer
-you could exploit the benefit of the editors and the grafical user interfaces.
+you could exploit the benefit of the editors and the graphical user interfaces.
 When working on a remote server, using Miniconda is recommended since you have the
-full control on what is installed and generally you don't need starting grafical
+full control on what is installed and generally you don't need starting graphical
 interfaces on a remote servers. If you are in doubt, please see the
 `Anaconda or Miniconda`_ section of conda installation guide.
 
@@ -104,7 +104,7 @@ You could enable a conda environment using ``conda activate``, for example::
 
   $ conda activate R-4.3
 
-You should see that the environment name near the bash prompt changed to the desidered
+You should see that the environment name near the bash prompt changed to the desired
 environment. In order to exit the current environment (and return to your previous
 environment), you have to deactivate with::
 
@@ -165,7 +165,7 @@ that you want to import, for example::
 
 .. hint::
 
-  When you export an environment with conda, yon don't simply export infomations
+  When you export an environment with conda, yon don't simply export information
   to re-build your environment relying on package version, but you also track information
   about the **package build version**, in order to be able to download the same file
   required to install a particular library.
@@ -302,7 +302,7 @@ could contains useful information.
   It's a bad idea to set the ``$PATH`` environment variable using the *config API*,
   since when disabling the conda environment, the ``$PATH`` will be unset, causing
   your terminal not working correctly. If you need to add a path to ``$PATH``, you
-  need to manually edit the ``env_vars.sh`` files. Ensure to activate your desidered
+  need to manually edit the ``env_vars.sh`` files. Ensure to activate your desired
   environment (in order to resolve the ``$CONDA_PREFIX`` environment variable) and
   then:
 
@@ -334,5 +334,5 @@ could contains useful information.
     # see: https://unix.stackexchange.com/a/496050
     export PATH=$(echo $PATH | tr ":" "\n" | grep -v '/home/core/software/sratoolkit/bin' | xargs | tr ' ' ':')
 
-  See conda `Manaing environments <https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#macos-and-linux>`__
+  See conda `Managing environments <https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#macos-and-linux>`__
   for more information.

@@ -213,7 +213,7 @@ Where ``container_name.sif`` is an optional parameters which set the output file
 Using mulled-search
 ^^^^^^^^^^^^^^^^^^^
 
-mulled-search is p part of the [galaxy-tool-util](https://pypi.org/project/galaxy-tool-util/)
+mulled-search is part of the `galaxy-tool-util <https://pypi.org/project/galaxy-tool-util/>`_
 that allows you to search for bioinformatics software containers in the Bioconda
 and Biocontainers repositories. To search for a container using mulled-search,
 you should specify the destination (e.g., quay) and the software you are looking for,
@@ -226,7 +226,7 @@ for example:
 When searching for more than one software in the same time, mulled-search will
 returns also mulled containers, which are containers that have multiple software
 installed in the same container. Since is not trivial to understand software
-versions in mulled containers, there's another tool in the galaxy-tool-util
+versions in mulled containers, there's another tool in the ``galaxy-tool-util``
 to determine the container *hash* of the desired software:
 
 .. code-block:: bash

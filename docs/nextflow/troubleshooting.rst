@@ -1,6 +1,6 @@
 
-Trubleshooting
-==============
+Troubleshooting
+===============
 
 .. contents:: Table of Contents
 
@@ -180,7 +180,7 @@ Is such case, you have two options. The first is to execute a previous version o
 the pipeline that is compatible with your nextflow version. You can have information
 on version on `nf-core pipeline <https://nf-co.re/pipelines>`__ or directly
 from the GitHub project of `nf-core <https://github.com/nf-core>`__ organization.
-Once you find your desidered version, you have to declare it with the parameter
+Once you find your desired version, you have to declare it with the parameter
 ``-r`` when calling nextflow, for example:
 
 .. code-block:: bash
