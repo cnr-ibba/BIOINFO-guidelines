@@ -4,6 +4,7 @@
     "restructuredtext.languageServer.disabled": true,
     "cSpell.words": [
         "bioconda",
+        "biocontainers",
         "BIOINFO",
         "bioinformatics",
         "bunop",
@@ -43,6 +44,7 @@
         "subfolders",
         "subworkflow",
         "Subworkflows",
+        "Sylabs",
         "testdata",
         "TRIMGALORE",
         "whitespaces",
