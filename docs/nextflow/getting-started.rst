@@ -299,8 +299,8 @@ Other nextflow environment variables
 
 There are others environment variables which could be useful to set in order to
 customize your nextflow experience. You could find a list of them in the
-`nextflow documentation <https://www.nextflow.io/docs/latest/config.html#environment-variables>`__.
-Here are a selection of them:
+`Environment variables <https://www.nextflow.io/docs/latest/reference/env-vars.html>`__
+nextflow documentation. Here are a selection of them:
 
 .. list-table:: Nextflow environment variables
    :header-rows: 1
@@ -363,11 +363,18 @@ private repository in GitHub, for example::
   }
 
 You could find more information in
-`SCM configuration file <https://www.nextflow.io/docs/latest/sharing.html?highlight=credentials#scm-configuration-file>`__
-section of nextflow documentation.
+`Git configuration <https://www.nextflow.io/docs/latest/sharing.html#git-configuration>`__
+section of nextflow documentation and in
+`Configure Git private repositories with Nextflow <https://seqera.io/blog/configure-git-repositories-with-nextflow/>`__
+blog post.
 
 Access to private nextflow modules
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. warning::
+
+  This section is quite old and could be outdated. Please check if the following
+  information are still valid.
 
 In order to get access to the private
 `nextflow-modules <https://github.com/cnr-ibba/nf-modules>`__, you need to
