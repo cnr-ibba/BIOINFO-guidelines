@@ -13,13 +13,14 @@
 # import os
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
+import datetime
 import sphinx_rtd_theme
 
 # -- Project information -----------------------------------------------------
-
+current_year = datetime.datetime.now().year
 project = 'BIOINFO Guidelines'
-copyright = '2020-2024, Paolo Cozzi'
 author = 'Paolo Cozzi'
+copyright = f"2020-{current_year}, {author}"
 
 # The full version, including alpha/beta/rc tags
 release = 'v0.2.4'
