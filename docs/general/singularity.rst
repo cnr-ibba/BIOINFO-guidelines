@@ -4,6 +4,8 @@ Singularity
 
 .. contents:: Table of Contents
 
+.. _about-singularity:
+
 About Singularity
 -----------------
 

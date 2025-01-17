@@ -262,3 +262,16 @@ turn off the pipeline execution removing the temporary *lock* files. If you requ
 to terminate a running process which nextflow can't terminate, you will need to
 terminate such process manually, for example using ``scancel`` on a SLURM environment
 or by killing such process if you are running nextflow with a local executor.
+
+.. _running-nextflow-offline:
+
+Running nextflow offline
+------------------------
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse
+lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras
+elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod
+non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non
+fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa
+scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in
+risus volut

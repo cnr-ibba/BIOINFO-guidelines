@@ -4,14 +4,23 @@ Running Nextflow
 
 .. contents:: Table of Contents
 
-A note on profiles
-------------------
+A note on containers
+--------------------
 
 Despite nextflow could be run using :doc:`conda <../general/conda>`,
 :doc:`singularity <../general/singularity>`, :doc:`docker <../general/docker>`
-or other profiles, the recommended profile to use is **singularity**: this solution
-in fact manages all software dependencies in a unique file and could be cached and
-reused in order to speed up the calculation process
+or other container runtimes, the recommended container application to use
+is **singularity**: this solution in fact manages all software dependencies
+in a unique file and could be cached and reused in order to speed up the
+calculation process. You can have more information about singularity in
+the :ref:`singularity <about-singularity>` section of this guidelines.
+
+You can select the type of container runtime to use with the
+``-profile`` option, for example:
+
+.. code-block:: bash
+
+  nextflow run nf-core/rnaseq -profile test,singularity -resume
 
 .. warning::
 
@@ -19,9 +28,20 @@ reused in order to speed up the calculation process
   to networking errors, which are not related to pipelines or data but can slow or
   broke pipeline execution. In such way, it's better to configure **caches** when
   downloading softwares: singularity cache could be configured in
-  `singularity scope <https://www.nextflow.io/docs/edge/config.html#scope-singularity>`__
+  `singularity scope <https://www.nextflow.io/docs/edge/reference/config.html#singularity>`__
   or better using ``$NXF_SINGULARITY_CACHEDIR``.
-  See :ref:`Setting NXF_SINGULARITY_CACHEDIR<set-singularity-cache>` for more information
+  See :ref:`Setting NXF_SINGULARITY_CACHEDIR <set-singularity-cache>` for more information
+
+Nextflow and pipeline parameters
+--------------------------------
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse
+lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras
+elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod
+non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non
+fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa
+scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in
+risus volut
 
 Execute a community pipeline
 ----------------------------
@@ -34,31 +54,83 @@ are public, you could download and modify them according your needs.
 Search for a community pipeline
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Community pipelines are available at `nf-core pipeline <https://nf-co.re/pipelines>`__
-section: you could search a pipeline and browse its documentation in the `nf-core <https://nf-co.re/>`__ site.
-For example, by searching for ``rnaseq`` you could reach the `rnaseq pipeline <https://nf-co.re/rnaseq>`__
-page project and get documentation on its usage by clicking on `Usage docs <https://nf-co.re/rnaseq/usage>`__ menu.
-In order to download the pipeline, the softwares, and testing all in your local environment,
-you can call directly nextflow, for example for the *rnaseq* pipeline::
+Community pipelines are available at `nf-core pipelines <https://nf-co.re/pipelines>`__
+site: you could search a pipeline and browse its documentation in the
+`nf-core <https://nf-co.re/>`__ site.
+For example, by searching for ``rnaseq`` you could reach the
+`rnaseq pipeline <https://nf-co.re/rnaseq>`__
+page project and get documentation on its usage by clicking on
+`Usage <https://nf-co.re/rnaseq/usage>`__ tab.
 
-  $ mkdir nf-rnaseq
-  $ cd nf-rnaseq
-  $ nextflow run nf-core/rnaseq -profile test,singularity -resume
+You can download a pipeline using ``nextflow pull`` followed by the pipeline
+like ``<organization name>/<pipeline>``, for example:
 
-.. note::
+.. code-block:: bash
 
-  The community pipelines have a ``--help`` option to show all supported parameters.
-  try::
+  nextflow pull nf-core/rnaseq
 
-    $ nextflow run nf-core/rnaseq --help
+This will download a copy of the pipeline in a nextflow *cache* folder, which
+usually is ``$HOME/.nextflow/assets``: the pipeline will be placed in a subfolder
+for the organization and pipeline name (in this case ``nf-core/rnaseq``). The
+containers files required to execute the pipeline will be downloaded when the
+pipeline is executed for the first time: please check for internet connection
+during pipeline execution: if it not possible to download the container, there's
+the possibility to run nextflow offline. Please see
+:ref:`Running nextflow offline <running-nextflow-offline>` of this documentation
+and the official `Running offline <https://nf-co.re/docs/usage/getting_started/offline>`__
+nextflow documentation for more information.
 
-  To get a full list of the available options
+.. hint::
+
+  The organization name is the GitHub organization which hosts the pipeline, like
+  `nf-core <https://github.com/nf-core>`__ or `cnr-ibba <https://github.com/cnr-ibba>`__,
+  while the pipeline name is the name of the GitHub repository which contains the
+  pipeline. You could derive the pipeline name by removing ``https://github.com/``
+  from the repository URL. For example, from
+  `<https://github.com/nf-core/rnaseq>`__ you can derive the pipeline
+  named ``nf-core/rnaseq``.
+
+.. tip::
+
+  You can get a list of available `nf-core pipelines <https://nf-co.re/pipelines>`__
+  using `nf-core/tools <https://github.com/nf-core/tools>`__ with
+  ``nf-core pipelines list`` command. You can also add a pattern to search for
+  a specific pipeline, for example::
+
+    nf-core pipelines list rna
+
+  to get a list of pipelines related to RNA analysis.
+
+In order to download the pipeline, the softwares, and testing all in your local
+environment (which is recommended to see that all the stuff works as intended,
+see :ref:`run-a-pipeline-with-test-data`) you can call directly the nextflow
+pipeline on *test data*, for example for the *rnaseq* pipeline:
+
+.. code-block:: bash
+
+  mkdir nf-rnaseq
+  cd nf-rnaseq
+  nextflow run nf-core/rnaseq -profile test,singularity -resume
 
 .. hint::
 
   Calling ``nextflow run`` with a remote pipeline will place the ``work`` and
-  ``results`` directories in the current working directory. For such reason, it's
-  better to create an empty project directory in which calling ``nextflow run``
+  ``results`` directories in the current working directory, with some other hidden
+  files useful for logging the pipeline execution in the current directory.
+  For such reason, it's better to create an empty project directory in which
+  calling ``nextflow run`` or create a new directory for the project in which
+  you plan to run the pipeline.
+
+.. tip::
+
+  The community pipelines have a ``--help`` option to show all supported parameters.
+  try:
+
+  .. code-block:: bash
+
+    nextflow run nf-core/rnaseq --help
+
+  To get a full list of the available options
 
 .. warning::
 
@@ -94,23 +166,33 @@ Whenever you run a community pipeline, nextflow will download and cache it (in
 your ``$HOME/.nextflow/assets/`` folder). You could check your installed community pipelines
 with::
 
-  $ nf-core list
+  nextflow list
+
+You can list all the available ``nf-core`` pipelines with::
+
+  nf-core pipelines list
 
 You could search for a specific pipeline by providing a name as an argument::
 
-  $ nf-core list rna
+  nf-core pipelines list rna
 
 You can download a pipeline with its container dependencies. This will be helpful
 when running nextflow in an environment without internet connection::
 
-  $ nf-core download nf-core/rnaseq -r 3.12.0
+  nf-core pipelines download nf-core/rnaseq -r 3.12.0
 
 this command let the possibility to amend singularity images in your
 ``$NXF_SINGULARITY_CACHEDIR``, which means that images will not be placed in the
-archive but in your local folder.
-The most interesting thing is the possibility to configure params with::
+archive but in your local ``$NXF_SINGULARITY_CACHEDIR`` folder if missing.
 
-  $ nf-core launch rnaseq
+The most interesting thing is the possibility to configure params interactively with::
+
+  $ nf-core pipelines launch rnaseq
+
+This command will download the pipeline in the ``assets`` folder and then will
+open a web browser or a CLI interactive session to let you configure the pipeline
+parameters interactively. You can also save the configuration in a file and use it later
+with the nextflow ``-params-file`` option.
 
 See :ref:`Install nf-core/tools <install-nf-core>` to get ``nf-core/tools`` software
 installed
@@ -127,7 +209,8 @@ Nextflow is able to manage pipelines outside the scope of the **nf-core** team, 
 they are shared in public repositories. For example, to execute a pipeline available
 on GitHub, call nextflow with ``<profile/project>`` like the following example::
 
-  $ nextflow run cnr-ibba/nf-resequencing-mem -resume -profile singularity --reads_path "reads/*_R{1,2}_*.fastq.gz" --genome_path genome.fa
+  nextflow run cnr-ibba/nf-resequencing-mem -resume -profile singularity \
+    --input <samplesheet.csv> --genome_fasta <path/to/genome.fasta>
 
 where `cnr-ibba/nf-resequencing-mem <https://github.com/cnr-ibba/nf-resequencing-mem>`__
 is the repository which contains the nextflow pipeline.
@@ -142,6 +225,8 @@ Nextflow best-practices
 
 Here are some tips that could be useful while running nextflow.
 
+.. _run-a-pipeline-with-test-data:
+
 Run a pipeline with test data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -151,7 +236,7 @@ a ``-profile test`` option which will download a small dataset and run the pipel
 on it. For example, to run the ``nf-core/rnaseq`` pipeline with test data, you can
 do::
 
-  $ nextflow run nf-core/rnaseq -profile test,singularity -resume
+  nextflow run nf-core/rnaseq -profile test,singularity -resume
 
 This will also download the required dependencies (like the singularity images).
 Next time you will run the pipeline, nextflow will use the cached images and will
@@ -169,7 +254,7 @@ the pipeline was called::
   2021-10-27 12:40:32     54.8s           serene_engelbart        OK      c44b10f3aa      598f0939-a7b0-497f-a16f-b2431a7e5ee3    nextflow run . -profile test,docker
   2021-10-27 12:49:05     43.6s           evil_ride               OK      c44b10f3aa      a70a75e2-61fc-4407-aba4-19ac33f31774    nextflow run . -profile test,docker
 
-*Run name* is an arbitrary name assigned to your pipeline. By calling ``nextflow log``
+``RUN NAME`` is an arbitrary name assigned to your pipeline. By calling ``nextflow log``
 again and providing such name you can retrieve more information on single execution
 steps::
 
