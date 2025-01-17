@@ -35,7 +35,7 @@ github repository.
 Installing Nextflow
 -------------------
 
-The official nextflow installation page is located at `https://www.nextflow.io <https://www.nextflow.io>`__.
+The official nextflow installation page is located at `<https://www.nextflow.io>`__.
 In order to install nextflow in your local environment ensure you have java installed:
 
 .. code-block:: bash
@@ -147,8 +147,25 @@ Configuring nextflow
 Nextflow can be customized in different ways: there are configuration files,
 which can be used to customize a single pipeline execution, and environment
 variables, which can be used to customize the nextflow runtime and the underlying
-Java virtual machine. There's also a ``$HOME/.nextflow/config`` file which can
-be used to customize the default configuration of nextflow, for example by limiting
+Java virtual machine. Those configuration files can be stored in multiple location,
+for example in your home directory, in the pipeline directory and in the directory
+where you are running the pipeline. The configuration files are loaded in a specific
+order, and the last loaded configuration file will override the previous ones: the
+lowest priority configuration file is the one in the home directory, while the
+highest priority configuration files are in the directory where you are
+running the pipeline. This means that you can have a default configuration file in
+``$HOME/.nextflow/config`` and a pipeline specific configuration file in the
+pipeline directory, and the latter will override the former.
+More information on configuration files can be found in
+the `Configuration file <https://www.nextflow.io/docs/latest/config.html#configuration-file>`__
+section of nextflow documentation.
+
+Default configuration file
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The default configuration has the lowest priority and can be used to define option
+can be applied to all your pipeline executions. This file is
+located in ``$HOME/.nextflow/config`` and can be used for example for limiting
 resources usage::
 
   executor {
@@ -159,20 +176,99 @@ resources usage::
 
 In this way is possible to setup a default configuration for all your pipelines,
 by limiting the job submission in order to avoid to overload the cluster scheduler.
-Nextflow configuration files are stored in multiple locations, and are loaded in
-different order. This means that you can have a default configuration file in
-``$HOME/.nextflow/config`` and a pipeline specific configuration file in the
-pipeline directory, and the latter will override the former. You could find more
-information in the `nextflow documentation <https://www.nextflow.io/docs/latest/config.html#configuration-file>`__.
 There are some tips for HPC users, please take a look at nextflow forum for
 `5 Nextflow Tips for HPC Users <https://www.nextflow.io/blog/2021/5_tips_for_hpc_users.html>`__
 and `Five more tips for Nextflow user on HPC <https://www.nextflow.io/blog/2021/5-more-tips-for-nextflow-user-on-hpc.html>`__
 articles.
 
+Institutional configuration files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Nextflow offers a GitHub repository where institutional configuration files can
+be stored and shared among users. This means that users belonging to the same
+institution can share configuration files that are specific to their infrastructure.
+This repository is located at `<https://github.com/nf-core/configs>`__ and is
+structured in mainly two sections, configuration that are shared among all pipelines
+and configuration that are specific to a single pipeline. Usually the first configuration
+files keeps information about *executors*, *queues*, *resources* and
+they can be applied to all pipelines independently. The second
+configuration files are specific to a single pipeline and can be used to customize
+a single pipeline step, for example to change the number of CPUs or the amount of memory
+required by a single process overriding the pipeline default configuration.
+
+Institutional configuration files are managed through the
+`profile scope <https://www.nextflow.io/docs/latest/config.html#config-profiles>`__
+and usually the *nf-core* community pipelines are already configured to use them.
+This means that if an institutional configuration file is available in the nf-core
+configs repository, it can be using passing the profile name to the pipeline execution,
+for example:
+
+.. code-block:: bash
+
+  nextflow run nf-core/rnaseq --profile <my_institution> ...
+
+This is enough to apply the global institutional configuration to the pipeline execution
+and the pipeline specific configuration if available. For more information
+see the
+`Shared nf-core/configs <https://nf-co.re/docs/usage/getting_started/configuration#shared-nf-coreconfigs>`__
+and the `Step-by-step guide to writing an institutional profile <https://nf-co.re/docs/tutorials/use_nf-core_pipelines/writing_institutional_profiles>`__
+documents for more information.
+
+.. tip::
+
+  We have a custom *institutional* configuration repository at *ibba*. To use it
+  with nf-core pipelines, you should add the repository
+  `cnr-ibba/nf-configs <https://github.com/cnr-ibba/nf-configs/>`__ using, the
+  ``--custom_config_base`` option, and specify `ibba` and your working environment
+  profile, for example:
+
+  .. code-block:: bash
+
+    nextflow run nf-core/rnaseq \
+      --custom_config_base https://raw.githubusercontent.com/cnr-ibba/nf-configs/ibba \
+      --profile ibba,core \
+      ...
+
+  cnr-ibba pipelines, like `cnr-ibba/nf-resequencing-mem <https://github.com/cnr-ibba/nf-resequencing-mem>`__
+  are already configured to use our local institutional configuration repository.
+  See `nf-core/configs: IBBA Configuration <https://github.com/cnr-ibba/nf-configs/blob/ibba/docs/ibba.md>`__
+  for more information.
+
+Custom configuration files
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+There are other configuration files that can be used to customize a single pipeline
+and can be stored in the pipeline directory or in the directory where you are running
+the pipeline. Those configuration files have the highest priority and can be used
+to customize a single pipeline execution for a particular project. Those configuration
+files should be specified using the ``-c`` or ``-config`` option when running the pipeline,
+for example:
+
+.. code-block:: bash
+
+  nextflow run nf-core/rnaseq -c custom.config ...
+
+.. warning::
+
+  Name your custom configuration file with a name different from the default
+  ``nextflow.config`` file: this configuration file will be automatically loaded
+  by nextflow if found in your working directory.
+
+In the section :ref:`Configuring a pipeline <configuring-a-pipeline>` of this
+documentation we provide some examples of how to customize a pipeline configuration.
+More information about configuration customization can be found in the official
+nextflow `Configuration <https://www.nextflow.io/docs/latest/config.html>`__.
+The reference of all configuration options could be found at nextflow
+`Configuration options <https://www.nextflow.io/docs/latest/reference/config.html>`__
+reference.
+
+Environment variables
+~~~~~~~~~~~~~~~~~~~~~
+
 .. _set-singularity-cache:
 
 Setting ``NXF_SINGULARITY_CACHEDIR``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Using nextflow with singularity lets you to define a directory where remote Singularity
 images are stored. This could speed up **a lot** pipelines execution times, since images
@@ -199,7 +295,7 @@ inside this directory
 .. _nextflow_environment_variables:
 
 Other nextflow environment variables
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 There are others environment variables which could be useful to set in order to
 customize your nextflow experience. You could find a list of them in the

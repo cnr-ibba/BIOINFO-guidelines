@@ -23,6 +23,8 @@ repository::
   if you clone a pipeline with ``nextflow clone`` command, ensure that git *remotes* are
   correct and point to the repository location
 
+.. _configuring-a-pipeline:
+
 Configuring a pipeline
 ----------------------
 
@@ -268,11 +270,14 @@ pipelines using ``nf-core/tools``.
 
   You could also create a new pipeline using the ``nf-core`` template::
 
-    nf-core create
+    nf-core pipelines create
 
-  This template is required if you want to submit your pipeline to the ``nf-core`` community.
-  Please see the `join the community <https://nf-co.re/developers/adding_pipelines#join-the-community>`__
-  section and get in contact with the developers before starting coding with your pipeline
+  This utility command will configure a pipeline to be submitted to the ``nf-core``
+  community or let you to customize all the options to include in a pipeline that
+  can be kept private or stand-alone (not to be submitted to the community).
+  Please see the `join the community <https://nf-co.re/docs/tutorials/adding_a_pipeline/overview#join-the-community>`__
+  section and get in contact with the developers if you plan to contribute to the
+  community.
 
 .. _browse-modules-list:
 
