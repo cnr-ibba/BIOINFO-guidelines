@@ -35,26 +35,46 @@ github repository.
 Installing Nextflow
 -------------------
 
-In order to install nextflow in your local environment ensure you have java installed::
+The official nextflow installation page is located at `https://www.nextflow.io <https://www.nextflow.io>`__.
+In order to install nextflow in your local environment ensure you have java installed:
 
-  $ java -version
+.. code-block:: bash
 
-Next you could install nextflow in your local directory with::
+  java -version
 
-  $ curl -s https://get.nextflow.io | bash
+.. warning::
+
+  You don't need a full release of java, the *openjdk* version is enough. Starting
+  from nextflow ``24.10.3`` the support from java lower than 11 has been dropped,
+  even for the
+  `vscode nextflow extensions <https://marketplace.visualstudio.com/items?itemName=nf-core.nf-core-extensionpack>`__.
+  If you don't have java installed, you can install
+  as a user using `SdkMan <https://sdkman.io/>`__. See
+  `nextflow installation requirements <https://www.nextflow.io/docs/latest/install.html#requirements>`__
+  for more information.
+
+Next you could download nextflow in your local directory and make it executable with:
+
+.. code-block:: bash
+
+  curl -s https://get.nextflow.io | bash
+  chmod +x nextflow
 
 If you install nextflow in a directory inside your ``$PATH`` environment, you can
-avoid to specify the relative or the full path when calling nextflow. Verify your
-installation with::
-
-  $ mkdir nf-hello
-  $ cd nf-hello
-  $ nextflow run hello
+avoid to specify the relative or the full path when calling nextflow.
 
 .. hint::
 
   Nextflow is already installed in our shared **core** environment, and can be called
   like a command since is available via ``$PATH`` environment variable
+
+Finally verify your installation with:
+
+.. code-block:: bash
+
+  mkdir nf-hello
+  cd nf-hello
+  nextflow run hello
 
 .. _install-nf-core:
 
@@ -65,36 +85,59 @@ Install nf-core/tools
 integrates nextflow and is an helper tools for the nextflow community. Using
 ``nf-core`` software you could manage nextflow pipelines and modules. You can install
 ``nf-core`` in `many ways <https://github.com/nf-core/tools#installation>`__,
-but the recommended way is using pip::
+but the recommended way is using pip:
 
-  $ pip install nf-core
-  $ nf-core --help
+.. code-block:: bash
+
+  pip install nf-core
+  nf-core --help
+
+To update the package you can use:
+
+.. code-block:: bash
+
+  pip install nf-core --upgrade
 
 .. note::
 
   You could install ``nf-core`` in a conda environment. Even if there's a ``nf-core``
   conda package, is better to install the **pypi** package version since it is the
-  most update release and avoid some dependency issues with **bioconda**::
+  most update release and avoid some dependency issues with **bioconda**:
 
-    $ conda create --name nf-core pip
-    $ conda activate nf-core
-    $ pip install nf-core
+  .. code-block:: bash
 
-  An alternative way to install nf-core (v14) with conda is by installing package
-  from both ``bioconda`` and ``conda-forge`` channels::
-
-    $ conda create --channel bioconda --channel conda-forge --name nf-core nf-core=1.14
+    conda create --name nf-core pip
+    conda activate nf-core
+    pip install nf-core
 
   However, it's better to do this in a fresh conda environment used only for nextflow.
   Please see our consideration :ref:`on channels <a-note-on-channels>`.
 
+.. tip::
+
+  You can add autocompletion for ``nf-core`` within a conda environment. Simply
+  add the activation instruction in ``eval "$(_NF_CORE_COMPLETE=bash_source nf-core)"``
+  in your ``$CONDA_PREFIX/etc/conda/activate.d/env_vars.sh``, and the deactivation
+  instruction ``complete -r nf-core`` in your
+  ``$CONDA_PREFIX/etc/conda/deactivate.d/env_vars.sh``. Test the ``nf-core``
+  autocompletion with:
+
+  .. code-block:: bash
+
+    complete -p nf-core
+
+  See :ref:`Setting environment variables <conda_environment_variables>`
+  for more information.
+
 .. hint::
 
-  ``nf-core`` is already installed in a ``nf-core`` environment in our shared **core**
-  *VM*::
+  ``nf-core`` with autocompletion is already installed in a ``nf-core``
+  environment in our shared **core** *VM*:
 
-    $ source activate nf-core
-    $ nf-core --help
+  .. code-block:: bash
+
+    conda activate nf-core
+    nf-core --help
 
 .. _configuring_nextflow:
 
