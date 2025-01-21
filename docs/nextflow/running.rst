@@ -12,7 +12,8 @@ Despite nextflow could be run using :doc:`conda <../general/conda>`,
 or other container runtimes, the recommended container application to use
 is **singularity**: this solution in fact manages all software dependencies
 in a unique file and could be cached and reused in order to speed up the
-calculation process. You can have more information about singularity in
+calculation process (see :ref:`set-singularity-cache` for more information).
+You can have more information about singularity in
 the :ref:`singularity <about-singularity>` section of this guidelines.
 
 You can select the type of container runtime to use with the
@@ -32,16 +33,53 @@ You can select the type of container runtime to use with the
   or better using ``$NXF_SINGULARITY_CACHEDIR``.
   See :ref:`Setting NXF_SINGULARITY_CACHEDIR <set-singularity-cache>` for more information
 
-Nextflow and pipeline parameters
---------------------------------
+Nextflow parameters and pipeline parameters
+-------------------------------------------
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse
-lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras
-elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod
-non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non
-fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa
-scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in
-risus volut
+There are two types of parameters you can pass to nextflow: *nextflow parameters*
+and *pipeline parameters*. Nextflow parameters are related to nextflow itself,
+like ``-resume`` or ``-log``. Pipeline parameters are related to the pipeline
+you are running, like ``--input`` or ``--output``. In general, nextflow parameters
+have only one ``-`` before the parameter name, while pipeline parameters have two
+``--``. To get a full list of available options, you can call nextflow with ``-h``
+parameter or without any parameter::
+
+  $ nextflow -h
+
+While to have a list of parameters for a specific pipeline,
+you can call the pipeline with ``--help`` option, for example::
+
+  $ nextflow run nf-core/rnaseq --help
+
+Another important aspect if that pipeline parameters can be written in a json file
+and provided to nextflow with the ``-params-file`` option. This is useful when you
+have a lot of parameters to provide to the pipeline, or when you want to save a
+configuration for later use. For example, to provide a json file with parameters
+to the pipeline, you can do::
+
+  $ nextflow run nf-core/rnaseq -params-file params.json
+
+where ``params.json`` is a json file with the following content::
+
+  {
+    "input": "samplesheet.csv",
+    "fasta": "path/to/genome.fasta"
+  }
+
+Nextflow parameters and pipeline parameters are not the only way to customize a
+pipeline: nextflow allows to define custom configuration files in which you can
+customize other aspects of the pipeline, like the number of CPUs to use, the
+memory to allocate, environment variables and also settings specific to the
+running environment in which the pipeline is called. For more information, see the
+`Configuration file <https://www.nextflow.io/docs/latest/config.html#configuration-file>`__
+section of the nextflow documentation.
+See also :ref:`Configuring a pipeline <configuring-a-pipeline>` section of this
+guidelines for more information. To get more information on CLI and pipeline
+options, please see
+`Command line <https://www.nextflow.io/docs/latest/cli.html#command-line>`__, and
+both `CLI reference <https://www.nextflow.io/docs/latest/reference/cli.html>`__
+and `Pipeline parameters <https://www.nextflow.io/docs/latest/cli.html#pipeline-parameters>`__
+from nextflow documentation.
 
 Execute a community pipeline
 ----------------------------
@@ -283,7 +321,8 @@ Nextflow, by default, executes every calculation in a subfolder inside the
 ``work`` directory in your current working directory. Every steps is executed in
 separate subfolders and nextflow will take care about *inputs* and *outputs* among
 related steps. It is frequent to call nextflow multiple times, for example while
-modifying a pipeline. In such way, you can save a lot of spaces (and calculation times)
+modifying a pipeline or while tuning parameters or solving issues.
+In such way, you can save a lot of spaces (and calculation times)
 by *resuming* a pipeline (aka. don't run job completed with success). To achieve this,
 is important to add the ``-resume`` option while calling nextflow::
 
@@ -314,14 +353,14 @@ Then you could remove a specific run using name, for example::
 
   $ nextflow clean magical_roentgen -f
 
-See `nextflow clean <https://www.nextflow.io/docs/latest/cli.html#clean>`__
+See `nextflow clean <https://www.nextflow.io/docs/latest/reference/cli.html#clean>`__
 documentation for more info.
 
 .. note::
 
   When calling log, you can inspect the command line used to execute the pipeline.
   You could also get information about execution times. For more information, take a look at
-  `nextflow log <https://www.nextflow.io/docs/latest/cli.html#log>`__ documentation.
+  `nextflow log <https://www.nextflow.io/docs/latest/reference/cli.html#log>`__ documentation.
 
 .. hint::
 
@@ -333,7 +372,8 @@ documentation for more info.
 
   The previous command will not affect your downloaded singularity images in
   ``$NXF_SINGULARITY_CACHEDIR`` folder. If you want to remove them, you have to
-  do it manually.
+  do it manually. See :ref:`Clean up Singularity <clean-up-singularity>` section
+  of this guidelines for more information.
 
 .. warning::
 
@@ -353,9 +393,9 @@ Update a pipeline
 .. _update-a-pipelines:
 
 If you manage community pipeline using ``nextflow`` or ``nf-core`` software (not using ``git``),
-you can have information on outdated pipelines with ``nf-core list`` command::
+you can have information on outdated pipelines with ``nf-core pipelines list`` command::
 
-  $ nf-core list
+  $ nf-core pipelines list
   ┏━━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
   ┃ Pipeline Name     ┃ Stars ┃ Latest Release ┃      Released ┃  Last Pulled ┃ Have latest release? ┃
   ┡━━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━┩
@@ -365,9 +405,15 @@ you can have information on outdated pipelines with ``nf-core list`` command::
 In this example, we can see that the ``rnaseq`` pipeline is just updated, while
 ``methylseq`` is quite old and need to be updated.
 
+.. hint::
+
+  You can search for as specific pipeline with ``nf-core pipelines list <pattern>``, for example::
+
+    $ nf-core pipelines list rnaseq
+
 .. note::
 
-  when you manage pipelines using nextflow software, pipelines are locally downloaded
+  When you manage pipelines using nextflow software, pipelines are locally downloaded
   in your ``$HOME/.nextflow/assets/`` (see :ref:`Manage community pipelines with nf-core<manage-community-pipelines>`):
   the information you see reflect the updates of the community pipelines
   compared to your local assets.
@@ -388,6 +434,10 @@ with ``-r`` option::
   You can get a list of available revision and version with::
 
     $ nextflow info nf-core/rnaseq
+
+  This is related to the local copy of the pipeline in your assets folder, make
+  sure to do this after a ``nextflow pull`` command to collect the latest
+  information.
 
 .. hint::
 

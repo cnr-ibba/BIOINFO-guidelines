@@ -286,3 +286,24 @@ Build a container without root access
 
 Create a mulled container
 ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Singularity best best practices
+-------------------------------
+
+.. _clean-up-singularity:
+
+Clean up
+^^^^^^^^
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras gravida neque quam,
+eget sodales ante tristique luctus. Phasellus eros mauris, aliquam ut mi ac,
+aliquam iaculis ipsum. Duis mattis ligula vitae nisl aliquam pretium. Praesent
+vel velit vitae nunc tincidunt aliquam id vel eros. Maecenas accumsan sapien et
+tortor pharetra, nec blandit nisi tempor. Proin sodales consectetur ante, commodo
+sollicitudin nibh. Morbi id mattis mauris. Nullam ac ex molestie, egestas magna
+laoreet, convallis ipsum. Donec vehicula faucibus lectus. Ut nunc tellus, accumsan
+quis laoreet ut, sollicitudin ac nulla. Donec pulvinar lacus maximus orci laoreet
+pulvinar quis sit amet odio. Mauris dictum nec diam a eleifend. Aliquam sagittis,
+tellus nec eleifend venenatis, nisl velit placerat tortor, sit amet aliquet elit
+sem ac nunc. Curabitur enim felis, dignissim sed enim a, finibus posuere massa.
+Aliquam non ultricies magna.
