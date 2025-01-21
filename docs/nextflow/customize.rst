@@ -49,8 +49,8 @@ for an example). For a complete list of
 configuration options and priorities, please see the
 `nextflow configuration <https://www.nextflow.io/docs/latest/config.html>`__ documentation.
 
-Defaults configuration files
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+nextflow.config
+~~~~~~~~~~~~~~~
 
 Before starting with a new custom configuration file, you should take a look to
 the default configuration file provided by the pipeline you are working on. For
@@ -73,34 +73,69 @@ are defined.
 Institutional configuration files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras gravida neque quam,
-eget sodales ante tristique luctus. Phasellus eros mauris, aliquam ut mi ac,
-aliquam iaculis ipsum. Duis mattis ligula vitae nisl aliquam pretium. Praesent
-vel velit vitae nunc tincidunt aliquam id vel eros. Maecenas accumsan sapien et
-tortor pharetra, nec blandit nisi tempor. Proin sodales consectetur ante, commodo
-sollicitudin nibh. Morbi id mattis mauris. Nullam ac ex molestie, egestas magna
-laoreet, convallis ipsum. Donec vehicula faucibus lectus. Ut nunc tellus, accumsan
-quis laoreet ut, sollicitudin ac nulla. Donec pulvinar lacus maximus orci laoreet
-pulvinar quis sit amet odio. Mauris dictum nec diam a eleifend. Aliquam sagittis,
-tellus nec eleifend venenatis, nisl velit placerat tortor, sit amet aliquet elit
-sem ac nunc. Curabitur enim felis, dignissim sed enim a, finibus posuere massa.
-Aliquam non ultricies magna.
+Nextflow offers a GitHub repository where institutional configuration files can
+be stored and shared among users. This means that users belonging to the same
+institution can share configuration files that are specific to their infrastructure.
+This repository is located at `<https://github.com/nf-core/configs>`__ and is
+structured in mainly two sections, configuration that are shared among all pipelines
+and configuration that are specific to a single pipeline. Usually the first configuration
+files keeps information about *executors*, *queues*, *resources* and
+they can be applied to all pipelines independently. The second
+configuration files are specific to a single pipeline and can be used to customize
+a single pipeline step, for example to change the number of CPUs or the amount of memory
+required by a single process overriding the pipeline default configuration.
+
+Institutional configuration files are managed through the
+`profile scope <https://www.nextflow.io/docs/latest/config.html#config-profiles>`__
+and usually the *nf-core* community pipelines are already configured to use them.
+This means that if an institutional configuration file is available in the nf-core
+configs repository, it can be using passing the profile name to the pipeline execution,
+for example:
+
+.. code-block:: bash
+
+  nextflow run nf-core/rnaseq --profile <my_institution> ...
+
+This is enough to apply the global institutional configuration to the pipeline execution
+and the pipeline specific configuration if available. For more information
+see the
+`Shared nf-core/configs <https://nf-co.re/docs/usage/getting_started/configuration#shared-nf-coreconfigs>`__
+and the `Step-by-step guide to writing an institutional profile <https://nf-co.re/docs/tutorials/use_nf-core_pipelines/writing_institutional_profiles>`__
+documents for more information.
+
+.. tip::
+
+  We have a custom *institutional* configuration repository at *ibba*. To use it
+  with nf-core pipelines, you should add the repository
+  `cnr-ibba/nf-configs <https://github.com/cnr-ibba/nf-configs/>`__ using, the
+  ``--custom_config_base`` option, and specify `ibba` and your working environment
+  profile, for example:
+
+  .. code-block:: bash
+
+    nextflow run nf-core/rnaseq \
+      --custom_config_base https://raw.githubusercontent.com/cnr-ibba/nf-configs/ibba \
+      --profile ibba,core \
+      ...
+
+  cnr-ibba pipelines, like `cnr-ibba/nf-resequencing-mem <https://github.com/cnr-ibba/nf-resequencing-mem>`__
+  are already configured to use our local institutional configuration repository.
+  See `nf-core/configs: IBBA Configuration <https://github.com/cnr-ibba/nf-configs/blob/ibba/docs/ibba.md>`__
+  for more information.
 
 Custom configuration files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras gravida neque quam,
-eget sodales ante tristique luctus. Phasellus eros mauris, aliquam ut mi ac,
-aliquam iaculis ipsum. Duis mattis ligula vitae nisl aliquam pretium. Praesent
-vel velit vitae nunc tincidunt aliquam id vel eros. Maecenas accumsan sapien et
-tortor pharetra, nec blandit nisi tempor. Proin sodales consectetur ante, commodo
-sollicitudin nibh. Morbi id mattis mauris. Nullam ac ex molestie, egestas magna
-laoreet, convallis ipsum. Donec vehicula faucibus lectus. Ut nunc tellus, accumsan
-quis laoreet ut, sollicitudin ac nulla. Donec pulvinar lacus maximus orci laoreet
-pulvinar quis sit amet odio. Mauris dictum nec diam a eleifend. Aliquam sagittis,
-tellus nec eleifend venenatis, nisl velit placerat tortor, sit amet aliquet elit
-sem ac nunc. Curabitur enim felis, dignissim sed enim a, finibus posuere massa.
-Aliquam non ultricies magna.
+There are other configuration files that can be used to customize a single pipeline
+and can be stored in the pipeline directory or in the directory where you are running
+the pipeline. Those configuration files have the highest priority and can be used
+to customize a single pipeline execution for a particular project. Those configuration
+files should be specified using the ``-c`` or ``-config`` option when running the pipeline,
+for example:
+
+.. code-block:: bash
+
+  nextflow run nf-core/rnaseq -c custom.config ...
 
 .. warning::
 
@@ -110,8 +145,15 @@ Aliquam non ultricies magna.
   with a different name, you can control when it's loaded using the ``-c`` or
   ``-config`` option when running nextflow.
 
-Lowering pipeline requirements
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+More information about configuration customization can be found in the official
+nextflow `Configuration <https://www.nextflow.io/docs/latest/config.html>`__.
+The reference of all configuration options could be found at nextflow
+`Configuration options <https://www.nextflow.io/docs/latest/reference/config.html>`__
+reference. Here we provide some examples of how to customize a pipeline using
+custom configuration files.
+
+Configuring process limits
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Nextflow let you to specify the amount of resources required by a pipeline step
 using process `selectors <https://www.nextflow.io/docs/latest/config.html#process-selectors>`__
@@ -121,7 +163,7 @@ are specified in ``conf/base.config`` file. There are mainly two types of select
 for a process by name, the second one let you to specify the requirements for every
 process having the same label. To lower resources requirements, it's better to
 start by redefining the most used labels, like ``process_high`` and ``process_medium``,
-and then redefine single process by names. Start with an empty configuration
+and then redefine single process by names. Start with an empty *custom configuration*
 file and add a ``process`` scope like this:
 
 .. code-block:: groovy
@@ -154,6 +196,9 @@ or ``-config`` option:
 
   Since these parameters will override the default ones, it's better to declare only
   the minimal parameters required by your pipeline.
+
+Dynamic allocation of resources (old syntax)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 You can also declare resources dynamically. For example, you can make use of the
 ``check_max`` function, but you will require to define the ``check_max`` function
