@@ -18,6 +18,12 @@ repository::
 
     nextflow clone nf-core/rnaseq
 
+However, you don't need to modify a pipeline if you need only to change a pipeline
+parameter or adapt the execution to your local environment: a pipeline execution
+is high customizable by providing *custom configuration files* and *parameters*. Cloning
+a pipeline is useful when you need to add new features or to fix bugs in a pipeline
+you are working on.
+
 .. warning::
 
   if you clone a pipeline with ``nextflow clone`` command, ensure that git *remotes* are
@@ -28,16 +34,24 @@ repository::
 Configuring a pipeline
 ----------------------
 
-You can customize a pipeline by creating a custom configuration file. This could
+You can customize a pipeline by creating custom configuration files: this could
 be necessary if you need to lower the requirements of a pipeline, for example,
-in order to run a pipeline with limited resources or to avoid to provide pipeline
-parameters using the command line interface. You can also specify a custom
+in order to run a pipeline with limited resources or if you need to track the
+parameters you are been using for a particular analysis. You can also specify a custom
 configuration file in order to run a pipeline with a different profile, for example
 to enable different options required to a specific environment. A custom configuration
 file has an higher priority than the default configuration file, but will have a lower
-priority than the parameters provided with command line. For a complete list of
+priority than the parameters provided with command line. Moreover, is it possible
+to use an *institutional configuration file* in which you can specify the default
+parameters for all the pipelines you plan to execute within the infrastructure
+provided by your institution (see `here <https://github.com/nf-core/configs>`__
+for an example). For a complete list of
 configuration options and priorities, please see the
-`nextflow config <https://www.nextflow.io/docs/latest/config.html>`__ documentation.
+`nextflow configuration <https://www.nextflow.io/docs/latest/config.html>`__ documentation.
+
+Defaults configuration files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Before starting with a new custom configuration file, you should take a look to
 the default configuration file provided by the pipeline you are working on. For
 a standard nextflow pipeline, the default configuration file is named ``nextflow.config``
@@ -56,6 +70,38 @@ are defined.
   cannot be specified using the command line interface (for example the amount of
   memory required by a certain step) can be defined in the custom configuration file.
 
+Institutional configuration files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras gravida neque quam,
+eget sodales ante tristique luctus. Phasellus eros mauris, aliquam ut mi ac,
+aliquam iaculis ipsum. Duis mattis ligula vitae nisl aliquam pretium. Praesent
+vel velit vitae nunc tincidunt aliquam id vel eros. Maecenas accumsan sapien et
+tortor pharetra, nec blandit nisi tempor. Proin sodales consectetur ante, commodo
+sollicitudin nibh. Morbi id mattis mauris. Nullam ac ex molestie, egestas magna
+laoreet, convallis ipsum. Donec vehicula faucibus lectus. Ut nunc tellus, accumsan
+quis laoreet ut, sollicitudin ac nulla. Donec pulvinar lacus maximus orci laoreet
+pulvinar quis sit amet odio. Mauris dictum nec diam a eleifend. Aliquam sagittis,
+tellus nec eleifend venenatis, nisl velit placerat tortor, sit amet aliquet elit
+sem ac nunc. Curabitur enim felis, dignissim sed enim a, finibus posuere massa.
+Aliquam non ultricies magna.
+
+Custom configuration files
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras gravida neque quam,
+eget sodales ante tristique luctus. Phasellus eros mauris, aliquam ut mi ac,
+aliquam iaculis ipsum. Duis mattis ligula vitae nisl aliquam pretium. Praesent
+vel velit vitae nunc tincidunt aliquam id vel eros. Maecenas accumsan sapien et
+tortor pharetra, nec blandit nisi tempor. Proin sodales consectetur ante, commodo
+sollicitudin nibh. Morbi id mattis mauris. Nullam ac ex molestie, egestas magna
+laoreet, convallis ipsum. Donec vehicula faucibus lectus. Ut nunc tellus, accumsan
+quis laoreet ut, sollicitudin ac nulla. Donec pulvinar lacus maximus orci laoreet
+pulvinar quis sit amet odio. Mauris dictum nec diam a eleifend. Aliquam sagittis,
+tellus nec eleifend venenatis, nisl velit placerat tortor, sit amet aliquet elit
+sem ac nunc. Curabitur enim felis, dignissim sed enim a, finibus posuere massa.
+Aliquam non ultricies magna.
+
 .. warning::
 
   Avoid to name your custom config file as ``nextflow.config``, since is a reserved
@@ -65,7 +111,7 @@ are defined.
   ``-config`` option when running nextflow.
 
 Lowering pipeline requirements
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Nextflow let you to specify the amount of resources required by a pipeline step
 using process `selectors <https://www.nextflow.io/docs/latest/config.html#process-selectors>`__
@@ -177,7 +223,7 @@ number of job submitted.
   submitted using the nextflow *params file* or command line interface.
 
 Provide custom parameters to a process
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Some modules may require additional parameters to be provided in order to work
 correctly. This parameters can be specified with the ``ext.args`` variable within
@@ -199,7 +245,7 @@ so on. In a DSL2 pipeline, custom variables for each process are defined in
 are set by default in your pipeline and before adding new variables to a process.
 
 Create a custom profile
-~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^
 
 A profile is a set of parameters that can be used to run a pipeline in a specific
 environment. For example, you can define a profile to run a pipeline in a cluster
@@ -229,6 +275,22 @@ in a different environment. You can the call your pipeline using the ``-profile`
 option::
 
   nextflow run -profile cineca,singularity ...
+
+Params file
+~~~~~~~~~~~
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras gravida neque quam,
+eget sodales ante tristique luctus. Phasellus eros mauris, aliquam ut mi ac,
+aliquam iaculis ipsum. Duis mattis ligula vitae nisl aliquam pretium. Praesent
+vel velit vitae nunc tincidunt aliquam id vel eros. Maecenas accumsan sapien et
+tortor pharetra, nec blandit nisi tempor. Proin sodales consectetur ante, commodo
+sollicitudin nibh. Morbi id mattis mauris. Nullam ac ex molestie, egestas magna
+laoreet, convallis ipsum. Donec vehicula faucibus lectus. Ut nunc tellus, accumsan
+quis laoreet ut, sollicitudin ac nulla. Donec pulvinar lacus maximus orci laoreet
+pulvinar quis sit amet odio. Mauris dictum nec diam a eleifend. Aliquam sagittis,
+tellus nec eleifend venenatis, nisl velit placerat tortor, sit amet aliquet elit
+sem ac nunc. Curabitur enim felis, dignissim sed enim a, finibus posuere massa.
+Aliquam non ultricies magna.
 
 Creating a new pipeline
 -----------------------
