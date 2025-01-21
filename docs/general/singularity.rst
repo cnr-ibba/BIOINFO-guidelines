@@ -20,7 +20,7 @@ You can refer to the `Singularity`_ official documentation.
 .. _Singularity: https://docs.sylabs.io/guides/latest/user-guide/
 
 Containers
-^^^^^^^^^^
+----------
 
 Containers are single files that allow the transfer of computing environments
 without worrying about installing all needed software and dependencies on each different OS or machine.
@@ -47,7 +47,7 @@ to install and run a specific software.
   on our *core* machine and in every cluster *nodes*
 
 Apptainer and SingularityCE
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+---------------------------
 
 Apptainer and SingularityCE are two branches that originated from the original
 Singularity project. Apptainer is the community-driven continuation of Singularity,
@@ -89,7 +89,7 @@ Please see `this discussion <https://github.com/sylabs/singularity/discussions/2
 for more information regarding Apptainer and SingularityCE.
 
 Singularity compatibility
-~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------
 
 The community behind the Apptainer development wants to minimize the differences
 between Apptainer and singularity: for example the `*.sif` images should work
@@ -101,7 +101,7 @@ executable. See `Singularity Compatibility <https://apptainer.org/docs/user/main
 documentation for more information.
 
 Docker and Singularity
-^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~
 
 Docker and Singularity are both popular containerization technologies, but they
 serve different purposes and environments. Docker is widely used in software development
@@ -152,7 +152,8 @@ to host and search for Singularity containers.
 To search for a Singularity container, follow these steps depending on the platform:
 
 Using Docker Hub with Singularity
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Singularity can pull containers directly from Docker Hub.
 
 You can search for containers on `Docker Hub <https://hub.docker.com/>`_.
@@ -166,7 +167,7 @@ Where ``container_name.sif`` is an optional parameters which set the output file
 name of the downloaded container.
 
 Using Sylabs Cloud
-^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~
 
 Sylabs provides a cloud platform for Singularity containers, and it’s a common
 replacement for Singularity Hub. Visit `Sylabs Cloud`_
@@ -180,7 +181,7 @@ Where ``container_name.sif`` is an optional parameters which set the output file
 name of the downloaded container.
 
 Using Biocontainers
-^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~
 
 Biocontainers is a community-driven project that provides bioinformatics software
 in containers. You can search for bioinformatics containers on the
@@ -195,7 +196,7 @@ Where ``container_name.sif`` is an optional parameters which set the output file
 name of the downloaded container.
 
 Using docker-daemon
-^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~
 
 Sometimes you may have a Docker container already pulled on your system, or you
 have just created a docker image and you want to convert it to a Singularity container:
@@ -213,7 +214,7 @@ Where ``container_name.sif`` is an optional parameters which set the output file
   ``docker-daemon://`` but just ``docker-daemon:`` followed by the image id.
 
 Using mulled-search
-^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~
 
 mulled-search is part of the `galaxy-tool-util <https://pypi.org/project/galaxy-tool-util/>`_
 that allows you to search for bioinformatics software containers in the Bioconda
@@ -279,13 +280,13 @@ Create a container
 ------------------
 
 Build a container
-^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~
 
 Build a container without root access
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Create a mulled container
-^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Singularity best best practices
 -------------------------------
@@ -293,7 +294,7 @@ Singularity best best practices
 .. _clean-up-singularity:
 
 Clean up
-^^^^^^^^
+~~~~~~~~
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras gravida neque quam,
 eget sodales ante tristique luctus. Phasellus eros mauris, aliquam ut mi ac,

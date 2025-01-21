@@ -127,7 +127,7 @@ in conda documentation for more information
   have less dependencies to evaluate
 
 A note on channels
-""""""""""""""""""
+^^^^^^^^^^^^^^^^^^
 
 .. _a-note-on-channels:
 

@@ -82,7 +82,7 @@ Setting permissions
 -------------------
 
 Set group ownership
--------------------
+~~~~~~~~~~~~~~~~~~~
 
 You could change group ownership of a file or a directory with ``chgrp`` and
 your group name (you should belong to it to change group ownership)::

@@ -95,7 +95,7 @@ on your terminal. In case you don't have OpenSSH installed, you could install th
 if you want to provide remote connections on your local machine)
 
 Generate a public key pair with OpenSSH
-"""""""""""""""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. _openssh-keygen:
 
@@ -150,7 +150,7 @@ machine, you could download and install MobaXterm to have a full terminal and a 
 transfer in the same application.
 
 Generate a public key pair with MobaXterm
-"""""""""""""""""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. _mobaxterm-keygen:
 
@@ -187,7 +187,7 @@ After enabling WSL, you can install any distribution you like from Windows App
 Store.
 
 Generate a public key pair with Windows App
-"""""""""""""""""""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 When you open your installed Linux application (like the Ubuntu App), you will have
 a full terminal like any Linux distribution. The instruction on how to generate a
@@ -204,7 +204,7 @@ remote servers and gives you only a terminal; The second could be useful for dat
 transfer between remote and local directories.
 
 Generate a public key pair with PuttyGen
-""""""""""""""""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Putty and WinSCP works with *Putty key files* which are quite different from key
 files you can create with OpenSSH. In order to generate such keys, you will need
@@ -289,7 +289,7 @@ Connecting with OpenSSH
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 Start a new connection
-""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^
 
 .. _openssh-connect:
 
@@ -346,7 +346,7 @@ option::
   like this, please tell immediately it to your system administrator.
 
 Closing a connection
-""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^
 
 To exit from the remote terminal and logout from the remote server, simply type::
 
@@ -355,7 +355,7 @@ To exit from the remote terminal and logout from the remote server, simply type:
 in order to close the remote session.
 
 OpenSSH connection options
-""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 OpenSSH let you to store connetion parameters in the ``$HOME/.ssh/config``
 configuration file. There are options which are applied everytime you start a OpenSSH
@@ -448,7 +448,7 @@ and can preserve file permissions and times (which are useful to understand if a
 file is updated or not).
 
 SCP
-"""
+^^^
 
 .. _copy-files-with-scp:
 
@@ -483,7 +483,7 @@ If you want to copy a local folder into a remote folder, simply add the
   ``rsync`` is the recommended way to copy or backup files using ``OpenSSH``.
 
 Rsync
-"""""
+^^^^^
 
 .. _copy-files-with-rsync:
 
