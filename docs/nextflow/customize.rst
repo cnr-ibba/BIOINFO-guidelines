@@ -152,34 +152,41 @@ The reference of all configuration options could be found at nextflow
 reference. Here we provide some examples of how to customize a pipeline using
 custom configuration files.
 
-Configuring process limits
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+Process selectors
+^^^^^^^^^^^^^^^^^
 
-Nextflow let you to specify the amount of resources required by a pipeline step
+Nextflow let you to specify the behavior of a process or a group of processes
 using process `selectors <https://www.nextflow.io/docs/latest/config.html#process-selectors>`__
-in the configuration files. More precisely, in DSL2 pipelines, this requirements
-are specified in ``conf/base.config`` file. There are mainly two types of selectors:
-``withName`` and ``withLabel``: the first one let you to specify the requirements
-for a process by name, the second one let you to specify the requirements for every
-process having the same label. To lower resources requirements, it's better to
+in the configuration files. There are mainly two types of selectors:
+``withLabel`` and ``withName``: the first one let you to specify the requirements
+for every process having the same label, the second one let you to specify the
+requirements for a process by name. More precisely, in DSL2 pipelines, this requirements
+are specified in ``conf/base.config`` and ``conf/modules.config`` where the first
+file is used to specify the requirements for a group of jobs using *labels* and
+the second one is used to specify the requirements for a single process.
+
+The Nextflow community recommend to use labels to specify the requirements for
+a group of processes when possible using ``withLabel``: when there's
+the need to specify the requirements for a single process, you can use the ``withName``
+selector. For example, to lower resources requirements, it's better to
 start by redefining the most used labels, like ``process_high`` and ``process_medium``,
-and then redefine single process by names. Start with an empty *custom configuration*
+and after redefine single processes. Start with an empty *custom configuration*
 file and add a ``process`` scope like this:
 
 .. code-block:: groovy
 
   process {
-      withLabel:process_single {
-          memory = 1.G
+      withLabel: process_low {
+          ...
       }
-      withLabel:process_low {
-          memory = 4.G
+      withLabel: process_medium {
+          ...
       }
-      withLabel:process_medium {
-          memory = 12.G
+      withLabel: process_high {
+          ...
       }
-      withLabel:process_high {
-          memory = 48.G
+      withName: FASTQC {
+          ...
       }
   }
 
@@ -195,7 +202,24 @@ or ``-config`` option:
 .. hint::
 
   Since these parameters will override the default ones, it's better to declare only
-  the minimal parameters required by your pipeline.
+  the minimal parameters required by your pipeline. See nextflow documentation for
+  `Process selectors <https://www.nextflow.io/docs/latest/config.html#process-selectors>`__
+  for more information.
+
+.. _dynamic-allocation-resources:
+
+Dynamic allocation of resources
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas fermentum non
+nisi nec convallis. Cras et sollicitudin sapien. Nunc congue viverra dui a imperdiet.
+Proin pellentesque pretium urna, nec maximus purus efficitur vitae. Morbi nec egestas
+ligula, sit amet rutrum mauris. Maecenas in mi lacinia, dapibus massa non, dictum
+dolor. Fusce varius id augue in aliquam. Sed posuere dapibus orci id efficitur.
+Maecenas volutpat porttitor lacus, ac congue nulla. Integer at turpis rutrum, finibus
+purus a, interdum dolor. Aenean interdum purus quis lectus tempus vulputate. Curabitur
+quam est, ultricies et eros egestas, auctor ultricies odio. Morbi sollicitudin, sapien
+ac dictum gravida, nulla sapien ornare felis, quis gravida dui nulla pulvinar diam.
 
 Dynamic allocation of resources (old syntax)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -213,7 +237,8 @@ and ``max_time`` in your *custom configuration file*:
       // need to be specified in order to ``check_max`` function to work
       max_memory                 = '64.GB'
       max_cpus                   = 32
-      max_time                   = '240.h'}
+      max_time                   = '240.h'
+  }
 
   process {
       withLabel:process_medium {
@@ -734,4 +759,4 @@ Lower resources usage
 You should consider to lower the resources required by your pipeline. This will
 avoid the costs of allocating more resources than needed and will let you complete
 your analysis in a shorter time when resources are limited.
-Take a look at `Lowering pipeline requirements`_ documentation section.
+Take a look at :ref:`dynamic-allocation-resources` documentation section.
