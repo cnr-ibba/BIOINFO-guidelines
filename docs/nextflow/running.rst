@@ -195,10 +195,13 @@ requirement with the ``-r`` option, for example::
   If you need to update your local pipeline to latest version see the
   :ref:`Update a pipeline <update-a-pipelines>` section.
 
+.. _manage-community-pipelines:
+
 Manage community pipelines with ``nf-core``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. _manage-community-pipelines:
+Search for a pipeline
+^^^^^^^^^^^^^^^^^^^^^
 
 Whenever you run a community pipeline, nextflow will download and cache it (in
 your ``$HOME/.nextflow/assets/`` folder). You could check your installed community pipelines
@@ -214,6 +217,11 @@ You could search for a specific pipeline by providing a name as an argument::
 
   nf-core pipelines list rna
 
+Download a pipeline
+^^^^^^^^^^^^^^^^^^^
+
+.. _nf-core-pipelines-download:
+
 You can download a pipeline with its container dependencies. This will be helpful
 when running nextflow in an environment without internet connection::
 
@@ -222,6 +230,16 @@ when running nextflow in an environment without internet connection::
 this command let the possibility to amend singularity images in your
 ``$NXF_SINGULARITY_CACHEDIR``, which means that images will not be placed in the
 archive but in your local ``$NXF_SINGULARITY_CACHEDIR`` folder if missing.
+
+.. hint::
+
+  using the option ``--download-configuration yes`` you can download also the
+  institutional configuration file for *offline* usage. This is useful when you
+  need to run a pipeline in an environment without internet connection. For more
+  information see :ref:`institutional-configuration-files` and :ref:`running-nextflow-offline`.
+
+Run a pipeline
+^^^^^^^^^^^^^^
 
 The most interesting thing is the possibility to configure params interactively with::
 

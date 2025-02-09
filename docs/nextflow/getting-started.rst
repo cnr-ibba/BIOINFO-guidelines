@@ -164,7 +164,7 @@ Default configuration file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The default configuration has the lowest priority and can be used to define option
-can be applied to all your pipeline executions. This file is
+can be applied to all your pipelines. This file is
 located in ``$HOME/.nextflow/config`` and can be used for example for limiting
 resources usage::
 
@@ -234,7 +234,7 @@ nextflow documentation. Here are a selection of them:
    *  - NXF_OPTS
       - | Provides extra options for the Java and Nextflow runtime.
         | It must be a blank separated list of ``-Dkey[=value]`` properties
-      - ``-Xms500M -Xmx2G``
+      - ``-Xms500M -Xmx4G``
    *  - NXF_SINGULARITY_CACHEDIR
       - | Directory where remote Singularity images are stored.
         | When using a computing cluster it must be a shared
@@ -260,7 +260,7 @@ Those environment variables could be set in your ``$HOME/.profile`` (Debian) or
 
   # Nextflow custom environment variables
   export NXF_EXECUTOR=slurm
-  export NXF_OPTS="-Xms500M -Xmx2G"
+  export NXF_OPTS="-Xms500M -Xmx4G"
   export NXF_SINGULARITY_CACHEDIR="$WORK/nxf_singularity_cache"
   export NXF_WORK="$CINECA_SCRATCH/nxf_work"
   export NXF_OFFLINE='true'

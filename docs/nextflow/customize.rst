@@ -70,6 +70,8 @@ are defined.
   cannot be specified using the command line interface (for example the amount of
   memory required by a certain step) can be defined in the custom configuration file.
 
+.. _institutional-configuration-files:
+
 Institutional configuration files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -80,7 +82,8 @@ This repository is located at `<https://github.com/nf-core/configs>`__ and is
 structured in mainly two sections, configuration that are shared among all pipelines
 and configuration that are specific to a single pipeline. Usually the first configuration
 files keeps information about *executors*, *queues*, *resources* and
-they can be applied to all pipelines independently. The second
+they can be applied to all pipelines independently in a particular computing
+environment in your institute. The second
 configuration files are specific to a single pipeline and can be used to customize
 a single pipeline step, for example to change the number of CPUs or the amount of memory
 required by a single process overriding the pipeline default configuration.
@@ -122,6 +125,15 @@ documents for more information.
   are already configured to use our local institutional configuration repository.
   See `nf-core/configs: IBBA Configuration <https://github.com/cnr-ibba/nf-configs/blob/ibba/docs/ibba.md>`__
   for more information.
+
+.. hint::
+
+  The institutional configuration files are accessed remotely during pipeline execution:
+  if you need to work offline, you should download and manage a local copy and provide
+  the path to the institutional configuration file using the ``-config`` option and
+  the institutional configuration git repository though the ``--custom_config_base``
+  option. More information can be found in :ref:`running-nextflow-offline`
+  and :ref:`cloning-institutional-configuration-files` of this documentation.
 
 Custom configuration files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~

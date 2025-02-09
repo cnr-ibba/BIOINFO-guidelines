@@ -275,3 +275,38 @@ non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non
 fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa
 scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in
 risus volut
+
+.. _cloning-institutional-configuration-files:
+
+Cloning institutional configuration files
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The institutional configuration files should be cloned locally in order to be
+used by the pipelines when running nextflow offline. Simple clone the repository
+in a local directory:
+
+.. code-block:: bash
+
+  git clone https://github.com/nf-core/configs.git
+
+Then you can use the ``-c`` or ``-config`` option to specify the location of the
+base ``nfcore_custom.config`` inside the cloned repository, and the
+``--custom_config_base`` to specify the path of the cloned git repository,
+for example:
+
+.. code-block:: bash
+
+  nextflow run nf-core/rnaseq -r 3.12.0 -profile institution -resume \
+  -config /path/to/configs/nfcore_custom.config --custom_config_base /path/to/configs
+
+.. tip::
+
+  You can also download a copy of institutional configuration files from using
+  ``--download-configuration yes`` with ``nf-core pipelines download`` command.
+  See the :ref:`download a pipeline <nf-core-pipelines-download>` with nf-core
+  section of this guideline.
+
+.. hint::
+
+  At cnr-ibba we have a forked version of the nf-core/configs repository with
+  custom options and profiles, which is available at https://github.com/cnr-ibba/nf-configs/.
