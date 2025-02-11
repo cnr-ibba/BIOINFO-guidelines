@@ -223,23 +223,122 @@ or ``-config`` option:
 Dynamic allocation of resources
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas fermentum non
-nisi nec convallis. Cras et sollicitudin sapien. Nunc congue viverra dui a imperdiet.
-Proin pellentesque pretium urna, nec maximus purus efficitur vitae. Morbi nec egestas
-ligula, sit amet rutrum mauris. Maecenas in mi lacinia, dapibus massa non, dictum
-dolor. Fusce varius id augue in aliquam. Sed posuere dapibus orci id efficitur.
-Maecenas volutpat porttitor lacus, ac congue nulla. Integer at turpis rutrum, finibus
-purus a, interdum dolor. Aenean interdum purus quis lectus tempus vulputate. Curabitur
-quam est, ultricies et eros egestas, auctor ultricies odio. Morbi sollicitudin, sapien
-ac dictum gravida, nulla sapien ornare felis, quis gravida dui nulla pulvinar diam.
+It is possible that different instances of a process require different resources
+in terms of computing power, memory, or time. In such situations, requesting, for example,
+an amount of memory too low will cause some tasks to fail. Instead, using a
+higher limit that fits all the tasks in your execution could significantly
+decrease the execution priority of your jobs. In such cases, the
+`Dynamic directives <https://www.nextflow.io/docs/latest/process.html#dynamic-directives>`_
+could be useful to increase the resources required by a process if the task fails
+and is retried. For example, Nextflow let you to specify the resources
+required by a process dynamically using the ``task.attempt`` variable. This variable
+is a counter that is incremented each time a task is retried. For example, you can
+specify the resources required by a process like this:
+
+.. code-block:: groovy
+
+  process {
+      withLabel:process_medium {
+          cpus   = { 6     * task.attempt }
+          memory = { 12.GB * task.attempt }
+          time   = { 8.h   * task.attempt }
+      }
+  }
+
+Other directives that affect the dynamic allocation of resources when a task is retried
+are `errorStrategy <https://www.nextflow.io/docs/latest/reference/process.html#errorstrategy>`_
+and `maxRetries <https://www.nextflow.io/docs/latest/reference/process.html#maxretries>`_:
+the first one let you to specify the behavior of a process when an error occurs,
+and you can configure this option to terminate the pipeline when an error is found or
+continue with the workflow just ignoring the error. The second one let you to specify the
+maximum number of retries for a process, after that value is reached, the entire
+pipeline will be terminated. Usually, these directive are defined by default in
+``conf/base.config`` file of the pipeline like this:
+
+.. code-block:: groovy
+
+  process {
+      errorStrategy = { task.exitStatus in ((130..145) + 104) ? 'retry' : 'finish' }
+      maxRetries    = 1
+  }
+
+But eventually, you can override these directives for a particular process using
+the ``withName`` or ``withLabel`` process selectors in the custom configuration file.
+You can use more complex *closures* to define the behavior of a process when an error
+occurs. For example, you can specify that a process should be retried if it fails
+until a maximum number of retries is reached. After that, we just ignore the error
+and continue with the workflow:
+
+.. code-block:: groovy
+
+  process {
+      errorStrategy  { task.attempt <= maxRetries  ? 'retry' : 'ignore' }
+  }
+
+.. hint::
+
+  This can be possible if there are no dependent processes that require the output
+  of the process that failed. Take a look to the
+  `Handling failing jobs with Nextflow <https://lucacozzuto.medium.com/handling-failing-jobs-with-nextflow-24405b97b679>`_
+  medium article to get more hints on how to handle failing jobs in Nextflow.
+
+Setting max amount of resources for a process
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Nextflow will also let you to specify the maximum resources required by a process
+using the `resourceLimits <https://www.nextflow.io/docs/latest/reference/process.html#resourcelimits>`_
+directive: this could be specified at the task level or globally at the process level.
+In the latter case, you will set the maximum resources required by every process
+called by the pipeline. An example of how to specify the maximum resources required
+by a process is shown below:
+
+.. code-block:: groovy
+
+  process {
+      resourceLimits = [
+          cpus: 32,
+          memory: 64.GB
+      ]
+  }
+
+.. warning::
+
+  When using the `resourceLimits` directive, you are only declare the maximum
+  amount of resources that a process can require, you are not specifying the
+  total amount of resources that will be used by all the process during the
+  pipeline execution.
+
+.. hint::
+
+  The `resourceLimits` directive was introduced in Nextflow version ``24.04.0``:
+  the pipeline options ``--max_cpus``, ``--max_memory`` and ``--max_time`` are
+  deprecated and will be removed in future versions. If you need to work
+  with pipelines developed with older versions of Nextflow, you should use the
+  old ``check_max`` function to ensure that resource requirements don't exceed
+  a maximum limit. See the `Dynamic allocation of resources (old syntax)`_
+  section for more information.
+
+.. tip::
+
+  If you need to know if your pipeline support the newest ``resourceLimits`` directive,
+  take a look at ``nextflow.config`` file in the pipeline directory and in the
+  ``conf/base.config`` file: if the dynamic allocation of resources is managed by
+  the ``check_max`` function and by the ``max_cpus``, ``max_memory`` and ``max_time``
+  parameters, you should use the old syntax to manage resources.
+
 
 Dynamic allocation of resources (old syntax)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-You can also declare resources dynamically. For example, you can make use of the
-``check_max`` function, but you will require to define the ``check_max`` function
-in your custom configuration file. Remember also to specify ``max_memory``, ``max_cpus``
-and ``max_time`` in your *custom configuration file*:
+Before version ``24.04.0``, Nextflow let you specify the maximum resources required
+by a process using the ``--max_cpus``, ``--max_memory`` and ``--max_time`` parameters.
+The resources were allocated dynamically using the ``check_max`` function, which
+needs to be included in the custom configuration file or in any files that make
+use of the ``check_max`` function to dynamically allocate resources.
+You should remember to specify a default value for ``max_memory``, ``max_cpus``,
+and ``max_time`` in your *custom configuration file* to avoid warnings
+when the ``check_max`` function is evaluated. An example of how to specify the maximum
+resources required by a process with the old syntax is shown below:
 
 .. code-block:: groovy
 
@@ -302,7 +401,27 @@ number of job submitted.
 .. hint::
 
   ``--max_cpus``, ``--max_memory`` and ``--max_time`` are parameters that can be
-  submitted using the nextflow *params file* or command line interface.
+  submitted using the nextflow *params file* or *command line interface*.
+
+Remove process limits
+^^^^^^^^^^^^^^^^^^^^^
+
+Sometimes could be convenient to remove the limits set by a process, for example
+a very long task that requires a lot of time to be completed: in this case, will
+be more convenient to avoid setting a walltime limit and let the *executor* choose
+the max allowed value. You can simply unset the time limit for a process by setting
+a ``null`` value for the time parameter in the custom configuration file, for example:
+
+.. code-block:: groovy
+
+  process {
+      withLabel:unlimited_time {
+          time   = null
+      }
+  }
+
+This will override all the time limits set by the process and will let the *executor*
+to choose the max allowed value (if supported).
 
 Provide custom parameters to a process
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -325,6 +444,19 @@ each process independently, using ``ext.args``, ``ext.args2``, ``ext.args3``:
 so on. In a DSL2 pipeline, custom variables for each process are defined in
 ``conf/base.config`` file: take a look to this file to understand which variables
 are set by default in your pipeline and before adding new variables to a process.
+
+Change output file names
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas fermentum non
+nisi nec convallis. Cras et sollicitudin sapien. Nunc congue viverra dui a imperdiet.
+Proin pellentesque pretium urna, nec maximus purus efficitur vitae. Morbi nec egestas
+ligula, sit amet rutrum mauris. Maecenas in mi lacinia, dapibus massa non, dictum
+dolor. Fusce varius id augue in aliquam. Sed posuere dapibus orci id efficitur.
+Maecenas volutpat porttitor lacus, ac congue nulla. Integer at turpis rutrum, finibus
+purus a, interdum dolor. Aenean interdum purus quis lectus tempus vulputate. Curabitur
+quam est, ultricies et eros egestas, auctor ultricies odio. Morbi sollicitudin, sapien
+ac dictum gravida, nulla sapien ornare felis, quis gravida dui nulla pulvinar diam.
 
 Create a custom profile
 ^^^^^^^^^^^^^^^^^^^^^^^
