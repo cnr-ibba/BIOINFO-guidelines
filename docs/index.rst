@@ -29,10 +29,10 @@ section of our documentation.
     :maxdepth: 2
     :caption: The Terminal
 
-    terminal/R
-    terminal/slurm
     terminal/ssh
     terminal/tmux
+    terminal/R
+    terminal/slurm
 
 .. toctree::
     :maxdepth: 2

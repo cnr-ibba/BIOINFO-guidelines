@@ -94,12 +94,18 @@ on your terminal. In case you don't have OpenSSH installed, you could install th
 ``openssh-client`` package (there's also a ``openssh-server`` but is required only
 if you want to provide remote connections on your local machine)
 
+.. hint::
+
+  Starting from Windows 10, ssh client is included in the operating system and
+  available through windows PowerShell. Open PowerShell and type ``ssh`` to see
+  if it's installed. If not, you should add it from the *Windows Features* panel.
+
 Generate a public key pair with OpenSSH
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. _openssh-keygen:
 
-The easiest way to generate a key pairs using ssh is by using ``ssh-keygen``. This
+The easiest way to generate a key pairs on Linux/MacOS using ssh is by using ``ssh-keygen``. This
 util requests to you to provide the path where to store the key pair and a passphrase
 required when using your key pairs. You could reply with no arguments (simply press
 ``enter`` key) to leave the default options::
@@ -140,6 +146,11 @@ the ``id_rsa.pub`` file). If you used the default options, such file is stored i
 administrator in order to be able to connect remotely. After that, please see
 :ref:`OpenSSH <openssh-connect>` section under `Remote connection to a Server`_
 section.
+
+.. hint::
+
+  In Windows, you can generate a key pair using the ``ssh-keygen.exe`` command in
+  Windows PowerShell. The options are the same as in Unix environment.
 
 MobaXterm
 ~~~~~~~~~
@@ -194,6 +205,36 @@ a full terminal like any Linux distribution. The instruction on how to generate 
 public key are the same of :ref:`Generate a public key pair with OpenSSH <openssh-keygen>`.
 Also, connections to remote server are made using OpenSSH, see
 :ref:`Connecting with OpenSSH <openssh-connect>` section
+
+Visual Studio Code
+~~~~~~~~~~~~~~~~~~
+
+The `Visual Studio Code <https://code.visualstudio.com/>`_
+`Remote - SSH extension <https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh>`_
+enables you to open a remote folder
+on any remote machine, virtual machine, or container with an active SSH server,
+leveraging the full feature set of VS Code. Once connected, you can interact
+with files and folders across the remote filesystem.
+
+You don't need any source code on your local machine to utilize these features,
+as the extension executes commands and other extensions directly on the remote
+machine. The extension will install the VS Code Server on the remote OS,
+which operates independently of any existing VS Code installation on the remote OS.
+
+In order to use VSCode with SSH, you need to:
+
+1. Have any OpenSSH compatible client installed on your local machine
+2. Have Visual Studio Code installed on your local machine
+3. Install the `Remote - SSH extension <https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh>`_
+   on your local machine or the `Remote Development <https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack>`_
+   extension pack which includes the Remote - SSH extension with other remote extensions
+
+Generate a public key pair with VSCode
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+VSCode will use the OpenSSH client installed on your local machine to connect to
+remote servers. You can generate a key pair using the same procedure as described
+in the :ref:`Generate a public key pair with OpenSSH <openssh-keygen>` section.
 
 Putty and WinSCP
 ~~~~~~~~~~~~~~~~
@@ -260,11 +301,17 @@ respectively)::
 
 Those permission are **required** in order to allow remote connections. If not, you
 can't use your public key for authentication. To copy your public key in the
-remote ``$HOME/.ssh/authorized_keys`` file, you can paste your public key inside
-this file or use ``ssh-copy-id`` from your *local* terminal (only for OpenSSH
-users)::
+remote ``$HOME/.ssh/authorized_keys`` file, you can copy your *public key* inside
+the remote machine and then adding this public key to the ``authorized_keys`` file,
+for example if your public key is named ``id_rsa.pub`` you can do like this::
 
-  $ ssh-copy-id -i $HOME/.ssh/id_rsa.pub <user>@<remote server>
+  cat id_rsa.pub >> $HOME/.ssh/authorized_keys
+
+The previous command need to be executed in the **remote** environment (where you need to
+connect). In linux there's the ``ssh-copy-id`` utility that will add automatically your
+local public key to the remote ``authorized_keys`` from your **local** terminal:
+
+  ssh-copy-id -i $HOME/.ssh/id_rsa.pub <user>@<remote server>
 
 Where the option ``-i`` define the path of your public key file. ``<user>`` and
 ``<remote server>`` are respectively your *username* in the remote machine and
@@ -294,18 +341,19 @@ Start a new connection
 .. _openssh-connect:
 
 In order to remote-connect using OpenSSH (once your public key is properly set),
-you need to call ``ssh`` command by specify your *remote username* and *remote machine*,
+you need to call ``ssh`` command by specify your *remote username* and *remote machine*:
+this can be done in both Unix and Windows (through PowerShell) environments,
 for example::
 
-  $ ssh <user>@<remote server>
+  ssh <user>@<remote server>
 
-This will be sufficent to login, if you have your **private key** in the default
+This will be sufficient to login, if you have your **private key** in the default
 location (you haven't specified a different path for your key files during creation).
 In case you don't have your private key in the default location (or you have chosen
 a different name) you could provide your **private key** file with the ``-i`` identity
 option::
 
-  $ ssh -i /path/to/your/private/id_rsa <user>@<remote server>
+  ssh -i /path/to/your/private/id_rsa <user>@<remote server>
 
 .. hint::
 
@@ -357,10 +405,10 @@ in order to close the remote session.
 OpenSSH connection options
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-OpenSSH let you to store connetion parameters in the ``$HOME/.ssh/config``
-configuration file. There are options which are applied everytime you start a OpenSSH
+OpenSSH let you to store connection parameters in the ``$HOME/.ssh/config``
+configuration file. There are options which are applied every time you start a OpenSSH
 connection with ``ssh`` or options that are applied only on specific remote server.
-You could also choose to override global configuration by specifing the same parameters
+You could also choose to override global configuration by specifying the same parameters
 in the specific remote section. The ``$HOME/.ssh/config`` could be structured like
 this::
 
@@ -413,6 +461,68 @@ You will see all your saved session by clicking on the *Sessions* tab (the tab
 with a *Star* on the left of the main session) and you can start a new connection
 by clicking to the session name you have previously configured. Fore more
 information, see `MobaXterm documentation <https://mobaxterm.mobatek.net/documentation.html>`_
+
+Connecting with Visual Studio Code
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To connect to a remote server using Visual Studio Code, first ensure you can connect
+to the remote server using OpenSSH from a terminal / PowerShell. Once you have
+successfully connected to the remote server, from visual studio code select
+**Remote-SSH: Connect to Host...** from the command palette (Ctrl+Shift+P) and
+enter the remote server address in the format ``<user>@<remote server>`` as you
+did with OpenSSH.
+
+.. hint::
+
+  In alternative, you can click on the green icon in the bottom left corner of
+  the Visual Studio Code window and select **Remote-SSH: Connect to Host...**.
+
+  .. image:: /_static/img/vscode_connect.png
+
+If VS Code cannot automatically detect the type of server
+you are connecting to, you will be asked to select the type manually. After a
+moment, VS Code will connect to the SSH server and set itself up. VS Code will
+keep you up-to-date using a progress notification and you can see a detailed
+log in the Remote - SSH output channel. Finally you will be connected to the
+remote server and you can start working on your remote files as if they were
+local. For more information, please see
+`Remote Development using SSH <https://code.visualstudio.com/docs/remote/ssh>`_
+guide for Visual Studio Code.
+
+Configure terminal for remote sessions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To configure the terminal for remote sessions in order to act like when you
+connect into remote server using OpenSSH with the full initialization of environment
+variables, you need to configure the ``terminal.integrated.profiles.linux`` in
+your ``settings.json`` for the remote connection profile. Open the VScode settings
+and then on the *remote tab*, which can be WSL or any ``user@host`` connection you
+have configured. Then in the search box, paste the ``terminal.integrated.profiles.linux``,
+you should find a box in which it is possible to open the ``settings.json`` file
+for changes. Find the ``bash`` section and add args like this::
+
+  args: [
+    "-l"
+  ]
+
+Your final configuration file for remote connection should look like this (at
+least for ``bash`` section):
+
+.. code-block:: json
+
+  "terminal.integrated.profiles.linux": {
+        "bash": {
+            "path": "bash",
+            "icon": "terminal-bash",
+            "args": [
+               "-l"
+            ]
+        }
+    }
+
+Save the file and restart VSCode. Now, when you open a terminal in a remote connection,
+you will have the same environment variables and initialization as when you connect
+to a remote server using OpenSSH.
 
 Connecting with Putty
 ~~~~~~~~~~~~~~~~~~~~~
