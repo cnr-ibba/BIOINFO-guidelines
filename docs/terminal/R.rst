@@ -42,7 +42,7 @@ Create an R environment with conda
 
 Despite you can install R from *source*, the recommended (and easiest!) way to
 install ``R`` is by using conda. Conda provides several ``R`` package and a dedicated
-`channel <https://anaconda.org/r/repo>`__ in which ``R`` dependencies are
+`channel <https://anaconda.org/r/repo>`_ in which ``R`` dependencies are
 resolved. The ``r-essentals`` conda package  provide a lot of packages installed
 with the ``r-base`` version, which provides the minimal software to run an ``R``
 session. However if you plan to manage packages installation by yourself,
@@ -113,7 +113,7 @@ is how it looks like the singularity ``.def`` file::
       echo "Arguments received: $*"
       exec "$@"
 
-Next, you will require an account to `Sylabs <https://cloud.sylabs.io/>`__,
+Next, you will require an account to `Sylabs <https://cloud.sylabs.io/>`_,
 since as a normal user you can't build locally a singularity image, you have to
 do it *remotely* using a *singularity build service*. *Sylab* can provide you
 time and space to build up images using a free tier. Once you have created an
@@ -134,7 +134,7 @@ load the ``R`` just built with your all your defined dependencies with::
 
 this will start an ``R`` terminal using your singularity image. Please see our
 section on :doc:`singularity <../general/singularity>` to get more information. Please see also
-`singularity documentation <https://docs.sylabs.io/guides/3.7/user-guide/>`__
+`singularity documentation <https://docs.sylabs.io/guides/3.7/user-guide/>`_
 to understand how create a *definition* file and which commands and parameters
 are supported when calling ``singularity``
 
@@ -142,7 +142,7 @@ Manage dependencies with Renv
 -----------------------------
 
 Instead of installing your ``R`` packages *globally*, you can use
-`Renv <https://RStudio.github.io/renv/articles/renv.html>`__ to manage the
+`Renv <https://RStudio.github.io/renv/articles/renv.html>`_ to manage the
 transition between your local environment and the remote environment, and ensure
 reproducibility between your projects. Briefly, ``renv`` install your dependencies
 within projects, and this means that you could work with projects which have different
@@ -150,7 +150,7 @@ dependencies in the same time. Moreover this could help you when resuming a proj
 started long time ago, working with the same library versions you used when you
 have started such project, without breaking your code since you have installed
 a more recent version of such packages *globally*. Unlike
-`packrat <https://RStudio.github.io/packrat/>`__, which build and install packages
+`packrat <https://RStudio.github.io/packrat/>`_, which build and install packages
 inside your project folder, ``renv`` build packages once and links such packages
 to the proper built directory when needed: this means that if you use the same
 package between different projects, your package caches is built *once* and used
@@ -184,7 +184,7 @@ your libraries one-by-one after test for their presence on the remote environmen
   Tracking ``renv.lock`` with your code using ``git`` (or backing up your ``renv.lock``
   file) is   *strongly recommended*. There can be also cases in which you have
   to clean up your environment, please refer to
-  `renv documentation <https://RStudio.github.io/renv/reference/index.html>`__.
+  `renv documentation <https://RStudio.github.io/renv/reference/index.html>`_.
 
 The here package
 ----------------
@@ -192,7 +192,7 @@ The here package
 You have to avoid to refer to your scripts or data files using *absolute paths*,
 since the paths you have in your local R installation are different from the path
 you will find on remote environment. Using a package like
-"`here <https://here.r-lib.org/>`__" can help you to code your paths relying on
+"`here <https://here.r-lib.org/>`_" can help you to code your paths relying on
 ``R`` environment. The ``here()`` function (which has the same name of the package)
 return the absolute location of your ``R`` project file, and by providing the
 *relative path* of a file respect to your project as an argument you receive an

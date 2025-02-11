@@ -10,7 +10,7 @@ About SLURM
 SLURM is a cluster management and job scheduling system for linux clusters. At
 IBBA, we maintain a very small cluster instance which can be used to test pipelines
 and scripts by allocating resources and exploiting all the computational power we have. Here's
-SLURM description from the `official documentation <https://slurm.schedmd.com/quickstart.html>`__:
+SLURM description from the `official documentation <https://slurm.schedmd.com/quickstart.html>`_:
 
 .. epigraph::
 
@@ -184,9 +184,9 @@ Migrating from Torque/PBS to SLURM
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Torque/PBS and SLURM provide similar capabilities, so you can search for documentation
-like `Migrating from Torque to Slurm <https://wiki.gacrc.uga.edu/wiki/Migrating_from_Torque_to_Slurm>`__,
-`Migrating From PBS <https://docs-research-it.berkeley.edu/services/high-performance-computing/user-guide/running-your-jobs/migrating-from-pbs/>`__
-or `PBS to Slurm Conversion Cheat Sheet <https://www.msi.umn.edu/slurm/pbs-conversion>`__
+like `Migrating from Torque to Slurm <https://wiki.gacrc.uga.edu/wiki/Migrating_from_Torque_to_Slurm>`_,
+`Migrating From PBS <https://docs-research-it.berkeley.edu/services/high-performance-computing/user-guide/running-your-jobs/migrating-from-pbs/>`_
+or `PBS to Slurm Conversion Cheat Sheet <https://www.msi.umn.edu/slurm/pbs-conversion>`_
 to have a comparison between commands for the two scheduler ecosystem.
 
 Submitting jobs
@@ -341,7 +341,7 @@ the environment variable ``NXF_EXECUTOR``::
 This is sufficient to let Nextflow submit jobs through SLURM controller, without
 modifying your pipeline. In alternative simply add ``process.executor = "slurm"``
 in the ``nextflow.config`` file. See Nextflow
-`SLURM executor documentation <https://www.nextflow.io/docs/latest/executor.html#slurm>`__
+`SLURM executor documentation <https://www.nextflow.io/docs/latest/executor.html#slurm>`_
 to get more information about available options.
 
 .. hint::

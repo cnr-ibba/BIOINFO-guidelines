@@ -49,7 +49,7 @@ however the most common are:
   In our infrastructure we have disabled the **password authentication**, only the
   **public key authentication** is allowed
 
-For more information see `6 ssh authentication methods <https://www.golinuxcloud.com/openssh-authentication-methods-sshd-config/>`__.
+For more information see `6 ssh authentication methods <https://www.golinuxcloud.com/openssh-authentication-methods-sshd-config/>`_.
 
 SSH Clients
 -----------
@@ -73,7 +73,7 @@ act in the same way while working with remote servers.
   remote machine. Your private key need to be stored securely and **never** be sent
   to anyone in order to enforce security and prevent others to access to your
   resources using your credentials. Please see ssh documentation regarding
-  `public key authentication <https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Public_Key_Authentication>`__
+  `public key authentication <https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Public_Key_Authentication>`_
 
 OpenSSH
 ~~~~~~~
@@ -83,7 +83,7 @@ OpenSSH
 OpenSSH is the *de facto* standard for remote login with SSH protocol in Linux/MacOS
 environments. Beyond login, it provides file transfer with ``scp`` and ``sftp``, it
 manages keys with ``ssh-keygen`` and ``ssh-copy-id`` and provide more advanced functionalities
-with ``ssh-agent``. More info on OpenSSH could be found `here <https://www.openssh.com/>`__.
+with ``ssh-agent``. More info on OpenSSH could be found `here <https://www.openssh.com/>`_.
 
 To discover if you have the OpenSSH client installed on your local (Unix) machine,
 simply type::
@@ -144,7 +144,7 @@ section.
 MobaXterm
 ~~~~~~~~~
 
-`MobaXterm <https://mobaxterm.mobatek.net/>`__ is an enhanced terminal for Windows
+`MobaXterm <https://mobaxterm.mobatek.net/>`_ is an enhanced terminal for Windows
 with X11 server, tabbed SSH client, network tools and much more. If you are on a Windows
 machine, you could download and install MobaXterm to have a full terminal and a file
 transfer in the same application.
@@ -169,9 +169,9 @@ Windows App
 Windows 10 lets you to install a Linux distribution from its app store with
 *Windows Subsystem for Linux (WSL)*: this lets you to install almost a complete
 GNU/Linux environment directly on Windows without installing a virtual machine
-or setting up dualboot (see `here <https://docs.microsoft.com/en-us/windows/wsl/about>`__
+or setting up dualboot (see `here <https://docs.microsoft.com/en-us/windows/wsl/about>`_
 for more information). There are two major release of WSL, WSL1 and WSL2
-(see `here <https://docs.microsoft.com/en-us/windows/wsl/compare-versions>`__
+(see `here <https://docs.microsoft.com/en-us/windows/wsl/compare-versions>`_
 to see differences between the two versions). Briefly WSL1 was the first attempt to
 import a Linux kernel in Windows and is lighter and easier to install compared to WSL2.
 WSL2 however is more advanced and implements a full virtualization of the Linux kernel:
@@ -182,7 +182,7 @@ another VM Hypervisor (such as oracle *VirtualBox* or *VMware*) and exploit all
 its advanced functionalities.
 At the moment, configuring WSL1 or WSL2 is quite tricky, so please follow the
 official Microsoft documentation on
-`Windows Subsystem for Linux Installation Guide for Windows 10 <https://docs.microsoft.com/en-us/windows/wsl/install-win10>`__.
+`Windows Subsystem for Linux Installation Guide for Windows 10 <https://docs.microsoft.com/en-us/windows/wsl/install-win10>`_.
 After enabling WSL, you can install any distribution you like from Windows App
 Store.
 
@@ -198,7 +198,7 @@ Also, connections to remote server are made using OpenSSH, see
 Putty and WinSCP
 ~~~~~~~~~~~~~~~~
 
-`Putty <https://www.putty.org/>`__ and `WinSCP <https://winscp.net/eng/index.php>`__
+`Putty <https://www.putty.org/>`_ and `WinSCP <https://winscp.net/eng/index.php>`_
 are respectively two softwares for two different tasks: the first connects to the
 remote servers and gives you only a terminal; The second could be useful for data
 transfer between remote and local directories.
@@ -221,7 +221,7 @@ with your system administrator.
 .. tip::
 
   You could convert the putty public key in OpenSSH public key as described
-  `here <https://stackoverflow.com/a/10015651/4385116>`__::
+  `here <https://stackoverflow.com/a/10015651/4385116>`_::
 
     ssh-keygen -i -f keyfile.pub > newkeyfile.pub
 
@@ -234,7 +234,7 @@ with your system administrator.
 
 Once you created (and saved) your Putty key file, see the :ref:`Connecting with Putty <putty-connect>`
 section to connect to your remote server. If you need more information on puttygen
-and Putty key, see `This guide <https://www.ssh.com/academy/ssh/putty/windows/puttygen>`__.
+and Putty key, see `This guide <https://www.ssh.com/academy/ssh/putty/windows/puttygen>`_.
 
 Remote connection to a Server
 -----------------------------
@@ -318,7 +318,7 @@ option::
     $ ssh-add /path/to/your/private/id_rsa
 
   before connecting with ``ssh``. See
-  `Passwordless Login <https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Public_Key_Authentication#Passwordless_Login>`__
+  `Passwordless Login <https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Public_Key_Authentication#Passwordless_Login>`_
   for more information
 
 .. warning::
@@ -387,8 +387,8 @@ to not provide your identity file every time you start a new connection,
 timers which regulate the timeouts when connecting and in sending messages between
 client and servers. They could be useful when connecting using a unreliable network.
 For more information on ssh ``config`` and keys see
-`Associating Keys Permanently with a Server <https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Public_Key_Authentication#Associating_Keys_Permanently_with_a_Server>`__,
-while for more information on ssh client options see the `ssh manual pages <https://linux.die.net/man/1/ssh>`__
+`Associating Keys Permanently with a Server <https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Public_Key_Authentication#Associating_Keys_Permanently_with_a_Server>`_,
+while for more information on ssh client options see the `ssh manual pages <https://linux.die.net/man/1/ssh>`_
 
 Connecting with MobaXterm
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -412,7 +412,7 @@ saved sessions. After that, click on the *Ok* button to save your session config
 You will see all your saved session by clicking on the *Sessions* tab (the tab
 with a *Star* on the left of the main session) and you can start a new connection
 by clicking to the session name you have previously configured. Fore more
-information, see `MobaXterm documentation <https://mobaxterm.mobatek.net/documentation.html>`__
+information, see `MobaXterm documentation <https://mobaxterm.mobatek.net/documentation.html>`_
 
 Connecting with Putty
 ~~~~~~~~~~~~~~~~~~~~~
@@ -646,9 +646,9 @@ When using multiplexing you will connect once and then all the other connections
 to the same resource will re-use the already defined connection, thus avoiding
 the creation of new TCP connection and the negotiation of a secure connection.
 This will help a lot when using ``ssh-agent`` or others authentication softwares
-like the `step client <https://smallstep.com/docs/step-cli/installation/>`__:
+like the `step client <https://smallstep.com/docs/step-cli/installation/>`_:
 you will need to authenticate in a terminal and then you can login from different
-terminals or applications like `VSCode <https://code.visualstudio.com/>`__.
+terminals or applications like `VSCode <https://code.visualstudio.com/>`_.
 Activities that repeatedly open new connections can be significantly sped up
 using multiplexing. In order to use SSH with multiplexing, add this to your
 ``$HOME/.ssh/config`` file::
@@ -703,8 +703,8 @@ After that you can connect to the remote server using SSH as usual.
 
     ssh -O stop <user>@<remote server> # Or ssh -O stop <alias>
 
-For more information, see `OpenSSH/Cookbook/Multiplexing <https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Multiplexing>`__
-and `How To Reuse SSH Connection... <https://www.cyberciti.biz/faq/linux-unix-reuse-openssh-connection/>`__
+For more information, see `OpenSSH/Cookbook/Multiplexing <https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Multiplexing>`_
+and `How To Reuse SSH Connection... <https://www.cyberciti.biz/faq/linux-unix-reuse-openssh-connection/>`_
 
 Mount remote folders using SSH
 ------------------------------
@@ -719,7 +719,7 @@ folder using ``sshfs``, you can edit your remote files with your preferred edito
 inspect remote file contents using your file browser.
 
 In linux, you can mount remote folder by installing ``sshfs`` package. For MacOS,
-you need `oxfuse <https://osxfuse.github.io/>`__ package. After installing required
+you need `oxfuse <https://osxfuse.github.io/>`_ package. After installing required
 packages, you need to create the destination path in which you will mount the remote
 folder. For example::
 
@@ -754,4 +754,4 @@ If you need to unmount a folder::
   $ sudo umount /mnt/core
 
 For more information, see
-`How To Use SSHFS to Mount Remote File Systems Over SSH <https://www.digitalocean.com/community/tutorials/how-to-use-sshfs-to-mount-remote-file-systems-over-ssh>`__
+`How To Use SSHFS to Mount Remote File Systems Over SSH <https://www.digitalocean.com/community/tutorials/how-to-use-sshfs-to-mount-remote-file-systems-over-ssh>`_

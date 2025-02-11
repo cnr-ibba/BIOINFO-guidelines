@@ -29,7 +29,7 @@ You can select the type of container runtime to use with the
   to networking errors, which are not related to pipelines or data but can slow or
   broke pipeline execution. In such way, it's better to configure **caches** when
   downloading softwares: singularity cache could be configured in
-  `singularity scope <https://www.nextflow.io/docs/edge/reference/config.html#singularity>`__
+  `singularity scope <https://www.nextflow.io/docs/edge/reference/config.html#singularity>`_
   or better using ``$NXF_SINGULARITY_CACHEDIR``.
   See :ref:`Setting NXF_SINGULARITY_CACHEDIR <set-singularity-cache>` for more information
 
@@ -71,14 +71,14 @@ pipeline: nextflow allows to define custom configuration files in which you can
 customize other aspects of the pipeline, like the number of CPUs to use, the
 memory to allocate, environment variables and also settings specific to the
 running environment in which the pipeline is called. For more information, see the
-`Configuration file <https://www.nextflow.io/docs/latest/config.html#configuration-file>`__
+`Configuration file <https://www.nextflow.io/docs/latest/config.html#configuration-file>`_
 section of the nextflow documentation.
 See also :ref:`Configuring a pipeline <configuring-a-pipeline>` section of this
 guidelines for more information. To get more information on CLI and pipeline
 options, please see
-`Command line <https://www.nextflow.io/docs/latest/cli.html#command-line>`__, and
-both `CLI reference <https://www.nextflow.io/docs/latest/reference/cli.html>`__
-and `Pipeline parameters <https://www.nextflow.io/docs/latest/cli.html#pipeline-parameters>`__
+`Command line <https://www.nextflow.io/docs/latest/cli.html#command-line>`_, and
+both `CLI reference <https://www.nextflow.io/docs/latest/reference/cli.html>`_
+and `Pipeline parameters <https://www.nextflow.io/docs/latest/cli.html#pipeline-parameters>`_
 from nextflow documentation.
 
 Execute a community pipeline
@@ -92,13 +92,13 @@ are public, you could download and modify them according your needs.
 Search for a community pipeline
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Community pipelines are available at `nf-core pipelines <https://nf-co.re/pipelines>`__
+Community pipelines are available at `nf-core pipelines <https://nf-co.re/pipelines>`_
 site: you could search a pipeline and browse its documentation in the
-`nf-core <https://nf-co.re/>`__ site.
+`nf-core <https://nf-co.re/>`_ site.
 For example, by searching for ``rnaseq`` you could reach the
-`rnaseq pipeline <https://nf-co.re/rnaseq>`__
+`rnaseq pipeline <https://nf-co.re/rnaseq>`_
 page project and get documentation on its usage by clicking on
-`Usage <https://nf-co.re/rnaseq/usage>`__ tab.
+`Usage <https://nf-co.re/rnaseq/usage>`_ tab.
 
 You can download a pipeline using ``nextflow pull`` followed by the pipeline
 like ``<organization name>/<pipeline>``, for example:
@@ -115,23 +115,23 @@ pipeline is executed for the first time: please check for internet connection
 during pipeline execution: if it not possible to download the container, there's
 the possibility to run nextflow offline. Please see
 :ref:`Running nextflow offline <running-nextflow-offline>` of this documentation
-and the official `Running offline <https://nf-co.re/docs/usage/getting_started/offline>`__
+and the official `Running offline <https://nf-co.re/docs/usage/getting_started/offline>`_
 nextflow documentation for more information.
 
 .. hint::
 
   The organization name is the GitHub organization which hosts the pipeline, like
-  `nf-core <https://github.com/nf-core>`__ or `cnr-ibba <https://github.com/cnr-ibba>`__,
+  `nf-core <https://github.com/nf-core>`_ or `cnr-ibba <https://github.com/cnr-ibba>`_,
   while the pipeline name is the name of the GitHub repository which contains the
   pipeline. You could derive the pipeline name by removing ``https://github.com/``
   from the repository URL. For example, from
-  `<https://github.com/nf-core/rnaseq>`__ you can derive the pipeline
+  `<https://github.com/nf-core/rnaseq>`_ you can derive the pipeline
   named ``nf-core/rnaseq``.
 
 .. tip::
 
-  You can get a list of available `nf-core pipelines <https://nf-co.re/pipelines>`__
-  using `nf-core/tools <https://github.com/nf-core/tools>`__ with
+  You can get a list of available `nf-core pipelines <https://nf-co.re/pipelines>`_
+  using `nf-core/tools <https://github.com/nf-core/tools>`_ with
   ``nf-core pipelines list`` command. You can also add a pattern to search for
   a specific pipeline, for example::
 
@@ -268,7 +268,7 @@ on GitHub, call nextflow with ``<profile/project>`` like the following example::
   nextflow run cnr-ibba/nf-resequencing-mem -resume -profile singularity \
     --input <samplesheet.csv> --genome_fasta <path/to/genome.fasta>
 
-where `cnr-ibba/nf-resequencing-mem <https://github.com/cnr-ibba/nf-resequencing-mem>`__
+where `cnr-ibba/nf-resequencing-mem <https://github.com/cnr-ibba/nf-resequencing-mem>`_
 is the repository which contains the nextflow pipeline.
 
 .. tip::
@@ -358,7 +358,7 @@ Cleanup
 After a pipeline is completed with success, it's better to clean up ``work`` directory
 in order to save space. All the desired outputs **need to be saved outside** this folder,
 in order to safely remove temporary data. There's a nextflow
-`clean <https://www.nextflow.io/docs/latest/cli.html#clean>`__ option which safely
+`clean <https://www.nextflow.io/docs/latest/cli.html#clean>`_ option which safely
 remove temporary files and nextflow logs. You can have information on nextflow runs
 by calling ``nextflow log`` inside your project folder::
 
@@ -371,14 +371,14 @@ Then you could remove a specific run using name, for example::
 
   $ nextflow clean magical_roentgen -f
 
-See `nextflow clean <https://www.nextflow.io/docs/latest/reference/cli.html#clean>`__
+See `nextflow clean <https://www.nextflow.io/docs/latest/reference/cli.html#clean>`_
 documentation for more info.
 
 .. note::
 
   When calling log, you can inspect the command line used to execute the pipeline.
   You could also get information about execution times. For more information, take a look at
-  `nextflow log <https://www.nextflow.io/docs/latest/reference/cli.html#log>`__ documentation.
+  `nextflow log <https://www.nextflow.io/docs/latest/reference/cli.html#log>`_ documentation.
 
 .. hint::
 

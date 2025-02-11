@@ -30,7 +30,7 @@ while the others are secondary group. You can have the same information by inspe
   cozzip:x:1000:
   core:x:1004:cozzip
 
-For more information see `Mastering user groups on Linux <https://www.networkworld.com/article/3409781/mastering-user-groups-on-linux.html>`__
+For more information see `Mastering user groups on Linux <https://www.networkworld.com/article/3409781/mastering-user-groups-on-linux.html>`_
 
 Log in into a new group
 -----------------------
@@ -145,4 +145,4 @@ the standard ``775`` is the ``sgid`` octal code)
   for more information.
 
 For more information on special permission, see
-`Linux permissions: SUID, SGID, and sticky bit <https://www.redhat.com/sysadmin/suid-sgid-sticky-bit>`__
+`Linux permissions: SUID, SGID, and sticky bit <https://www.redhat.com/sysadmin/suid-sgid-sticky-bit>`_

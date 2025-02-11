@@ -9,18 +9,16 @@ About Conda
 
 Conda is a software which allows you to manage software installations in distinct
 environments. It was born to support the python ecosystem, however most softwares
-has been supported by conda, for example `R`_ and its packages, and there are
+has been supported by conda, for example
+`R <https://docs.anaconda.com/anaconda/user-guide/tasks/using-r-language/>`_
+and its packages, and there are
 channels like `bioconda`_, which collect and maintain a lot of useful softwares.
 The main advantage in using conda environments is that packages could be installed
 directly with their dependencies, without the needing to compile everything. Moreover
 conda and its environments can be installed by an user without administrative privileges.
 Packages and dependencies are installed inside user directories, and a complete
 uninstallation can be done by erasing the conda installation folder.
-From the `conda`_ official documentation:
-
-.. _R: https://docs.anaconda.com/anaconda/user-guide/tasks/using-r-language/
-.. _conda: https://docs.conda.io/en/latest/index.html
-.. _`bioconda`: https://bioconda.github.io/
+From the `conda <https://docs.conda.io/en/latest/index.html>`_ official documentation:
 
 .. epigraph::
 
@@ -73,9 +71,9 @@ interfaces on a remote servers. If you are in doubt, please see the
 Download and install Conda
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You could install conda or miniconda respectively `here <https://www.anaconda.com/products/individual>`__
-and `here <https://docs.conda.io/en/latest/miniconda.html>`__. Then follow the
-installation instructions provided by Anaconda or miniconda
+You could install `conda <https://www.anaconda.com/products/individual>`_
+or `miniconda <https://docs.conda.io/en/latest/miniconda.html>`_ respectively.
+Then follow the installation instructions provided by Anaconda or miniconda.
 
 Managing environments with conda
 --------------------------------
@@ -118,7 +116,7 @@ option. You could also specify which package to install when creating an environ
 
   conda create --name <env name> [package1] [package2]
 
-See `Managing environment <https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html>`__
+See `Managing environment <https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html>`_
 in conda documentation for more information
 
 .. hint::
@@ -132,9 +130,9 @@ A note on channels
 .. _a-note-on-channels:
 
 Channels are repository where conda store packages. The ``default`` contains packages
-maintained by conda developers. There are others channels like `bioconda <https://bioconda.github.io/index.html>`__,
-which contains a lot of bioinformatics packages, `R <https://anaconda.org/r/repo>`__,
-which store *R* and its packages, `conda-forge <https://conda-forge.org/>`__, which
+maintained by conda developers. There are others channels like `bioconda <https://bioconda.github.io/>`_,
+which contains a lot of bioinformatics packages, `R <https://anaconda.org/r/repo>`_,
+which store *R* and its packages, `conda-forge <https://conda-forge.org/>`_, which
 contains community packages, often more updated that the official channels. If you
 search or want to install a package in a different channel than the ``default``, you
 have to specify with the ``--channel`` option::
@@ -142,7 +140,7 @@ have to specify with the ``--channel`` option::
   $ conda search --channel R r-base=4.3
   $ conda create --channel R --name R-4.3 r-base=4.3
 
-You can find more information on `Managing channels <https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-channels.html>`__
+You can find more information on `Managing channels <https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-channels.html>`_
 in conda documentation.
 
 .. warning::
@@ -259,7 +257,7 @@ a lot of disk space. You can free conda cache with::
 
   $ conda clean --all
 
-See `conda clean <https://docs.conda.io/projects/conda/en/latest/commands/clean.html>`__
+See `conda clean <https://docs.conda.io/projects/conda/en/latest/commands/clean.html>`_
 for more options.
 
 Setting environment variables
@@ -268,8 +266,8 @@ Setting environment variables
 .. _conda_environment_variables:
 
 In order to define specific environment variables in a conda environment, you
-can use the `config API <https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#setting-environment-variables>`__
-or create specific `environment files <https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#setting-environment-variables>`__
+can use the `config API <https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#setting-environment-variables>`_
+or create specific `environment files <https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#setting-environment-variables>`_
 where variables are changed and restored respectively by activating and deactivating
 the conda environment. The *config API* is the recommended and the easiest way
 to define environment variables. In this example we will add a specific *JAVA library*
@@ -334,5 +332,5 @@ could contains useful information.
     # see: https://unix.stackexchange.com/a/496050
     export PATH=$(echo $PATH | tr ":" "\n" | grep -v '/home/core/software/sratoolkit/bin' | xargs | tr ' ' ':')
 
-  See conda `Managing environments <https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#macos-and-linux>`__
+  See conda `Managing environments <https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#macos-and-linux>`_
   for more information.

@@ -44,10 +44,10 @@ file has an higher priority than the default configuration file, but will have a
 priority than the parameters provided with command line. Moreover, is it possible
 to use an *institutional configuration file* in which you can specify the default
 parameters for all the pipelines you plan to execute within the infrastructure
-provided by your institution (see `here <https://github.com/nf-core/configs>`__
+provided by your institution (see `here <https://github.com/nf-core/configs>`_
 for an example). For a complete list of
 configuration options and priorities, please see the
-`nextflow configuration <https://www.nextflow.io/docs/latest/config.html>`__ documentation.
+`nextflow configuration <https://www.nextflow.io/docs/latest/config.html>`_ documentation.
 
 nextflow.config
 ~~~~~~~~~~~~~~~
@@ -78,7 +78,7 @@ Institutional configuration files
 Nextflow offers a GitHub repository where institutional configuration files can
 be stored and shared among users. This means that users belonging to the same
 institution can share configuration files that are specific to their infrastructure.
-This repository is located at `<https://github.com/nf-core/configs>`__ and is
+This repository is located at `<https://github.com/nf-core/configs>`_ and is
 structured in mainly two sections, configuration that are shared among all pipelines
 and configuration that are specific to a single pipeline. Usually the first configuration
 files keeps information about *executors*, *queues*, *resources* and
@@ -89,7 +89,7 @@ a single pipeline step, for example to change the number of CPUs or the amount o
 required by a single process overriding the pipeline default configuration.
 
 Institutional configuration files are managed through the
-`profile scope <https://www.nextflow.io/docs/latest/config.html#config-profiles>`__
+`profile scope <https://www.nextflow.io/docs/latest/config.html#config-profiles>`_
 and usually the *nf-core* community pipelines are already configured to use them.
 This means that if an institutional configuration file is available in the nf-core
 configs repository, it can be using passing the profile name to the pipeline execution,
@@ -102,15 +102,15 @@ for example:
 This is enough to apply the global institutional configuration to the pipeline execution
 and the pipeline specific configuration if available. For more information
 see the
-`Shared nf-core/configs <https://nf-co.re/docs/usage/getting_started/configuration#shared-nf-coreconfigs>`__
-and the `Step-by-step guide to writing an institutional profile <https://nf-co.re/docs/tutorials/use_nf-core_pipelines/writing_institutional_profiles>`__
+`Shared nf-core/configs <https://nf-co.re/docs/usage/getting_started/configuration#shared-nf-coreconfigs>`_
+and the `Step-by-step guide to writing an institutional profile <https://nf-co.re/docs/tutorials/use_nf-core_pipelines/writing_institutional_profiles>`_
 documents for more information.
 
 .. tip::
 
   We have a custom *institutional* configuration repository at *ibba*. To use it
   with nf-core pipelines, you should add the repository
-  `cnr-ibba/nf-configs <https://github.com/cnr-ibba/nf-configs/>`__ using, the
+  `cnr-ibba/nf-configs <https://github.com/cnr-ibba/nf-configs/>`_ using, the
   ``--custom_config_base`` option, and specify `ibba` and your working environment
   profile, for example:
 
@@ -121,9 +121,9 @@ documents for more information.
       --profile ibba,core \
       ...
 
-  cnr-ibba pipelines, like `cnr-ibba/nf-resequencing-mem <https://github.com/cnr-ibba/nf-resequencing-mem>`__
+  cnr-ibba pipelines, like `cnr-ibba/nf-resequencing-mem <https://github.com/cnr-ibba/nf-resequencing-mem>`_
   are already configured to use our local institutional configuration repository.
-  See `nf-core/configs: IBBA Configuration <https://github.com/cnr-ibba/nf-configs/blob/ibba/docs/ibba.md>`__
+  See `nf-core/configs: IBBA Configuration <https://github.com/cnr-ibba/nf-configs/blob/ibba/docs/ibba.md>`_
   for more information.
 
 .. hint::
@@ -158,9 +158,9 @@ for example:
   ``-config`` option when running nextflow.
 
 More information about configuration customization can be found in the official
-nextflow `Configuration <https://www.nextflow.io/docs/latest/config.html>`__.
+nextflow `Configuration <https://www.nextflow.io/docs/latest/config.html>`_.
 The reference of all configuration options could be found at nextflow
-`Configuration options <https://www.nextflow.io/docs/latest/reference/config.html>`__
+`Configuration options <https://www.nextflow.io/docs/latest/reference/config.html>`_
 reference. Here we provide some examples of how to customize a pipeline using
 custom configuration files.
 
@@ -168,7 +168,7 @@ Process selectors
 ^^^^^^^^^^^^^^^^^
 
 Nextflow let you to specify the behavior of a process or a group of processes
-using process `selectors <https://www.nextflow.io/docs/latest/config.html#process-selectors>`__
+using process `selectors <https://www.nextflow.io/docs/latest/config.html#process-selectors>`_
 in the configuration files. There are mainly two types of selectors:
 ``withLabel`` and ``withName``: the first one let you to specify the requirements
 for every process having the same label, the second one let you to specify the
@@ -215,7 +215,7 @@ or ``-config`` option:
 
   Since these parameters will override the default ones, it's better to declare only
   the minimal parameters required by your pipeline. See nextflow documentation for
-  `Process selectors <https://www.nextflow.io/docs/latest/config.html#process-selectors>`__
+  `Process selectors <https://www.nextflow.io/docs/latest/config.html#process-selectors>`_
   for more information.
 
 .. _dynamic-allocation-resources:
@@ -380,7 +380,7 @@ Creating a new pipeline
 If you can't find a proper pipeline in community, you could create a pipeline by your
 self. In :ref:`Learning Nextflow <learning-nextflow>` section of these guidelines
 you can find a lot of material on working with nextflow. However, the most interesting
-feature in nextflow is the `DSL2 <https://www.nextflow.io/docs/latest/dsl2.html>`__
+feature in nextflow is the `DSL2 <https://www.nextflow.io/docs/latest/dsl2.html>`_
 syntax: with it, you can re-use modules in which calculations steps are defined
 by the community. In such way, you can avoid to write a full pipeline from yourself.
 
@@ -419,7 +419,7 @@ pipelines using ``nf-core/tools``.
   This utility command will configure a pipeline to be submitted to the ``nf-core``
   community or let you to customize all the options to include in a pipeline that
   can be kept private or stand-alone (not to be submitted to the community).
-  Please see the `join the community <https://nf-co.re/docs/tutorials/adding_a_pipeline/overview#join-the-community>`__
+  Please see the `join the community <https://nf-co.re/docs/tutorials/adding_a_pipeline/overview#join-the-community>`_
   section and get in contact with the developers if you plan to contribute to the
   community.
 
@@ -443,7 +443,7 @@ You could also browse modules inside a different repository and branch, for exam
   You can work to a new module and make a pull request to add it to the community.
   See :ref:`Custom pipeline modules <custom-pipeline-modules>`
   section to work with custom modules. See also
-  `nf-core guidelines <https://nf-co.re/developers/guidelines>`__
+  `nf-core guidelines <https://nf-co.re/developers/guidelines>`_
   to understand how you could contribute to the community.
 
 .. _adding-a-module-to-a-pipeline:
@@ -551,12 +551,12 @@ Custom pipeline modules
 .. _custom-pipeline-modules:
 
 We provide custom DSL2 modules (not implemented by *nf-core* community) in our
-repository at `cnr-ibba/nf-modules <https://github.com/cnr-ibba/nf-modules>`__.
+repository at `cnr-ibba/nf-modules <https://github.com/cnr-ibba/nf-modules>`_.
 This repository is not maintained by *nf-core* community, its internal and intended
 to share modules across pipelines and to test stuff locally. It's organized in a
-similar way to `nf-core/modules <https://github.com/nf-core/modules>`__, so it's
+similar way to `nf-core/modules <https://github.com/nf-core/modules>`_, so it's
 possible to take a module from here and share it with the *nextflow* community (please see
-their `documentation <https://github.com/nf-core/modules#adding-a-new-module-file>`__).
+their `documentation <https://github.com/nf-core/modules#adding-a-new-module-file>`_).
 In order to get a list of available custom modules, specify custom modules repository
 using ``-g`` parameter (short option for ``--github-repository``), for example::
 
@@ -587,7 +587,7 @@ repository clone::
 
 .. tip::
 
-  To get more information in creating modules see `Adding a new module <https://nf-co.re/developers/adding_modules>`__
+  To get more information in creating modules see `Adding a new module <https://nf-co.re/developers/adding_modules>`_
   guide.
 
 Testing a new module
@@ -653,7 +653,7 @@ you align reads to an indexed genome made by a different step: since the genome
 index is emitted once from the indexing step, you will be able to align only one
 sample if you pass the channels as they are in input: the only way to align all
 your samples is to use the
-`combine operator <https://www.nextflow.io/docs/latest/operator.html#combine>`__
+`combine operator <https://www.nextflow.io/docs/latest/operator.html#combine>`_
 and put all values in a new channel::
 
   trimmed_reads.combine(genome_index).set{ align_input }
@@ -673,7 +673,7 @@ and values from a module step can be read as many times as needed.
 .. warning::
 
   ``set`` and ``into`` operators used in previous version are removed in **DSL2**.
-  See `DSL 2 <https://www.nextflow.io/docs/latest/dsl2.html>`__ nextflow documentation
+  See `DSL 2 <https://www.nextflow.io/docs/latest/dsl2.html>`_ nextflow documentation
   to have a picture of major changes.
 
 Write the configuration stuff outside your pipeline
@@ -724,7 +724,7 @@ file::
   default configuration by using a configuration source with an higher priority,
   for example the ``-c <config file>``, ``-params-file <file>`` or parameters
   provided with command line are different locations where the last have the higher priority. See
-  `Configuration file <https://www.nextflow.io/docs/latest/config.html#configuration-file>`__
+  `Configuration file <https://www.nextflow.io/docs/latest/config.html#configuration-file>`_
   section of nextflow documentation.
 
 Add test data to your pipeline
@@ -736,7 +736,7 @@ collecting outputs you will be noticed after a long period of time and you have
 no way to recover the data you have with a nextflow error.
 In *testing* and *revision* stages or when adding new features, consider
 to work with a *reference data sets* like the
-one provided by `nextflow community <https://github.com/nf-core/test-datasets>`__
+one provided by `nextflow community <https://github.com/nf-core/test-datasets>`_
 or add some public data to your pipeline. Please, remember to not track big files
 with your CVS: you should provide the minimal requirements to get your pipeline
 running as intended in the shortest time. You should also consider
@@ -763,7 +763,7 @@ the *test dataset* you provide with your pipeline:
   }
 
 This type of test could be used even with CI system, like
-`GitHub workflow <https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions>`__.
+`GitHub workflow <https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions>`_.
 
 Lower resources usage
 ~~~~~~~~~~~~~~~~~~~~~

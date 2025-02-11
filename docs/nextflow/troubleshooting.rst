@@ -56,7 +56,7 @@ same folder we get from nextflow error report.
 .. tip::
 
   Get all field names with ``nextflow log -l`` or see the *execution report table*
-  at `Trace report <https://www.nextflow.io/docs/latest/tracing.html?highlight=scratch#trace-report>`__
+  at `Trace report <https://www.nextflow.io/docs/latest/tracing.html?highlight=scratch#trace-report>`_
 
 .. note::
 
@@ -162,8 +162,8 @@ in your command line in order using the cached results of the previous calculati
 
 .. note::
 
-  nextflow singularity containers are moving from `quay <https://quay.io/>`__ to
-  `depot.galaxyproject.org <https://depot.galaxyproject.org/singularity/>`__:
+  nextflow singularity containers are moving from `quay <https://quay.io/>`_ to
+  `depot.galaxyproject.org <https://depot.galaxyproject.org/singularity/>`_:
   the latter seems to have better downloading performance
 
 .. _nextflow-version-required:
@@ -178,8 +178,8 @@ like this::
 
 Is such case, you have two options. The first is to execute a previous version of
 the pipeline that is compatible with your nextflow version. You can have information
-on version on `nf-core pipeline <https://nf-co.re/pipelines>`__ or directly
-from the GitHub project of `nf-core <https://github.com/nf-core>`__ organization.
+on version on `nf-core pipeline <https://nf-co.re/pipelines>`_ or directly
+from the GitHub project of `nf-core <https://github.com/nf-core>`_ organization.
 Once you find your desired version, you have to declare it with the parameter
 ``-r`` when calling nextflow, for example:
 
@@ -188,7 +188,7 @@ Once you find your desired version, you have to declare it with the parameter
   nextflow run nf-core/rnaseq -r 2.0 -profile test,singularity -resume
 
 The second option is to upgrade your nextflow version. You can install a specific
-version of nextflow from the `nextflow release page <https://github.com/nextflow-io/nextflow/releases>`__
+version of nextflow from the `nextflow release page <https://github.com/nextflow-io/nextflow/releases>`_
 Copy the nextflow asset link present in every release, and then install nextflow like
 this:
 
