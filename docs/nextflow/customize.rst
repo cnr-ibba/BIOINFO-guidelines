@@ -448,15 +448,49 @@ are set by default in your pipeline and before adding new variables to a process
 Change output file names
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas fermentum non
-nisi nec convallis. Cras et sollicitudin sapien. Nunc congue viverra dui a imperdiet.
-Proin pellentesque pretium urna, nec maximus purus efficitur vitae. Morbi nec egestas
-ligula, sit amet rutrum mauris. Maecenas in mi lacinia, dapibus massa non, dictum
-dolor. Fusce varius id augue in aliquam. Sed posuere dapibus orci id efficitur.
-Maecenas volutpat porttitor lacus, ac congue nulla. Integer at turpis rutrum, finibus
-purus a, interdum dolor. Aenean interdum purus quis lectus tempus vulputate. Curabitur
-quam est, ultricies et eros egestas, auctor ultricies odio. Morbi sollicitudin, sapien
-ac dictum gravida, nulla sapien ornare felis, quis gravida dui nulla pulvinar diam.
+Sometimes could be useful to change the output file names of a process, for example
+when applying a process which keeps the same input file name in input and output.
+Ideally, the output file name *prefix* is defined at process level like this:
+
+.. code-block:: groovy
+
+  script:
+  def args = task.ext.args ?: ''
+  def prefix = task.ext.prefix ?: "${meta.id}"
+
+So it is possible to configure a ``task.ext.prefix`` variable in the custom configuration
+file to define the output file name prefix, for example:
+
+.. code-block:: groovy
+
+  process {
+      withName: SEQKIT_RMDUP_R1 {
+          ext.prefix = { "${meta.id}_R1" }
+      }
+  }
+
+In this example we use *closures* to define the output file name prefix *dynamically*,
+an this is useful to keep *sample name* in output file. In alternative, is possible
+to modify the `meta.id` using the
+`map operator <https://www.nextflow.io/docs/latest/reference/operator.html#operator-map>`_,
+for example:
+
+.. code-block:: groovy
+
+  channel.map { meta, it -> [[id: "${meta.id}_updated"], it] }
+
+However, this will override the old ``meta.id`` value with the new one, and all
+the processes will then use the new value to define their output file name prefix.
+A third option could be to use the
+`publishDir <https://www.nextflow.io/docs/latest/reference/process.html#publishdir>`_
+directive and define a closure to define the output file name prefix, for example:
+
+.. code-block:: groovy
+
+  publishDir 'results', saveAs: { filename -> "foo_$filename" }
+
+See `Store outputs renaming files <https://nextflow-io.github.io/patterns/publish-rename-outputs/>`_
+on `nextflow patterns <https://nextflow-io.github.io/patterns/>` for more information.
 
 Create a custom profile
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -493,18 +527,51 @@ option::
 Params file
 ~~~~~~~~~~~
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras gravida neque quam,
-eget sodales ante tristique luctus. Phasellus eros mauris, aliquam ut mi ac,
-aliquam iaculis ipsum. Duis mattis ligula vitae nisl aliquam pretium. Praesent
-vel velit vitae nunc tincidunt aliquam id vel eros. Maecenas accumsan sapien et
-tortor pharetra, nec blandit nisi tempor. Proin sodales consectetur ante, commodo
-sollicitudin nibh. Morbi id mattis mauris. Nullam ac ex molestie, egestas magna
-laoreet, convallis ipsum. Donec vehicula faucibus lectus. Ut nunc tellus, accumsan
-quis laoreet ut, sollicitudin ac nulla. Donec pulvinar lacus maximus orci laoreet
-pulvinar quis sit amet odio. Mauris dictum nec diam a eleifend. Aliquam sagittis,
-tellus nec eleifend venenatis, nisl velit placerat tortor, sit amet aliquet elit
-sem ac nunc. Curabitur enim felis, dignissim sed enim a, finibus posuere massa.
-Aliquam non ultricies magna.
+
+A Nextflow JSON parameter file is a way of providing configuration parameters for
+a Nextflow pipeline in a structured format using JSON (JavaScript Object Notation).
+It allows users to define various parameters required by the pipeline in a file
+rather than passing them directly via the command line.
+The main key features of a Nextflow JSON parameter File are
+
+1. **Structure**: The JSON file contains key-value pairs that define different
+   parameters. This structure makes it easy to read and modify parameters without
+   needing to remember command line syntax.
+2. **Use Case**: JSON parameter files are particularly useful for complex workflows
+   with many parameters or when those parameters are subject to frequent changes.
+   Users can manage their configurations in one place.
+3. **Access in Pipeline**: Parameters defined in the JSON file can be accessed
+   directly in your Nextflow scripts using the `params` object.
+
+Here’s a simple example of what a Nextflow JSON parameter file might look like:
+
+.. code-block:: json
+
+  {
+    "input": "data/input_file.txt",
+    "output": "results/",
+    "other_param": "value"
+  }
+
+
+To use a JSON parameter file in a Nextflow pipeline, you can specify it on the
+command line using the `-params-file` option:
+
+.. code-block:: bash
+
+  nextflow run <your pipeline> -params-file params.json
+
+The benefits of using a JSON parameter file include:
+
+- **Readability**: JSON files are quite structured and make it easy to see the
+  settings needed for a pipeline.
+- **Convenience**: It’s more convenient to edit a JSON file for changing
+  parameters than to modify and remember long command-line options.
+- **Version Control**: JSON files can be easily tracked and managed using
+  version control systems like Git, which is particularly useful for
+  collaborative projects.
+- **Compatibility**: JSON is widely supported across different programming
+  languages, making it easy to generate or manipulate if needed.
 
 Creating a new pipeline
 -----------------------
