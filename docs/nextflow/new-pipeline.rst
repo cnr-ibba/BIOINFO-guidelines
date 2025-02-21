@@ -182,7 +182,7 @@ Custom pipeline modules
 
 We provide custom DSL2 modules (not implemented by *nf-core* community) in our
 repository at `cnr-ibba/nf-modules <https://github.com/cnr-ibba/nf-modules>`_.
-This repository is not maintained by *nf-core* community, its internal and intended
+This repository is not maintained by *nf-core* community, it's intended
 to share modules across pipelines and to test stuff locally. It's organized in a
 similar way to `nf-core/modules <https://github.com/nf-core/modules>`_, so it's
 possible to take a module from here and share it with the *nextflow* community (please see
@@ -198,7 +198,7 @@ Add a custom module to a pipeline
 To add a custom module to your pipeline, move into your pipeline folder and call
 ``nf-core install`` with your custom module repository as parameter, for example::
 
-  nf-core modules --repository cnr-ibba/nf-modules install freebayes/single
+  nf-core modules --git-remote https://github.com/cnr-ibba/nf-modules.git install freebayes/single
 
 Create a new module
 ~~~~~~~~~~~~~~~~~~~
@@ -213,12 +213,12 @@ The command acts in the same way for both the two scenarios: relying on your pro
 ``nf-core modules`` will determine if your folder is a pipeline or a *modules*
 repository clone::
 
-  nf-core modules create freebayes/single --author @bunop --label process_high --meta
+  nf-core modules create freebayes/single --author <you GitHub account> --label process_high --meta
 
 .. tip::
 
-  To get more information in creating modules see `Adding a new module <https://nf-co.re/developers/adding_modules>`_
-  guide.
+  To get more information in creating modules see `Create a module <https://nf-co.re
+  /docs/nf-core-tools/modules/create>`_ guide.
 
 Testing a new module
 ~~~~~~~~~~~~~~~~~~~~
@@ -248,14 +248,30 @@ Subworkflows
 A subworkflow is an experimental feature which allow to include a chain of modules
 together (for example ``bam_sort_samtools``, which execute *samtools sort*, *samtools
 index* and then call the ``bam_stats_samtools``, which is another subworkflow.
-There are imported in the main workflow (pipeline) like any others modules. More
-information will be added in future.
+There are imported in the main workflow (pipeline) like any others modules. It is
+possible to manage subworkflows in the same way as modules, using ``nf-core``
+tools. For example::
+
+  nf-core subworkflows list remote
+
+to get a list of available subworkflows. Similarly, you can install a subworkflow
+using ``nf-core`` tools::
+
+  nf-core subworkflows install bam_sort_stats_samtools
+
+See also `Subworkflow Specifications <https://nf-co.re/docs/guidelines/components/
+subworkflows>`_ for more information.
 
 Pipeline best practices
 -----------------------
 
 Use DSL2 syntax when possible
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. warning::
+
+  Starting from nextflow ``22.12.0-edge`` version, **DSL1** was removed and **DSL2**
+  is the new standard. You cannot use **DSL1** with a recent version of nextflow.
 
 **DSL2** is the newest pipeline standard and the nextflow community is currently
 moving to this format. This means that community pipelines will be updated to fully
@@ -401,4 +417,24 @@ Lower resources usage
 You should consider to lower the resources required by your pipeline. This will
 avoid the costs of allocating more resources than needed and will let you complete
 your analysis in a shorter time when resources are limited.
-Take a look at :ref:`dynamic-allocation-resources` documentation section.
+Take a look at :ref:`dynamic-allocation-resources` documentation section. You can
+also provide a institutional configuration to your pipeline. See
+:ref:`institutional-configuration-files` for more information.
+
+Patch a module/workflow
+~~~~~~~~~~~~~~~~~~~~~~~
+
+If you need to patch a module (or a workflow), you can do it by editing the module
+file in your module directory. If the module (or subworkflow) is provided by the
+community, linting test will fail and moreover will be difficult to update the
+module in the future using ``nf-core`` tools. In this case, you should consider
+to apply `nf-core modules patch <https://nf-co.re/docs/nf-core-tools/modules/patch>`_
+followed by the module you are modifying, for example::
+
+  nf-core modules patch fastqc
+
+which will create a patch file in your module directory, tracking the changes you
+made to the module. This patch file will be applied when the module will be updated,
+solving issues with linters and letting you to customize and manage the module
+with ``nf-core`` tools. See `Patch a module <https://nf-co.re/docs/nf-core-tools/modules/patch>`_
+nextflow documentation for more information.
