@@ -1,5 +1,5 @@
 
-Customize a Pipeline
+Customize a pipeline
 ====================
 
 .. contents:: Table of Contents
@@ -133,7 +133,7 @@ documents for more information.
   the path to the institutional configuration file using the ``-config`` option and
   the institutional configuration git repository though the ``--custom_config_base``
   option. More information can be found in :ref:`running-nextflow-offline`
-  and :ref:`cloning-institutional-configuration-files` of this documentation.
+  and :ref:`clone-institutional-configuration-files` of this documentation.
 
 Custom configuration files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~

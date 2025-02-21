@@ -181,6 +181,8 @@ There are some tips for HPC users, please take a look at nextflow forum for
 and `Five more tips for Nextflow user on HPC <https://www.nextflow.io/blog/2021/5-more-tips-for-nextflow-user-on-hpc.html>`_
 articles.
 
+.. _environment-variables:
+
 Environment variables
 ~~~~~~~~~~~~~~~~~~~~~
 

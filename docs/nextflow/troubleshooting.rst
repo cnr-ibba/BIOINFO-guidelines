@@ -268,36 +268,107 @@ or by killing such process if you are running nextflow with a local executor.
 Running nextflow offline
 ------------------------
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse
-lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras
-elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod
-non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non
-fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa
-scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in
-risus volut
+Nextflow can operate in environments without internet access by preparing all
+necessary resources in advance. This includes the pipeline code, software dependencies,
+reference genomes, and any required data.
 
-.. _cloning-institutional-configuration-files:
+You will require to download all necessary resources on a system with internet access,
+and then transfer these resources to the offline system using available methods.
+Moreover, you will need some extra steps in order to manage workflow properly.
+To get more information on how to run nextflow offline, see the `Running offline
+<https://nf-co.re/docs/usage/getting_started/offline>`_ nextflow documentation.
 
-Cloning institutional configuration files
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Set environment variables
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+You require to set the ``NXF_OFFLINE`` environment variable in order to
+run nextflow offline:
+
+.. code-block:: bash
+
+  export NXF_OFFLINE='true'
+
+This will tell nextflow to run in offline mode, disabling
+all attempts to download resources from the internet: this include test files,
+institutional configuration, software dependencies, reference genomes and plugins.
+However, all those resources must be available when running nextflow. You can
+find more information on :ref:`environment-variables` section of this guide and
+in the official nextflow `Environment variables <https://www.nextflow.io/docs/
+latest/reference/env-vars.html>`_ documentation.
+
+Download the pipeline and its dependencies
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+You can download a pipeline and its dependencies using the `nf-core tools <https
+://nf-co.re/docs/nf-core-tools>`_ utility, using ``nf-core pipelines download``
+command. For example, to download the ``rnaseq`` pipeline and its dependencies
+you can use:
+
+.. code-block:: bash
+
+  nf-core pipelines download nf-core/rnaseq
+
+The utility will ask you if you want to download the *singularity container images*
+with the pipeline (usually yes) and if you want to *copy* singularity images
+into the pipeline download folder or if you want to *amend* the singularity
+images in the :ref:`$NXF_SINGULARITY_CACHEDIR <set-singularity-cache>` folder:
+the latter should be choose if you are downloading the container images in a shared
+folder that can be used during nextflow execution (ie. you are in a *login* node
+in HPC infrastructure with internet access, while in the *computing* nodes there's
+no internet access). Otherwise, you will require to copy all the downloaded files
+in your final HPC infrastructure and putting container images where can be find
+during execution (usually at ``$NXF_SINGULARITY_CACHEDIR`` location).
+We have a section in this guide about setting up :ref:`nf-core tools <install-nf-core>`.
+
+.. _clone-institutional-configuration-files:
+
+Clone institutional configuration files
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The institutional configuration files should be cloned locally in order to be
-used by the pipelines when running nextflow offline. Simple clone the repository
-in a local directory:
+used by the pipelines when running nextflow in offline mode.
+Simple clone the repository in a local directory:
 
 .. code-block:: bash
 
   git clone https://github.com/nf-core/configs.git
 
-Then you can use the ``-c`` or ``-config`` option to specify the location of the
-base ``nfcore_custom.config`` inside the cloned repository, and the
-``--custom_config_base`` to specify the path of the cloned git repository,
-for example:
+Usually, pipelines have statements which disable the use of institutional configurations when
+running offline. For example, in the `nf-core/rnaseq <https://github.com/nf-core/rnaseq>`_
+pipeline, you can find those statements in the ``nextflow.config`` file:
+
+.. code-block:: groovy
+
+  // Load nf-core custom profiles from different Institutions
+  includeConfig !System.getenv('NXF_OFFLINE') && params.custom_config_base ? "${params.custom_config_base}/nfcore_custom.config" : "/dev/null"
+
+  // Load nf-core/rnaseq custom profiles from different institutions.
+  includeConfig !System.getenv('NXF_OFFLINE') && params.custom_config_base ? "${params.custom_config_base}/pipeline/rnaseq.config" : "/dev/null"
+
+Those include statements are completely ignored when ``NXF_OFFLINE`` is set to
+``true``. In order to use institutional configuration files when running offline,
+you should provide the path of these files with the ``-c`` or ``-config`` option
+with the path of the full institutional configuration folder using the
+``--custom_config_base`` option, for example:
 
 .. code-block:: bash
 
-  nextflow run nf-core/rnaseq -r 3.12.0 -profile institution -resume \
-  -config /path/to/configs/nfcore_custom.config --custom_config_base /path/to/configs
+  export CUSTOM_CONFIG_BASE=<path/to/institutional/configs>
+
+  nextflow run nf-core/rnaseq -r 3.12.0 \
+    --custom_config_base ${CUSTOM_CONFIG_BASE} \
+    -config ${CUSTOM_CONFIG_BASE}/nfcore_custom.config \
+    -config ${CUSTOM_CONFIG_BASE}/pipeline/rnaseq.config \
+    -profile <institution> -resume -params-file <params-file>
+
+This solution is pretty verbose, but it lets you to specify the desired profile
+using the same syntax used when running nextflow with internet access.
+
+.. warning::
+
+  Not all the pipelines have the *pipeline specific* configuration file, like
+  ``rnaseq.config`` in the previous example. Please check if this file exists
+  in the pipeline repository before using it.
 
 .. tip::
 
@@ -310,3 +381,43 @@ for example:
 
   At cnr-ibba we have a forked version of the nf-core/configs repository with
   custom options and profiles, which is available at https://github.com/cnr-ibba/nf-configs/.
+
+Install nextflow plugins
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Nextflow plugins are required to run some pipelines but are downloaded and installed
+when running the pipeline for the first time. Before running nextflow offline, you can
+install them using the ``nextflow plugin install`` command, for example:
+
+.. code-block:: bash
+
+  nextflow plugin install nf-schema@2.3.0
+
+This will install the ``nf-schema`` version ``2.3.0`` plugin in the nextflow
+environment. You will required to inspect the pipeline ``nextflow.config`` file to see
+which plugins are required by the pipeline and install them individually. If the
+version of the plugin is not specified in the pipeline configuration file, you can
+*pin* it in a *custom configuration* file, for example:
+
+.. code-block:: groovy
+
+  plugins {
+    id 'nf-schema@2.3.0'
+  }
+
+This applies in an environment where you have internet access when installing
+nextflow (for example a *login* node in a HPC environment). If you don't have
+any internet connection in your environment, you should copy the ``${HOME}/.nextflow/plugins``
+folder in your offline environment from a working environment.
+
+Download reference genomes and other files
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+You should download manually all the reference genomes and other files required
+by the pipeline. If you plan to call the pipeline with the ``test`` profile, you
+need to ensure that all the required files are present locally. Mind to the ``samplesheet.csv``
+of the test profile, which is a *mandatory* input in most of the community pipelines:
+usually it refers to file available on the internet, so you should download them
+locally and modify the ``samplesheet.csv`` file accordingly. Then you should pass
+the modified ``samplesheet.csv`` file to the pipeline using the proper CLI parameter
+or using a JSON file with the ``-params-file`` option.
