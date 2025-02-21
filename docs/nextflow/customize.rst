@@ -7,8 +7,12 @@ Customize a pipeline
 Cloning a pipeline
 ------------------
 
-The easiest way to modifying an existing pipeline is to clone it from the github
-repository::
+You don't need to modify a pipeline if you need only to change a pipeline
+parameter or adapt the execution to your local environment: a pipeline execution
+is highly customizable by providing *custom configuration files* and *parameters*.
+Most of the time you will be able to run a pipeline without modifying it, but
+cloning a pipeline is useful when you need to add new features or to fix bugs
+in a pipeline you are working on::
 
   git clone https://github.com/nf-core/rnaseq
 
@@ -18,16 +22,8 @@ repository::
 
     nextflow clone nf-core/rnaseq
 
-However, you don't need to modify a pipeline if you need only to change a pipeline
-parameter or adapt the execution to your local environment: a pipeline execution
-is high customizable by providing *custom configuration files* and *parameters*. Cloning
-a pipeline is useful when you need to add new features or to fix bugs in a pipeline
-you are working on.
-
-.. warning::
-
-  if you clone a pipeline with ``nextflow clone`` command, ensure that git *remotes* are
-  correct and point to the repository location
+  The ``nf-core`` prefix of the pipeline is the *organization* name, and the
+  ``rnaseq`` is the *repository* name, as you find on GitHub.
 
 .. _configuring-a-pipeline:
 
@@ -50,7 +46,7 @@ configuration options and priorities, please see the
 `nextflow configuration <https://www.nextflow.io/docs/latest/config.html>`_ documentation.
 
 nextflow.config
-~~~~~~~~~~~~~~~
+---------------
 
 Before starting with a new custom configuration file, you should take a look to
 the default configuration file provided by the pipeline you are working on. For
@@ -73,7 +69,7 @@ are defined.
 .. _institutional-configuration-files:
 
 Institutional configuration files
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------------
 
 Nextflow offers a GitHub repository where institutional configuration files can
 be stored and shared among users. This means that users belonging to the same
@@ -136,7 +132,7 @@ documents for more information.
   and :ref:`clone-institutional-configuration-files` of this documentation.
 
 Custom configuration files
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------
 
 There are other configuration files that can be used to customize a single pipeline
 and can be stored in the pipeline directory or in the directory where you are running
@@ -153,7 +149,7 @@ for example:
 
   Avoid to name your custom config file as ``nextflow.config``, since is a reserved
   name for the default configuration file, which is loaded automatically by nextflow
-  if present in the pipeline directory. If you name your custom configuration file
+  if present in your project directory. If you name your custom configuration file
   with a different name, you can control when it's loaded using the ``-c`` or
   ``-config`` option when running nextflow.
 
@@ -165,7 +161,7 @@ reference. Here we provide some examples of how to customize a pipeline using
 custom configuration files.
 
 Process selectors
-^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~
 
 Nextflow let you to specify the behavior of a process or a group of processes
 using process `selectors <https://www.nextflow.io/docs/latest/config.html#process-selectors>`_
@@ -175,9 +171,10 @@ for every process having the same label, the second one let you to specify the
 requirements for a process by name. More precisely, in DSL2 pipelines, this requirements
 are specified in ``conf/base.config`` and ``conf/modules.config`` where the first
 file is used to specify the requirements for a group of jobs using *labels* and
-the second one is used to specify the requirements for a single process.
+the second one is used to specify the requirements for a single process using
+*names*.
 
-The Nextflow community recommend to use labels to specify the requirements for
+The Nextflow community recommend to specify the requirements for
 a group of processes when possible using ``withLabel``: when there's
 the need to specify the requirements for a single process, you can use the ``withName``
 selector. For example, to lower resources requirements, it's better to
@@ -221,7 +218,7 @@ or ``-config`` option:
 .. _dynamic-allocation-resources:
 
 Dynamic allocation of resources
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 It is possible that different instances of a process require different resources
 in terms of computing power, memory, or time. In such situations, requesting, for example,
@@ -245,7 +242,11 @@ specify the resources required by a process like this:
       }
   }
 
-Other directives that affect the dynamic allocation of resources when a task is retried
+This means that every time a task is retried, the amount of resources required by
+the process will be increased by a factor equal to the number of attempts. However,
+the *maximum* amount of attempts and resources should be specified in configuration
+files to avoid infinite loops or excessive resource requirements.
+Such directives that affect the dynamic allocation of resources when a task is retried
 are `errorStrategy <https://www.nextflow.io/docs/latest/reference/process.html#errorstrategy>`_
 and `maxRetries <https://www.nextflow.io/docs/latest/reference/process.html#maxretries>`_:
 the first one let you to specify the behavior of a process when an error occurs,
@@ -283,7 +284,7 @@ and continue with the workflow:
   medium article to get more hints on how to handle failing jobs in Nextflow.
 
 Setting max amount of resources for a process
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Nextflow will also let you to specify the maximum resources required by a process
 using the `resourceLimits <https://www.nextflow.io/docs/latest/reference/process.html#resourcelimits>`_
@@ -328,7 +329,7 @@ by a process is shown below:
 
 
 Dynamic allocation of resources (old syntax)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Before version ``24.04.0``, Nextflow let you specify the maximum resources required
 by a process using the ``--max_cpus``, ``--max_memory`` and ``--max_time`` parameters.
@@ -392,19 +393,21 @@ resources required by a process with the old syntax is shown below:
       }
   }
 
-The ``--max_cpus``, ``--max_memory`` and ``--max_time`` parameters are the maximum
-allowed values for dynamic job requirements: by setting these parameters you can
-ensure that a *single job* will not allocate more resources than the ones you have
-declared. Those parameters have not effect on the *global* resources used or the
-number of job submitted.
-
 .. hint::
+
+  The ``--max_cpus``, ``--max_memory`` and ``--max_time`` parameters are the maximum
+  allowed values for dynamic job requirements: by setting these parameters you can
+  ensure that a *single job* will not allocate more resources than the ones you have
+  declared. Those parameters have not effect on the *global* resources used or the
+  number of job submitted.
+
+.. tip::
 
   ``--max_cpus``, ``--max_memory`` and ``--max_time`` are parameters that can be
   submitted using the nextflow *params file* or *command line interface*.
 
 Remove process limits
-^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~
 
 Sometimes could be convenient to remove the limits set by a process, for example
 a very long task that requires a lot of time to be completed: in this case, will
@@ -424,7 +427,7 @@ This will override all the time limits set by the process and will let the *exec
 to choose the max allowed value (if supported).
 
 Provide custom parameters to a process
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Some modules may require additional parameters to be provided in order to work
 correctly. This parameters can be specified with the ``ext.args`` variable within
@@ -446,7 +449,7 @@ so on. In a DSL2 pipeline, custom variables for each process are defined in
 are set by default in your pipeline and before adding new variables to a process.
 
 Change output file names
-^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 Sometimes could be useful to change the output file names of a process, for example
 when applying a process which keeps the same input file name in input and output.
@@ -473,7 +476,8 @@ In this example we use *closures* to define the output file name prefix *dynamic
 an this is useful to keep *sample name* in output file. In alternative, is possible
 to modify the `meta.id` using the
 `map operator <https://www.nextflow.io/docs/latest/reference/operator.html#operator-map>`_,
-for example:
+but this cannot be defined in the custom configuration file, should be defined in
+pipeline *workflow* or *subworkflow*, for example:
 
 .. code-block:: groovy
 
@@ -490,10 +494,10 @@ directive and define a closure to define the output file name prefix, for exampl
   publishDir 'results', saveAs: { filename -> "foo_$filename" }
 
 See `Store outputs renaming files <https://nextflow-io.github.io/patterns/publish-rename-outputs/>`_
-on `nextflow patterns <https://nextflow-io.github.io/patterns/>` for more information.
+on `nextflow patterns <https://nextflow-io.github.io/patterns/>`_ for more information.
 
 Create a custom profile
-^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~
 
 A profile is a set of parameters that can be used to run a pipeline in a specific
 environment. For example, you can define a profile to run a pipeline in a cluster
@@ -525,8 +529,7 @@ option::
   nextflow run -profile cineca,singularity ...
 
 Params file
-~~~~~~~~~~~
-
+-----------
 
 A Nextflow JSON parameter file is a way of providing configuration parameters for
 a Nextflow pipeline in a structured format using JSON (JavaScript Object Notation).
@@ -553,9 +556,11 @@ Here’s a simple example of what a Nextflow JSON parameter file might look like
     "other_param": "value"
   }
 
-
+where ``input``, ``output``, and ``other_param`` are the parameters required by the
+pipeline and can be declared or overridden using CLI and prepending ``--`` to the
+parameter name (eg. ``--input``, ``--output``, ``--other_param``).
 To use a JSON parameter file in a Nextflow pipeline, you can specify it on the
-command line using the `-params-file` option:
+command line using the ``-params-file`` option:
 
 .. code-block:: bash
 
