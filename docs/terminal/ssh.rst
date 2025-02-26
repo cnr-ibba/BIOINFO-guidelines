@@ -308,8 +308,13 @@ for example if your public key is named ``id_rsa.pub`` you can do like this::
   cat id_rsa.pub >> $HOME/.ssh/authorized_keys
 
 The previous command need to be executed in the **remote** environment (where you need to
-connect). In linux there's the ``ssh-copy-id`` utility that will add automatically your
-local public key to the remote ``authorized_keys`` from your **local** terminal:
+connect).
+
+Copy public keys with ssh-copy-id
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In linux there's the ``ssh-copy-id`` utility that will add automatically your
+local public key to the remote ``authorized_keys`` from your **local** terminal::
 
   ssh-copy-id -i $HOME/.ssh/id_rsa.pub <user>@<remote server>
 
