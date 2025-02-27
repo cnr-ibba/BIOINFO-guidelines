@@ -324,17 +324,17 @@ the remote machine address (which could be an *ip address* like ``192.168.122.10
 or a *domain name*). This script will copy your public key in the ``authorized_keys``
 and will check the correct permissions.
 
-.. note::
+.. hint::
 
   SSH access without public key is *disabled* in our infrastructure, so you can't copy
   a public key by yourself for the first time. This is why you have to provide
   the *public key* to the system administrator. After your access is granted,
-  you can use ``ssh-copy-id`` to copy another *public key* (of another machine
+  you can use ``ssh-copy-id`` to copy **another** *public key* (of another machine
   for example) from a machine where the key pair is enabled, for example::
 
-    $ ssh-copy-id -f -i /path/to/another/public_key.pub
+    ssh-copy-id -f -i /path/to/another/public_key.pub <user>@<remote server>
 
-  the ``-f`` option will force the copy of a public key without ensuring the existance
+  the ``-f`` option will force the copy of a public key without ensuring the existence
   of the proper identity file.
 
 Connecting with OpenSSH
