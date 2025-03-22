@@ -265,16 +265,42 @@ pipeline will be terminated. Usually, these directive are defined by default in
 
 But eventually, you can override these directives for a particular process using
 the ``withName`` or ``withLabel`` process selectors in the custom configuration file.
+
+.. _handling-failing-jobs:
+
+Handling failing jobs
+~~~~~~~~~~~~~~~~~~~~~
+
 You can use more complex *closures* to define the behavior of a process when an error
 occurs. For example, you can specify that a process should be retried if it fails
 until a maximum number of retries is reached. After that, we just ignore the error
-and continue with the workflow:
+and continue with the workflow: this is an example of how to specify the behavior
+of a process when an error occurs in a custom configuration file:
 
 .. code-block:: groovy
 
-  process {
-      errorStrategy  { task.attempt <= maxRetries  ? 'retry' : 'ignore' }
+  withName: VCFTOOLS_TSTV_COUNT {
+      errorStrategy = { task.attempt <= 2  ? 'retry' : 'ignore' }
   }
+
+The same can be defined directly in the process declaration in a nextflow file:
+
+.. code-block:: groovy
+
+  process MY_PROCESS {
+    tag "$meta.id"
+    label 'process_single'
+    errorStrategy  { task.attempt <= maxRetries  ? 'retry' : 'ignore' }
+
+    <other process directives>
+
+  }
+
+.. tip::
+
+  Note that we declare ``errorStrategy =`` in nextflow configuration file, but
+  we declare ``errorStrategy { ... }`` in the process declaration in a nextflow file:
+  This behavior will be further investigated.
 
 .. hint::
 

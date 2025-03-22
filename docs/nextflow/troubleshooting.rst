@@ -113,6 +113,13 @@ singularity image (``/home/core/nxf_singularity_cache/bunop-mirdeep2.img`` in th
 and then the command we want to run, in such case a new terminal
 since we want to run ``.command.sh`` manually and see why this is raising an error.
 
+.. tip::
+
+  If you cannot recover from the error, you can apply a custom configuration
+  file to the pipeline in order to ignore the failed step. You can find more
+  information in the :ref:`handling-failing-jobs` section
+  of this guide.
+
 Failed to pull singularity image
 --------------------------------
 
