@@ -622,7 +622,8 @@ Here are the main options of ``rsync``:
 There are other options that are useful and that can be added to ``rsync`` command
 line:
 
-- ``-P``: show progress during copying
+- ``-P``: combines ``--progress`` and ``--partial`` options to display transfer
+  progress and allow resuming of interrupted transfers
 - ``-u``: skip files that are newer on destination
 - ``-n``: *dry-run* (useful in testing ``rsync`` commands)
 - ``-z``: use *gzip* while transferring (useful with text files and slow connections)

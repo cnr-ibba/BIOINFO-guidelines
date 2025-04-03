@@ -246,19 +246,31 @@ like this:
   #SBATCH --nodes=1                       # 1 node
   #SBATCH --ntasks-per-node=1             # 1 tasks per node
   #SBATCH --cpus-per-task=2               # 2 CPUs per task
-  #SBATCH --time=4-00:00:00               # time limits: see queue and QoS
-  #SBATCH --mem=4G                        # 4GB to manage process
+  #SBATCH --time=4-00:00:00               # time limits if you are forced to use
+  #SBATCH --mem=16G                       # 16GB to manage proces
   #SBATCH --error=nextflow.err            # standard error file
   #SBATCH --output=nextflow.out           # standard output file
   #SBATCH --job-name=nf-core-rnaseq       # job name
-  #SBATCH --account=IscrC_NF-PIPE         # account name
-  #SBATCH --partition=g100_usr_prod       # partition name (see https://wiki.u-gov.it/confluence/display/SCAIUS/UG3.3%3A+GALILEO100+UserGuide)
-  #SBATCH --qos=g100_qos_lprod            # quality of service (see https://wiki.u-gov.it/confluence/display/SCAIUS/UG3.3%3A+GALILEO100+UserGuide)
-  nextflow run nf-core/rnaseq -r 3.12.0 -profile "singularity,cineca" -resume -config custom.config -params-file rnaseq-nf-params.json
+  #SBATCH --account=<your account>        # account name
+  #SBATCH --partition=<your partition>    # partition name were this job will run
+  #SBATCH --qos=<your QoS>                # quality of service (if any)
+  nextflow run nf-core/rnaseq -r 3.12.0 -profile "singularity,..." \
+    -resume -config custom.config -params-file rnaseq-nf-params.json
 
 Next you will require to configure nextflow to not working interactively and
-limiting some resources. Take a look at :ref:`environment-variables <nextflow_environment_variables>`
-and :ref:`Configuring nextflow <configuring_nextflow>` sections of this guide.
+limiting some resources. For example you may require to disable the ansi-log,
+since you are not working interactively and all your standard output will be
+redirected to a file. You can do this by setting the ``NXF_ANSI_LOG`` environment
+variable to ``false``:
+
+.. code-block:: bash
+
+  export NXF_ANSI_LOG='false'
+
+Take a look at :ref:`environment-variables <nextflow_environment_variables>`
+and :ref:`Configuring nextflow <configuring_nextflow>` sections of this guide
+to see all the environment variables you can set in order to configure
+your nextflow execution.
 
 Terminating nextflow execution
 ------------------------------
