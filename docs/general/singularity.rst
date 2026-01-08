@@ -213,6 +213,8 @@ Where ``container_name.sif`` is an optional parameters which set the output file
   Please note that when using the `docker-daemon` URI, you don't need to specify
   ``docker-daemon://`` but just ``docker-daemon:`` followed by the image id.
 
+.. _using-mulled-search:
+
 Using mulled-search
 ~~~~~~~~~~~~~~~~~~~
 
@@ -279,32 +281,243 @@ able to run a singularity container.
 Create a container
 ------------------
 
-Build a container
-~~~~~~~~~~~~~~~~~
+Building your own Singularity container allows you to create custom environments
+tailored to your specific needs. There are several methods to create Singularity
+containers, depending on whether you have root access and what base you want to
+start from.
+
+Build a container with a definition file
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The recommended way to build a Singularity container is using a *definition file*
+(also called a *recipe*). A definition file is a text file that contains all the
+instructions to build a container, including the base image, software installations,
+environment variables, and scripts.
+
+Here's a basic example of a Singularity definition file:
+
+.. code-block:: singularity
+
+  Bootstrap: docker
+  From: ubuntu:22.04
+
+  %post
+      apt-get update && apt-get install -y \
+          python3 \
+          python3-pip \
+          wget
+      pip3 install numpy pandas
+
+  %environment
+      export LC_ALL=C
+
+  %runscript
+      echo "Container was created $NOW"
+      echo "Arguments received: $*"
+      exec python3 "$@"
+
+  %labels
+      Author your.name@example.com
+      Version v1.0.0
+
+To build a container from this definition file (assuming you have root/sudo access):
+
+.. code-block:: bash
+
+  sudo singularity build mycontainer.sif mycontainer.def
+
+Where ``mycontainer.def`` is your definition file and ``mycontainer.sif`` is the
+output container image.
+
+.. note::
+
+  Describing in detail the sections of a singularity definition file is out of the
+  scope of this documentation. Please refer to the `Singularity Definition File`_
+  documentation for more information.
+
+.. _`Singularity Definition File`: https://docs.sylabs.io/guides/main/user-guide/definition_files.html#definition-files
 
 Build a container without root access
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Create a mulled container
+If you don't have root access on your system, you have several options:
+
+**Using --fakeroot** (if available):
+
+On systems where the ``--fakeroot`` option is enabled, you can build containers
+without actual root privileges:
+
+.. code-block:: bash
+
+  singularity build --fakeroot mycontainer.sif mycontainer.def
+
+**Using Remote Builder**:
+
+Sylabs provides a remote build service that allows you to build containers in the
+cloud. First, you need to create an account and generate an access token at
+`Sylabs Cloud`_. Copy the token into your clipboard, then login to the remote builder
+with:
+
+.. code-block:: bash
+
+  singularity remote login
+
+And paste your token when prompted. Then, you can build remotely with:
+
+.. code-block:: bash
+
+  singularity build --remote mycontainer.sif mycontainer.def
+
+.. note::
+
+  Adding external files to a singularity container when using the remote builder
+  is not supported with older Singularity versions (i.e. before ``v3.10``). Please refer to the
+  `Supporting Local Files in a Singularity Remote Build <remote-build-local-files_>`_
+  documentation for more information.
+
+.. _remote-build-local-files: https://sylabs.io/2022/06/supporting-local-files-in-a-singularity-remote-build/
+
+.. hint::
+
+  You can check if the remote builder is properly configured with:
+
+  .. code-block:: bash
+
+    singularity remote list
+
+  You can inspect your builds and containers on the
+  `Sylabs Cloud Dashboard <https://cloud.sylabs.io/dashboard#builds>`_ web interface.
+
+.. warning::
+
+  Tokens are sensitive information: avoid sharing them or committing them
+  to public repositories.
+
+Singularity best practices
+---------------------------
+
+When working with Singularity containers, following best practices ensures
+reproducibility, efficiency, and ease of use.
+
+Use specific versions
+~~~~~~~~~~~~~~~~~~~~~
+
+Always specify exact versions for your base images and software packages. Instead of:
+
+.. code-block:: singularity
+
+  Bootstrap: docker
+  From: ubuntu:latest
+
+Use:
+
+.. code-block:: singularity
+
+  Bootstrap: docker
+  From: ubuntu:22.04
+
+This ensures that your container will be reproducible in the future, even if the
+``latest`` tag points to a different version.
+
+Keep containers immutable
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Singularity best best practices
--------------------------------
+Once a container is built, avoid modifying it. If you need to make changes, create
+a new version of the container instead. This ensures reproducibility and makes it
+easier to track changes over time.
+
+Document your containers
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Use the ``%labels`` section in your definition file to document important information
+about your container:
+
+.. code-block:: singularity
+
+  %labels
+      Author your.name@example.com
+      Version v1.0.0
+      Description "Container for RNA-seq analysis"
+      Date 2026-01-08
+
+You can view these labels later with:
+
+.. code-block:: bash
+
+  singularity inspect mycontainer.sif
+
+Minimize container size
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Keep your containers as small as possible by:
+
+- Using minimal base images (e.g., ``alpine``, ``debian:slim``)
+- Cleaning up package manager caches after installation
+- Removing unnecessary files and documentation
+
+Example:
+
+.. code-block:: singularity
+
+  %post
+      apt-get update && apt-get install -y \
+          python3 \
+          python3-pip \
+      && apt-get clean \
+      && rm -rf /var/lib/apt/lists/*
+
+Use bind mounts for data
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Never include large datasets inside your containers. Instead, use bind mounts to
+access data from the host system:
+
+.. code-block:: bash
+
+  singularity run -B /path/to/data:/data mycontainer.sif
+
+This keeps your containers small and portable while still allowing access to the
+data you need.
 
 .. _clean-up-singularity:
 
-Clean up
-~~~~~~~~
+Clean up cache
+~~~~~~~~~~~~~~
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras gravida neque quam,
-eget sodales ante tristique luctus. Phasellus eros mauris, aliquam ut mi ac,
-aliquam iaculis ipsum. Duis mattis ligula vitae nisl aliquam pretium. Praesent
-vel velit vitae nunc tincidunt aliquam id vel eros. Maecenas accumsan sapien et
-tortor pharetra, nec blandit nisi tempor. Proin sodales consectetur ante, commodo
-sollicitudin nibh. Morbi id mattis mauris. Nullam ac ex molestie, egestas magna
-laoreet, convallis ipsum. Donec vehicula faucibus lectus. Ut nunc tellus, accumsan
-quis laoreet ut, sollicitudin ac nulla. Donec pulvinar lacus maximus orci laoreet
-pulvinar quis sit amet odio. Mauris dictum nec diam a eleifend. Aliquam sagittis,
-tellus nec eleifend venenatis, nisl velit placerat tortor, sit amet aliquet elit
-sem ac nunc. Curabitur enim felis, dignissim sed enim a, finibus posuere massa.
-Aliquam non ultricies magna.
+Singularity caches downloaded images and layers to speed up subsequent operations.
+Over time, this cache can grow quite large. To clean up the Singularity cache:
+
+**Check cache size**:
+
+.. code-block:: bash
+
+  du -sh ~/.singularity/cache
+
+**Clean all cache**:
+
+.. code-block:: bash
+
+  singularity cache clean
+
+**Clean specific cache types**:
+
+.. code-block:: bash
+
+  # Clean only Docker layers
+  singularity cache clean --type blob
+
+  # Clean only pulled images
+  singularity cache clean --type library
+
+**Force clean without confirmation**:
+
+.. code-block:: bash
+
+  singularity cache clean --force
+
+.. warning::
+
+  Cleaning the cache will remove all cached images and layers. This means that
+  subsequent pulls or builds will need to download everything again. Only clean
+  the cache when you're sure you won't need the cached files or when disk space
+  is limited.
