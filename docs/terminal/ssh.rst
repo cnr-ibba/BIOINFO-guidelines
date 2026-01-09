@@ -410,7 +410,7 @@ in order to close the remote session.
 OpenSSH connection options
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-OpenSSH let you to store connection parameters in the ``$HOME/.ssh/config``
+OpenSSH lets you store connection parameters in the ``$HOME/.ssh/config``
 configuration file. There are options which are applied every time you start a OpenSSH
 connection with ``ssh`` or options that are applied only on specific remote server.
 You could also choose to override global configuration by specifying the same parameters
