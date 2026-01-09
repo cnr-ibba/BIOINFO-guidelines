@@ -247,7 +247,7 @@ like this:
   #SBATCH --ntasks-per-node=1             # 1 tasks per node
   #SBATCH --cpus-per-task=2               # 2 CPUs per task
   #SBATCH --time=4-00:00:00               # time limits if you are forced to use
-  #SBATCH --mem=16G                       # 16GB to manage proces
+  #SBATCH --mem=16G                       # 16GB to manage process
   #SBATCH --error=nextflow.err            # standard error file
   #SBATCH --output=nextflow.out           # standard output file
   #SBATCH --job-name=nf-core-rnaseq       # job name

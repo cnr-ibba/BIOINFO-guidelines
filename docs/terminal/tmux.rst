@@ -119,4 +119,4 @@ Here are some resources where you can find how to customize tmux:
 
 * `Tools I use: Tmux <https://justin.abrah.ms/dotfiles/tmux.html>`_
 * `Practical Tmux <https://mutelight.org/practical-tmux>`_
-* `Ax example tmux configuration file <https://github.com/bunop/dotfiles/blob/master/tmux/tmux.conf>`_
+* `An example tmux configuration file <https://github.com/bunop/dotfiles/blob/master/tmux/tmux.conf>`_

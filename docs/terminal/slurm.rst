@@ -325,7 +325,7 @@ You can cancel a job using ``scancel`` and specifying a *job id*::
 
   scancel <job id>
 
-Or jou can cancell **all** your submitted job with ``-u``::
+Or you can cancel **all** your submitted jobs with ``-u``::
 
   scancel -u <your username>
 
