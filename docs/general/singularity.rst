@@ -274,7 +274,7 @@ able to run a singularity container.
   In our shared infrastructure at IBBA, we have a shared folder directory in which
   we put singularity container managed with nextflow: those containers are downloaded
   by nextflow but can be used like any other pulled singularity container.
-  See :ref:`Setting NXF_SINGULARITY_CACHEDIR <set-singularity-cache>` for more information
+  See :ref:`Setting NXF_SINGULARITY_CACHEDIR <set-nxf-singularity-cache>` for more information
 
 .. _Sylabs Cloud: https://cloud.sylabs.io/library
 
@@ -398,6 +398,46 @@ Singularity best practices
 
 When working with Singularity containers, following best practices ensures
 reproducibility, efficiency, and ease of use.
+
+.. _set-singularity-cache:
+
+Set SINGULARITY_CACHEDIR
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Although Singularity uses a default cache directory (``~/.singularity``),
+it's a good practice to set the ``SINGULARITY_CACHEDIR`` environment variable
+to a specific location where you want Singularity to store its cache files. This
+is especially useful when using Nextflow, in particular when downloading pipelines
+using ``nf-core pipelines download`` or when executing a pipeline for the first time:
+this will reuse the same singularity cache
+folder when downloading containers. To set the cache directory, add the following line
+to your shell configuration file (e.g., ``~/.bashrc`` or ``~/.profile``):
+
+.. code-block:: bash
+
+  export SINGULARITY_CACHEDIR=/path/to/your/singularity/cache
+
+Remember to replace ``/path/to/your/singularity/cache`` with the actual path
+where you want to store the Singularity cache. If in doubt, you can use the
+default path ``$HOME/.singularity``, singularity will create the ``cache`` subdirectory
+automatically.
+
+.. note::
+
+  The singularity cache directory is used to store downloaded layers
+  and other temporary files that speed up subsequent operations: this is not
+  the location where singularity containers are stored when you pull them with
+  ``singularity pull`` command. Cleaning up the cache directory can help free up disk space
+  when needed. See :ref:`Clean up cache <clean-up-singularity>` for more information.
+
+.. hint::
+
+  When using Nextflow, you can also set the singularity cache directory
+  by defining the ``NXF_SINGULARITY_CACHEDIR`` environment variable: this will
+  be the path where Nextflow will look for singularity containers, and can be
+  reused across different pipelines and by calling ``singularity run`` directly
+  on the downloaded containers.
+  See :ref:`Setting NXF_SINGULARITY_CACHEDIR <set-nxf-singularity-cache>` for more information.
 
 Use specific versions
 ~~~~~~~~~~~~~~~~~~~~~

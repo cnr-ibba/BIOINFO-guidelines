@@ -186,7 +186,7 @@ articles.
 Environment variables
 ~~~~~~~~~~~~~~~~~~~~~
 
-.. _set-singularity-cache:
+.. _set-nxf-singularity-cache:
 
 Setting ``NXF_SINGULARITY_CACHEDIR``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -208,6 +208,11 @@ inside this directory
 
     # override nextflow singularity cache dir
     export NXF_SINGULARITY_CACHEDIR=/home/core/nxf_singularity_cache/
+
+  You can also define the ``SINGULARITY_CACHEDIR`` environment variable, which
+  will be used by singularity itself to cache layers and temporary files: this
+  could help in managing singularity cache in a more efficient way. See
+  :ref:`Set SINGULARITY_CACHEDIR <set-singularity-cache>` for more information.
 
 .. warning::
 

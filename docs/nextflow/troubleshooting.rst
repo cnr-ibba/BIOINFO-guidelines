@@ -330,7 +330,7 @@ you can use:
 The utility will ask you if you want to download the *singularity container images*
 with the pipeline (usually yes) and if you want to *copy* singularity images
 into the pipeline download folder or if you want to *amend* the singularity
-images in the :ref:`$NXF_SINGULARITY_CACHEDIR <set-singularity-cache>` folder:
+images in the :ref:`$NXF_SINGULARITY_CACHEDIR <set-nxf-singularity-cache>` folder:
 the latter should be choose if you are downloading the container images in a shared
 folder that can be used during nextflow execution (ie. you are in a *login* node
 in HPC infrastructure with internet access, while in the *computing* nodes there's

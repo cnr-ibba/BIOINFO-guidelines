@@ -12,7 +12,7 @@ Despite nextflow could be run using :doc:`conda <../general/conda>`,
 or other container runtimes, the recommended container application to use
 is **singularity**: this solution in fact manages all software dependencies
 in a unique file and could be cached and reused in order to speed up the
-calculation process (see :ref:`set-singularity-cache` for more information).
+calculation process (see :ref:`set-nxf-singularity-cache` for more information).
 You can have more information about singularity in
 the :ref:`singularity <about-singularity>` section of this guidelines.
 
@@ -31,7 +31,7 @@ You can select the type of container runtime to use with the
   downloading softwares: singularity cache could be configured in
   `singularity scope <https://www.nextflow.io/docs/edge/reference/config.html#singularity>`_
   or better using ``$NXF_SINGULARITY_CACHEDIR``.
-  See :ref:`Setting NXF_SINGULARITY_CACHEDIR <set-singularity-cache>` for more information
+  See :ref:`Setting NXF_SINGULARITY_CACHEDIR <set-nxf-singularity-cache>` for more information
 
 Nextflow parameters and pipeline parameters
 -------------------------------------------
