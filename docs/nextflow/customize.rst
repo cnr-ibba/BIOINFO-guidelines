@@ -474,6 +474,83 @@ so on. In a DSL2 pipeline, custom variables for each process are defined in
 ``conf/base.config`` file: take a look to this file to understand which variables
 are set by default in your pipeline and before adding new variables to a process.
 
+Provide custom parameters to a container runtime
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Sometimes could be useful to provide custom parameters to the container runtime
+used to run a process. For example, you may want to provide custom Singularity
+options to a process in order to mount a specific directory or to provide a
+custom environment variable. This can be done using the ``runOptions`` variable with the
+container runtime scope in the custom configuration file, for example:
+
+.. code-block:: groovy
+
+  singularity {
+      runOptions = '--bind /data/project:/mnt/project'
+  }
+
+  docker {
+      runOptions = '--env MY_ENV_VAR=value'
+  }
+
+.. warning::
+
+  By default, ``docker.runOptions`` is set to ``'-u $(id -u):$(id -g)'``: this
+  is required to run process as the current user in order to create files with
+  proper permissions. Remember to include ``'-u $(id -u):$(id -g)'`` when providing
+  your custom docker options.
+
+In addition, there's also the ``containerOptions`` process directive that can be
+used to provide custom options to the container runtime for a specific process.
+However, container runtime like Singularity and Docker may have different way
+to specify those options, so it's better to use the container runtime scope
+with ``runOptions`` in the custom configuration file to provide custom options that will be applied
+to all the processes using that container runtime. If you need to provide custom
+options to a specific process, and you need to distinguish between different container
+runtimes, you can use a **closure** to define the options dynamically based on the
+container runtime used by the process, for example if you require *GPU* support:
+
+.. code-block:: groovy
+
+  process {
+      withName: process_with_gpu {
+          containerOptions = {
+              workflow.containerEngine == "singularity" ? '--nv' :
+              ( workflow.containerEngine == "docker" ? '--gpus all' : null )
+          }
+      }
+  }
+
+This will try to set the proper options based on the container runtime used by the process,
+or will not set any options if the container runtime is not Singularity or Docker.
+
+Provide custom parameters to executors
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+There are parameters that can be provided to the executor used to run a process:
+this parameters don't affect the process behavior, but can be used to customize the
+job submission to the computing environment. A list of all the available parameters
+for each executor can be found in the nextflow documentation at
+`Executors <https://www.nextflow.io/docs/latest/executor.html>`_.
+
+There's one parameter for ``SLURM`` executor that is quite useful to customize
+the job submission: the ``clusterOptions`` parameter let you to provide custom
+parameters to the ``sbatch`` command used to submit jobs to the SLURM scheduler
+(which are not directly supported by , like ``cpus```, ``memory``, ``time`` or ``queue``).
+For example, you may want to specify a custom partition or quality of service
+for a specific process, like this:
+
+.. code-block:: groovy
+
+  process {
+      withName: process_name {
+          clusterOptions = '--partition=long --qos=normal'
+      }
+  }
+
+This will add the ``--partition=long --qos=normal`` options to the ``sbatch``
+command used to submit jobs for the specified process.
+
 Change output file names
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
