@@ -42,7 +42,7 @@ Create an R environment with conda
 
 Despite you can install R from *source*, the recommended (and easiest!) way to
 install ``R`` is by using conda. Conda provides several ``R`` package and a dedicated
-`channel <https://anaconda.org/r/repo>`__ in which ``R`` dependencies are
+`channel <https://anaconda.org/r/repo>`_ in which ``R`` dependencies are
 resolved. The ``r-essentals`` conda package  provide a lot of packages installed
 with the ``r-base`` version, which provides the minimal software to run an ``R``
 session. However if you plan to manage packages installation by yourself,
@@ -113,7 +113,7 @@ is how it looks like the singularity ``.def`` file::
       echo "Arguments received: $*"
       exec "$@"
 
-Next, you will require an account to `Sylabs <https://cloud.sylabs.io/>`__,
+Next, you will require an account to `Sylabs <https://cloud.sylabs.io/>`_,
 since as a normal user you can't build locally a singularity image, you have to
 do it *remotely* using a *singularity build service*. *Sylab* can provide you
 time and space to build up images using a free tier. Once you have created an
@@ -134,7 +134,7 @@ load the ``R`` just built with your all your defined dependencies with::
 
 this will start an ``R`` terminal using your singularity image. Please see our
 section on :doc:`singularity <../general/singularity>` to get more information. Please see also
-`singularity documentation <https://docs.sylabs.io/guides/3.7/user-guide/>`__
+`singularity documentation <https://docs.sylabs.io/guides/3.7/user-guide/>`_
 to understand how create a *definition* file and which commands and parameters
 are supported when calling ``singularity``
 
@@ -142,7 +142,7 @@ Manage dependencies with Renv
 -----------------------------
 
 Instead of installing your ``R`` packages *globally*, you can use
-`Renv <https://RStudio.github.io/renv/articles/renv.html>`__ to manage the
+`Renv <https://RStudio.github.io/renv/articles/renv.html>`_ to manage the
 transition between your local environment and the remote environment, and ensure
 reproducibility between your projects. Briefly, ``renv`` install your dependencies
 within projects, and this means that you could work with projects which have different
@@ -150,7 +150,7 @@ dependencies in the same time. Moreover this could help you when resuming a proj
 started long time ago, working with the same library versions you used when you
 have started such project, without breaking your code since you have installed
 a more recent version of such packages *globally*. Unlike
-`packrat <https://RStudio.github.io/packrat/>`__, which build and install packages
+`packrat <https://RStudio.github.io/packrat/>`_, which build and install packages
 inside your project folder, ``renv`` build packages once and links such packages
 to the proper built directory when needed: this means that if you use the same
 package between different projects, your package caches is built *once* and used
@@ -160,31 +160,73 @@ your projects.
 Your package dependencies will be tracked using the ``renv.lock`` file, which is created
 and managed through ``renv`` command. There will also an ``renv`` folder
 in which some filer required by ``R`` to find and load your packages correctly
-are located. Simply manage your packages as usual, and then call::
+are located. Simply manage your packages as usual, and then call:
 
-  > renv::snapshot()
+.. code-block:: R
+
+  renv::snapshot()
 
 To save the state of your libraries to the ``renv.lock`` file. Once you are ready
 to move your code on remote environment, remember to synchronize your ``renv.lock``
-file. After that, you can use::
+file. After that, you can use:
 
-  > renv::restore()
+.. code-block:: R
+
+  renv::restore()
 
 to install your required libraries on your remote environment, without installing
 your libraries one-by-one after test for their presence on the remote environment.
 
+Sometimes it could be impossible to restore all your dependencies from
+the ``renv.lock`` file: ``renv`` developers can't
+ensure you that such process will be successful every time. This can happen, for
+example, to packages which require a certain system library or R version. If
+you can't restore a particular package, you can try to update the ``renv.lock``
+file using:
+
+.. code-block:: R
+
+ renv::record(<package>)
+
+to update the package version (default behavior is to install the latest version
+available from CRAN). This will let you to install a more recent version of the
+package which could be compatible with your system.
+
 .. hint::
 
-  Sometimes it could be impossible to restore all your dependencies from
-  the ``renv.lock`` file: ``renv`` developers can't
-  ensure you that such process will be successful every time. If you have trouble when
+  If you have trouble when
   restoring an environment, you can call ``renv::purge()`` by providing the package
   name which gave you issues, in order to clean up the problematic package. Sometimes
   you require to restart your R session, to see changes in your working environment.
   Tracking ``renv.lock`` with your code using ``git`` (or backing up your ``renv.lock``
   file) is   *strongly recommended*. There can be also cases in which you have
   to clean up your environment, please refer to
-  `renv documentation <https://RStudio.github.io/renv/reference/index.html>`__.
+  `renv documentation <https://RStudio.github.io/renv/reference/index.html>`_.
+
+Shared environment with renv
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+By default, ``renv`` create a folder named ``renv`` within your project folder,
+in which some files required by ``R`` to find and load your packages correctly
+are located. Usually packages are installed in a user-wide cache, which is located
+in your home directory (``$HOME/.cache/R/renv/cache``), then linked to your project
+when needed. However, if you plan to work with different users on the same project,
+it could be better to share the same package library between different users.
+To do that, you can define an environment variable
+named ``RENV_PATHS_CACHE`` which points to a shared location that is writable only
+by a trusted group of collaborators (and read-only or inaccessible to other users).
+For example, you can define such variable in your ``.bashrc``
+file like this::
+
+  export RENV_PATHS_CACHE="/path/to/shared/location/renv_cache"
+
+Make sure that the directory used for ``RENV_PATHS_CACHE`` is not world-writable,
+otherwise other users on the system could tamper with shared packages and execute
+arbitrary code in your R sessions.
+Or you can define such variable in the ``~/.Renviron`` file, which is read by ``R``
+at the beginning of each session. After that, every time you will restore your
+environment using ``renv::restore()``, the packages will be installed in the shared
+location, and then linked to your project when needed.
 
 The here package
 ----------------
@@ -192,15 +234,17 @@ The here package
 You have to avoid to refer to your scripts or data files using *absolute paths*,
 since the paths you have in your local R installation are different from the path
 you will find on remote environment. Using a package like
-"`here <https://here.r-lib.org/>`__" can help you to code your paths relying on
+"`here <https://here.r-lib.org/>`_" can help you to code your paths relying on
 ``R`` environment. The ``here()`` function (which has the same name of the package)
 return the absolute location of your ``R`` project file, and by providing the
 *relative path* of a file respect to your project as an argument you receive an
 *absolute path* as a return value, which can be used to deal with file locations
 in different OS (like windows and linux, for instance) and with different project
-locations. For example::
+locations. For example:
 
-  > here("directory", "file")
+.. code-block:: R
+
+  here("directory", "file")
 
 will return the absolute path of ``directory/file`` file relative to your ``.Rproj``
 file location.
@@ -217,7 +261,9 @@ Calling rmarkdown from terminal
 Since ``RStudio`` is not available on our remote infrastructure, you cannot render
 a ``.Rmd`` file by clicking on *knitr* button on like on your *RStudio* IDE. However, you
 are able to call ``rmarkdown::render()`` and provide the location of your ``.Rmd``
-script as parameter. For example, if you define a ``.Rmd`` file like this::
+script as parameter. For example, if you define a ``.Rmd`` file like this:
+
+.. code-block:: markdown
 
   ---
   title: "A sample Rmarkdown file"
@@ -235,7 +281,9 @@ script as parameter. For example, if you define a ``.Rmd`` file like this::
 
 Than you can render this file using ``rmarkdown::render(<your script>)``, or better
 by defing a new script which call your ``.Rmd`` file, for example by loading your
-libraries using ``renv`` and finding your paths using ``here`` packages::
+libraries using ``renv`` and finding your paths using ``here`` packages:
+
+.. code-block:: R
 
   #! /usr/bin/env -S Rscript --slave --vanilla
 

@@ -1,5 +1,5 @@
 
-Customize a Pipeline
+Customize a pipeline
 ====================
 
 .. contents:: Table of Contents
@@ -7,8 +7,12 @@ Customize a Pipeline
 Cloning a pipeline
 ------------------
 
-The easiest way to modifying an existing pipeline is to clone it from the github
-repository::
+You don't need to modify a pipeline if you need only to change a pipeline
+parameter or adapt the execution to your local environment: a pipeline execution
+is highly customizable by providing *custom configuration files* and *parameters*.
+Most of the time you will be able to run a pipeline without modifying it, but
+cloning a pipeline is useful when you need to add new features or to fix bugs
+in a pipeline you are working on::
 
   git clone https://github.com/nf-core/rnaseq
 
@@ -18,24 +22,32 @@ repository::
 
     nextflow clone nf-core/rnaseq
 
-.. warning::
+  The ``nf-core`` prefix of the pipeline is the *organization* name, and the
+  ``rnaseq`` is the *repository* name, as you find on GitHub.
 
-  if you clone a pipeline with ``nextflow clone`` command, ensure that git *remotes* are
-  correct and point to the repository location
+.. _configuring-a-pipeline:
 
 Configuring a pipeline
 ----------------------
 
-You can customize a pipeline by creating a custom configuration file. This could
+You can customize a pipeline by creating custom configuration files: this could
 be necessary if you need to lower the requirements of a pipeline, for example,
-in order to run a pipeline with limited resources or to avoid to provide pipeline
-parameters using the command line interface. You can also specify a custom
+in order to run a pipeline with limited resources or if you need to track the
+parameters you are been using for a particular analysis. You can also specify a custom
 configuration file in order to run a pipeline with a different profile, for example
 to enable different options required to a specific environment. A custom configuration
 file has an higher priority than the default configuration file, but will have a lower
-priority than the parameters provided with command line. For a complete list of
+priority than the parameters provided with command line. Moreover, is it possible
+to use an *institutional configuration file* in which you can specify the default
+parameters for all the pipelines you plan to execute within the infrastructure
+provided by your institution (see `here <https://github.com/nf-core/configs>`_
+for an example). For a complete list of
 configuration options and priorities, please see the
-`nextflow config <https://www.nextflow.io/docs/latest/config.html>`__ documentation.
+`nextflow configuration <https://www.nextflow.io/docs/latest/config.html>`_ documentation.
+
+nextflow.config
+---------------
+
 Before starting with a new custom configuration file, you should take a look to
 the default configuration file provided by the pipeline you are working on. For
 a standard nextflow pipeline, the default configuration file is named ``nextflow.config``
@@ -54,40 +66,136 @@ are defined.
   cannot be specified using the command line interface (for example the amount of
   memory required by a certain step) can be defined in the custom configuration file.
 
+.. _institutional-configuration-files:
+
+Institutional configuration files
+---------------------------------
+
+Nextflow offers a GitHub repository where institutional configuration files can
+be stored and shared among users. This means that users belonging to the same
+institution can share configuration files that are specific to their infrastructure.
+This repository is located at `<https://github.com/nf-core/configs>`_ and is
+structured in mainly two sections, configuration that are shared among all pipelines
+and configuration that are specific to a single pipeline. Usually the first configuration
+files keeps information about *executors*, *queues*, *resources* and
+they can be applied to all pipelines independently in a particular computing
+environment in your institute. The second
+configuration files are specific to a single pipeline and can be used to customize
+a single pipeline step, for example to change the number of CPUs or the amount of memory
+required by a single process overriding the pipeline default configuration.
+
+Institutional configuration files are managed through the
+`profile scope <https://www.nextflow.io/docs/latest/config.html#config-profiles>`_
+and usually the *nf-core* community pipelines are already configured to use them.
+This means that if an institutional configuration file is available in the nf-core
+configs repository, it can be using passing the profile name to the pipeline execution,
+for example:
+
+.. code-block:: bash
+
+  nextflow run nf-core/rnaseq --profile <my_institution> ...
+
+This is enough to apply the global institutional configuration to the pipeline execution
+and the pipeline specific configuration if available. For more information
+see the
+`Shared nf-core/configs <https://nf-co.re/docs/usage/getting_started/configuration#shared-nf-coreconfigs>`_
+and the `Step-by-step guide to writing an institutional profile <https://nf-co.re/docs/tutorials/use_nf-core_pipelines/writing_institutional_profiles>`_
+documents for more information.
+
+.. tip::
+
+  We have a custom *institutional* configuration repository at *ibba*. To use it
+  with nf-core pipelines, you should add the repository
+  `cnr-ibba/nf-configs <https://github.com/cnr-ibba/nf-configs/>`_ using, the
+  ``--custom_config_base`` option, and specify `ibba` and your working environment
+  profile, for example:
+
+  .. code-block:: bash
+
+    nextflow run nf-core/rnaseq \
+      --custom_config_base https://raw.githubusercontent.com/cnr-ibba/nf-configs/ibba \
+      --profile ibba,core \
+      ...
+
+  cnr-ibba pipelines, like `cnr-ibba/nf-resequencing-mem <https://github.com/cnr-ibba/nf-resequencing-mem>`_
+  are already configured to use our local institutional configuration repository.
+  See `nf-core/configs: IBBA Configuration <https://github.com/cnr-ibba/nf-configs/blob/ibba/docs/ibba.md>`_
+  for more information.
+
+.. hint::
+
+  The institutional configuration files are accessed remotely during pipeline execution:
+  if you need to work offline, you should download and manage a local copy and provide
+  the path to the institutional configuration file using the ``-config`` option and
+  the institutional configuration git repository though the ``--custom_config_base``
+  option. More information can be found in :ref:`running-nextflow-offline`
+  and :ref:`clone-institutional-configuration-files` of this documentation.
+
+Custom configuration files
+--------------------------
+
+There are other configuration files that can be used to customize a single pipeline
+and can be stored in the pipeline directory or in the directory where you are running
+the pipeline. Those configuration files have the highest priority and can be used
+to customize a single pipeline execution for a particular project. Those configuration
+files should be specified using the ``-c`` or ``-config`` option when running the pipeline,
+for example:
+
+.. code-block:: bash
+
+  nextflow run nf-core/rnaseq -c custom.config ...
+
 .. warning::
 
   Avoid to name your custom config file as ``nextflow.config``, since is a reserved
   name for the default configuration file, which is loaded automatically by nextflow
-  if present in the pipeline directory. If you name your custom configuration file
+  if present in your project directory. If you name your custom configuration file
   with a different name, you can control when it's loaded using the ``-c`` or
   ``-config`` option when running nextflow.
 
-Lowering pipeline requirements
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+More information about configuration customization can be found in the official
+nextflow `Configuration <https://www.nextflow.io/docs/latest/config.html>`_.
+The reference of all configuration options could be found at nextflow
+`Configuration options <https://www.nextflow.io/docs/latest/reference/config.html>`_
+reference. Here we provide some examples of how to customize a pipeline using
+custom configuration files.
 
-Nextflow let you to specify the amount of resources required by a pipeline step
-using process `selectors <https://www.nextflow.io/docs/latest/config.html#process-selectors>`__
-in the configuration files. More precisely, in DSL2 pipelines, this requirements
-are specified in ``conf/base.config`` file. There are mainly two types of selectors:
-``withName`` and ``withLabel``: the first one let you to specify the requirements
-for a process by name, the second one let you to specify the requirements for every
-process having the same label. To lower resources requirements, it's better to
+Process selectors
+~~~~~~~~~~~~~~~~~
+
+Nextflow let you to specify the behavior of a process or a group of processes
+using process `selectors <https://www.nextflow.io/docs/latest/config.html#process-selectors>`_
+in the configuration files. There are mainly two types of selectors:
+``withLabel`` and ``withName``: the first one let you to specify the requirements
+for every process having the same label, the second one let you to specify the
+requirements for a process by name. More precisely, in DSL2 pipelines, this requirements
+are specified in ``conf/base.config`` and ``conf/modules.config`` where the first
+file is used to specify the requirements for a group of jobs using *labels* and
+the second one is used to specify the requirements for a single process using
+*names*.
+
+The Nextflow community recommend to specify the requirements for
+a group of processes when possible using ``withLabel``: when there's
+the need to specify the requirements for a single process, you can use the ``withName``
+selector. For example, to lower resources requirements, it's better to
 start by redefining the most used labels, like ``process_high`` and ``process_medium``,
-and then redefine single process by names. Start with an empty configuration
-file and add a ``process`` scope like this::
+and after redefine single processes. Start with an empty *custom configuration*
+file and add a ``process`` scope like this:
+
+.. code-block:: groovy
 
   process {
-      withLabel:process_single {
-          memory = 1.G
+      withLabel: process_low {
+          ...
       }
-      withLabel:process_low {
-          memory = 4.G
+      withLabel: process_medium {
+          ...
       }
-      withLabel:process_medium {
-          memory = 12.G
+      withLabel: process_high {
+          ...
       }
-      withLabel:process_high {
-          memory = 48.G
+      withName: FASTQC {
+          ...
       }
   }
 
@@ -103,11 +211,172 @@ or ``-config`` option:
 .. hint::
 
   Since these parameters will override the default ones, it's better to declare only
-  the minimal parameters required by your pipeline.
+  the minimal parameters required by your pipeline. See nextflow documentation for
+  `Process selectors <https://www.nextflow.io/docs/latest/config.html#process-selectors>`_
+  for more information.
 
-You can also declare resources dynamically. For example, you can make use of the
-``check_max`` function, but you will require to define the ``check_max`` function
-in your custom configuration file::
+.. _dynamic-allocation-resources:
+
+Dynamic allocation of resources
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+It is possible that different instances of a process require different resources
+in terms of computing power, memory, or time. In such situations, requesting, for example,
+an amount of memory too low will cause some tasks to fail. Instead, using a
+higher limit that fits all the tasks in your execution could significantly
+decrease the execution priority of your jobs. In such cases, the
+`Dynamic directives <https://www.nextflow.io/docs/latest/process.html#dynamic-directives>`_
+could be useful to increase the resources required by a process if the task fails
+and is retried. For example, Nextflow let you to specify the resources
+required by a process dynamically using the ``task.attempt`` variable. This variable
+is a counter that is incremented each time a task is retried. For example, you can
+specify the resources required by a process like this:
+
+.. code-block:: groovy
+
+  process {
+      withLabel:process_medium {
+          cpus   = { 6     * task.attempt }
+          memory = { 12.GB * task.attempt }
+          time   = { 8.h   * task.attempt }
+      }
+  }
+
+This means that every time a task is retried, the amount of resources required by
+the process will be increased by a factor equal to the number of attempts. However,
+the *maximum* amount of attempts and resources should be specified in configuration
+files to avoid infinite loops or excessive resource requirements.
+Such directives that affect the dynamic allocation of resources when a task is retried
+are `errorStrategy <https://www.nextflow.io/docs/latest/reference/process.html#errorstrategy>`_
+and `maxRetries <https://www.nextflow.io/docs/latest/reference/process.html#maxretries>`_:
+the first one let you to specify the behavior of a process when an error occurs,
+and you can configure this option to terminate the pipeline when an error is found or
+continue with the workflow just ignoring the error. The second one let you to specify the
+maximum number of retries for a process, after that value is reached, the entire
+pipeline will be terminated. Usually, these directive are defined by default in
+``conf/base.config`` file of the pipeline like this:
+
+.. code-block:: groovy
+
+  process {
+      errorStrategy = { task.exitStatus in ((130..145) + 104) ? 'retry' : 'finish' }
+      maxRetries    = 1
+  }
+
+But eventually, you can override these directives for a particular process using
+the ``withName`` or ``withLabel`` process selectors in the custom configuration file.
+
+.. _handling-failing-jobs:
+
+Handling failing jobs
+~~~~~~~~~~~~~~~~~~~~~
+
+You can use more complex *closures* to define the behavior of a process when an error
+occurs. For example, you can specify that a process should be retried if it fails
+until a maximum number of retries is reached. After that, we just ignore the error
+and continue with the workflow: this is an example of how to specify the behavior
+of a process when an error occurs in a custom configuration file:
+
+.. code-block:: groovy
+
+  withName: VCFTOOLS_TSTV_COUNT {
+      errorStrategy = { task.attempt <= 2  ? 'retry' : 'ignore' }
+  }
+
+The same can be defined directly in the process declaration in a nextflow file:
+
+.. code-block:: groovy
+
+  process MY_PROCESS {
+    tag "$meta.id"
+    label 'process_single'
+    errorStrategy  { task.attempt <= maxRetries  ? 'retry' : 'ignore' }
+
+    <other process directives>
+
+  }
+
+.. tip::
+
+  Note that we declare ``errorStrategy =`` in nextflow configuration file, but
+  we declare ``errorStrategy { ... }`` in the process declaration in a nextflow file:
+  This behavior will be further investigated.
+
+.. hint::
+
+  This can be possible if there are no dependent processes that require the output
+  of the process that failed. Take a look to the
+  `Handling failing jobs with Nextflow <https://lucacozzuto.medium.com/handling-failing-jobs-with-nextflow-24405b97b679>`_
+  medium article to get more hints on how to handle failing jobs in Nextflow.
+
+Setting max amount of resources for a process
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Nextflow will also let you to specify the maximum resources required by a process
+using the `resourceLimits <https://www.nextflow.io/docs/latest/reference/process.html#resourcelimits>`_
+directive: this could be specified at the task level or globally at the process level.
+In the latter case, you will set the maximum resources required by every process
+called by the pipeline. An example of how to specify the maximum resources required
+by a process is shown below:
+
+.. code-block:: groovy
+
+  process {
+      resourceLimits = [
+          cpus: 32,
+          memory: 64.GB
+      ]
+  }
+
+.. warning::
+
+  When using the `resourceLimits` directive, you are only declare the maximum
+  amount of resources that a process can require, you are not specifying the
+  total amount of resources that will be used by all the process during the
+  pipeline execution.
+
+.. hint::
+
+  The `resourceLimits` directive was introduced in Nextflow version ``24.04.0``:
+  the pipeline options ``--max_cpus``, ``--max_memory`` and ``--max_time`` are
+  deprecated and will be removed in future versions. If you need to work
+  with pipelines developed with older versions of Nextflow, you should use the
+  old ``check_max`` function to ensure that resource requirements don't exceed
+  a maximum limit. See the `Dynamic allocation of resources (old syntax)`_
+  section for more information.
+
+.. tip::
+
+  If you need to know if your pipeline support the newest ``resourceLimits`` directive,
+  take a look at ``nextflow.config`` file in the pipeline directory and in the
+  ``conf/base.config`` file: if the dynamic allocation of resources is managed by
+  the ``check_max`` function and by the ``max_cpus``, ``max_memory`` and ``max_time``
+  parameters, you should use the old syntax to manage resources.
+
+
+Dynamic allocation of resources (old syntax)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Before version ``24.04.0``, Nextflow let you specify the maximum resources required
+by a process using the ``--max_cpus``, ``--max_memory`` and ``--max_time`` parameters.
+The resources were allocated dynamically using the ``check_max`` function, which
+needs to be included in the custom configuration file or in any files that make
+use of the ``check_max`` function to dynamically allocate resources.
+You should remember to specify a default value for ``max_memory``, ``max_cpus``,
+and ``max_time`` in your *custom configuration file* to avoid warnings
+when the ``check_max`` function is evaluated. An example of how to specify the maximum
+resources required by a process with the old syntax is shown below:
+
+.. code-block:: groovy
+
+  params {
+      // Max resource options
+      // Defaults only, expecting to be overwritten
+      // need to be specified in order to ``check_max`` function to work
+      max_memory                 = '64.GB'
+      max_cpus                   = 32
+      max_time                   = '240.h'
+  }
 
   process {
       withLabel:process_medium {
@@ -150,23 +419,47 @@ in your custom configuration file::
       }
   }
 
-The ``--max_cpus``, ``--max_memory`` and ``--max_time`` parameters are the maximum
-allowed values for dynamic job requirements: by setting these parameters you can
-ensure that a *single job* will not allocate more resources than the ones you have
-declared. Those parameters have not effect on the *global* resources used or the
-number of job submitted.
-
 .. hint::
 
+  The ``--max_cpus``, ``--max_memory`` and ``--max_time`` parameters are the maximum
+  allowed values for dynamic job requirements: by setting these parameters you can
+  ensure that a *single job* will not allocate more resources than the ones you have
+  declared. Those parameters have not effect on the *global* resources used or the
+  number of job submitted.
+
+.. tip::
+
   ``--max_cpus``, ``--max_memory`` and ``--max_time`` are parameters that can be
-  submitted using the nextflow *params file* or command line interface.
+  submitted using the nextflow *params file* or *command line interface*.
+
+Remove process limits
+~~~~~~~~~~~~~~~~~~~~~
+
+Sometimes could be convenient to remove the limits set by a process, for example
+a very long task that requires a lot of time to be completed: in this case, will
+be more convenient to avoid setting a walltime limit and let the *executor* choose
+the max allowed value. You can simply unset the time limit for a process by setting
+a ``null`` value for the time parameter in the custom configuration file, for example:
+
+.. code-block:: groovy
+
+  process {
+      withLabel:unlimited_time {
+          time   = null
+      }
+  }
+
+This will override all the time limits set by the process and will let the *executor*
+to choose the max allowed value (if supported).
 
 Provide custom parameters to a process
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Some modules may require additional parameters to be provided in order to work
 correctly. This parameters can be specified with the ``ext.args`` variable within
-the process scope in the custom configuration file, for example::
+the process scope in the custom configuration file, for example:
+
+.. code-block:: groovy
 
   process {
       withName:process_fastqc {
@@ -181,6 +474,131 @@ so on. In a DSL2 pipeline, custom variables for each process are defined in
 ``conf/base.config`` file: take a look to this file to understand which variables
 are set by default in your pipeline and before adding new variables to a process.
 
+Provide custom parameters to a container runtime
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Sometimes could be useful to provide custom parameters to the container runtime
+used to run a process. For example, you may want to provide custom Singularity
+options to a process in order to mount a specific directory or to provide a
+custom environment variable. This can be done using the ``runOptions`` variable with the
+container runtime scope in the custom configuration file, for example:
+
+.. code-block:: groovy
+
+  singularity {
+      runOptions = '--bind /data/project:/mnt/project'
+  }
+
+  docker {
+      runOptions = '--env MY_ENV_VAR=value'
+  }
+
+.. warning::
+
+  By default, ``docker.runOptions`` is set to ``'-u $(id -u):$(id -g)'``: this
+  is required to run process as the current user in order to create files with
+  proper permissions. Remember to include ``'-u $(id -u):$(id -g)'`` when providing
+  your custom docker options.
+
+In addition, there's also the ``containerOptions`` process directive that can be
+used to provide custom options to the container runtime for a specific process.
+However, container runtime like Singularity and Docker may have different way
+to specify those options, so it's better to use the container runtime scope
+with ``runOptions`` in the custom configuration file to provide custom options that will be applied
+to all the processes using that container runtime. If you need to provide custom
+options to a specific process, and you need to distinguish between different container
+runtimes, you can use a **closure** to define the options dynamically based on the
+container runtime used by the process, for example if you require *GPU* support:
+
+.. code-block:: groovy
+
+  process {
+      withName: process_with_gpu {
+          containerOptions = {
+              workflow.containerEngine == "singularity" ? '--nv' :
+              ( workflow.containerEngine == "docker" ? '--gpus all' : null )
+          }
+      }
+  }
+
+This will try to set the proper options based on the container runtime used by the process,
+or will not set any options if the container runtime is not Singularity or Docker.
+
+Provide custom parameters to executors
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+There are parameters that can be provided to the executor used to run a process:
+this parameters don't affect the process behavior, but can be used to customize the
+job submission to the computing environment. A list of all the available parameters
+for each executor can be found in the nextflow documentation at
+`Executors <https://www.nextflow.io/docs/latest/executor.html>`_.
+
+There's one parameter for ``SLURM`` executor that is quite useful to customize
+the job submission: the ``clusterOptions`` parameter let you to provide custom
+parameters to the ``sbatch`` command used to submit jobs to the SLURM scheduler
+(which are not directly supported by , like ``cpus```, ``memory``, ``time`` or ``queue``).
+For example, you may want to specify a custom partition or quality of service
+for a specific process, like this:
+
+.. code-block:: groovy
+
+  process {
+      withName: process_name {
+          clusterOptions = '--partition=long --qos=normal'
+      }
+  }
+
+This will add the ``--partition=long --qos=normal`` options to the ``sbatch``
+command used to submit jobs for the specified process.
+
+Change output file names
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Sometimes could be useful to change the output file names of a process, for example
+when applying a process which keeps the same input file name in input and output.
+Ideally, the output file name *prefix* is defined at process level like this:
+
+.. code-block:: groovy
+
+  script:
+  def args = task.ext.args ?: ''
+  def prefix = task.ext.prefix ?: "${meta.id}"
+
+So it is possible to configure a ``task.ext.prefix`` variable in the custom configuration
+file to define the output file name prefix, for example:
+
+.. code-block:: groovy
+
+  process {
+      withName: SEQKIT_RMDUP_R1 {
+          ext.prefix = { "${meta.id}_R1" }
+      }
+  }
+
+In this example we use *closures* to define the output file name prefix *dynamically*,
+an this is useful to keep *sample name* in output file. In alternative, is possible
+to modify the `meta.id` using the
+`map operator <https://www.nextflow.io/docs/latest/reference/operator.html#operator-map>`_,
+but this cannot be defined in the custom configuration file, should be defined in
+pipeline *workflow* or *subworkflow*, for example:
+
+.. code-block:: groovy
+
+  channel.map { meta, it -> [[id: "${meta.id}_updated"], it] }
+
+However, this will override the old ``meta.id`` value with the new one, and all
+the processes will then use the new value to define their output file name prefix.
+A third option could be to use the
+`publishDir <https://www.nextflow.io/docs/latest/reference/process.html#publishdir>`_
+directive and define a closure to define the output file name prefix, for example:
+
+.. code-block:: groovy
+
+  publishDir 'results', saveAs: { filename -> "foo_$filename" }
+
+See `Store outputs renaming files <https://nextflow-io.github.io/patterns/publish-rename-outputs/>`_
+on `nextflow patterns <https://nextflow-io.github.io/patterns/>`_ for more information.
+
 Create a custom profile
 ~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -192,7 +610,9 @@ test data.
 A profile is defined in a configuration file, which is specified
 using the ``-profile`` option when running nextflow. A profile require a name
 which is used to identify the profile and a set of parameters. For example, you
-can define a profile like this in your ``custom.config`` file::
+can define a profile like this in your ``custom.config`` file:
+
+.. code-block:: groovy
 
   profiles {
       cineca {
@@ -211,386 +631,52 @@ option::
 
   nextflow run -profile cineca,singularity ...
 
-Creating a new pipeline
------------------------
+Params file
+-----------
 
-If you can't find a proper pipeline in community, you could create a pipeline by your
-self. In :ref:`Learning Nextflow <learning-nextflow>` section of these guidelines
-you can find a lot of material on working with nextflow. However, the most interesting
-feature in nextflow is the `DSL2 <https://www.nextflow.io/docs/latest/dsl2.html>`__
-syntax: with it, you can re-use modules in which calculations steps are defined
-by the community. In such way, you can avoid to write a full pipeline from yourself.
+A Nextflow JSON parameter file is a way of providing configuration parameters for
+a Nextflow pipeline in a structured format using JSON (JavaScript Object Notation).
+It allows users to define various parameters required by the pipeline in a file
+rather than passing them directly via the command line.
+The main key features of a Nextflow JSON parameter File are
 
-The minimal set of files required to have a pipeline is to have locally
-``main.nf``, ``nextflow.config`` and ``modules.json`` inside your project folder.
-You should have also a ``modules`` directory inside your project::
+1. **Structure**: The JSON file contains key-value pairs that define different
+   parameters. This structure makes it easy to read and modify parameters without
+   needing to remember command line syntax.
+2. **Use Case**: JSON parameter files are particularly useful for complex workflows
+   with many parameters or when those parameters are subject to frequent changes.
+   Users can manage their configurations in one place.
+3. **Access in Pipeline**: Parameters defined in the JSON file can be accessed
+   directly in your Nextflow scripts using the `params` object.
 
-  mkdir -p my-new-pipeline/modules
-  cd my-new-pipeline
-  touch main.nf nextflow.config modules.json README.md .nf-core.yml
+Here’s a simple example of what a Nextflow JSON parameter file might look like:
 
-Next you have to edit ``modules.json`` in order to have minimal information::
+.. code-block:: json
 
   {
-    "name": "<your pipeline name>",
-    "homePage": "<your pipeline repository URL>",
-    "repos": { }
+    "input": "data/input_file.txt",
+    "output": "results/",
+    "other_param": "value"
   }
 
-
-Without this requisites you will not be able to add community modules to your
-pipelines using ``nf-core/tools``.
-
-.. tip::
-
-  It's a good idea to track your pipeline with a **CVS** software like **git**
-
-.. hint::
-
-  You could also create a new pipeline using the ``nf-core`` template::
-
-    nf-core create
-
-  This template is required if you want to submit your pipeline to the ``nf-core`` community.
-  Please see the `join the community <https://nf-co.re/developers/adding_pipelines#join-the-community>`__
-  section and get in contact with the developers before starting coding with your pipeline
-
-.. _browse-modules-list:
-
-Browsing modules list
-~~~~~~~~~~~~~~~~~~~~~
-
-You can get a list of modules by using ``nf-core/tools`` (see :ref:`here <install-nf-core>`
-how you can install it)::
-
-  nf-core modules list remote
-
-You could also browse modules inside a different repository and branch, for example::
-
-  nf-core modules --github-repository https://github.com/cnr-ibba/nf-modules.git \
-    --branch master list remote
-
-.. hint::
-
-  You can work to a new module and make a pull request to add it to the community.
-  See :ref:`Custom pipeline modules <custom-pipeline-modules>`
-  section to work with custom modules. See also
-  `nf-core guidelines <https://nf-co.re/developers/guidelines>`__
-  to understand how you could contribute to the community.
-
-.. _adding-a-module-to-a-pipeline:
-
-Adding a module to a pipeline
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-You can download and add a module to your pipeline using ``nf-core/tools``::
-
-  nf-core modules install --dir . fastqc
-
-.. note::
-
-  The ``--dir .`` option is optional, the default installation path is the CWD
-  (that need to be your pipeline source directory)
-
-.. hint::
-
-  If you don't provide the module, ``nf-core`` will search
-  and prompt for for a module in ``nf-core/modules`` GitHub repository
-
-Add a simple workflow
-~~~~~~~~~~~~~~~~~~~~~
-
-In order to have a minimal pipeline, you need to add at least an unnamed workflow
-to your pipeline. Moreover, you should declare the input channels and the modules
-or the processes you plan to use. Suppose to create a minimal pipeline to do a *fastqc*
-analysis on a set of reads. You can install the ``fastqc`` module as described
-above and then add a workflow like this in your ``main.nf``::
-
-  // Declare syntax version
-  nextflow.enable.dsl=2
-
-  include { FASTQC } from './modules/nf-core/fastqc/main'
-
-  workflow {
-      reads_ch = Channel.fromFilePairs(params.input, checkIfExists: true)
-          .map { it ->
-              [[id: it[1][0].baseName], it[1]]
-          }
-          // .view()
-
-      FASTQC(reads_ch)
-  }
-
-In this case ``FASTQC`` expect to receive a channel with *meta* information, so
-this is why we create an input channel and then we add *meta* relying on file names.
-Please refer to the module ``main.nf`` file to understand how to call a module
-and how to pass parameters to it. Next you will need also a minimal
-``nextflow.config`` configuration file to run your pipeline, in order
-to define where *softwares* could be found, and other useful options::
-
-  params {
-      input                       = null
-  }
-
-  profiles {
-      docker {
-          docker.enabled          = true
-          docker.userEmulation    = true
-      }
-  }
-
-  docker.registry      = 'quay.io'
-
-Next, you can call your pipeline like this::
-
-  nextflow run main.nf -profile docker --input "data/*_{1,2}.fastq.gz"
-
-You can create different workflows and call them in your main workflow, or you
-can install a subworkflow as like as you install a module. Also you can add
-more options to your ``nextflow.config`` file, or define a custom profile
-for modules, in order to provide more options to your pipeline. Please refer
-to nextflow documentation to get more information on how to customize your
-pipeline.
-
-List all modules in a pipeline
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-You can have a full list of installed modules using::
-
-  nf-core modules list local
-
-.. _update-a-pipeline-module:
-
-Update a pipeline module
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-You can update a module simple by calling::
-
-  nf-core modules update fastqc
-
-.. hint::
-
-  Call ``nf-core modules update --help`` to get a list of the available options,
-  for example, if you need to install a specific version of a module
-
-Custom pipeline modules
------------------------
-
-.. _custom-pipeline-modules:
-
-We provide custom DSL2 modules (not implemented by *nf-core* community) in our
-repository at `cnr-ibba/nf-modules <https://github.com/cnr-ibba/nf-modules>`__.
-This repository is not maintained by *nf-core* community, its internal and intended
-to share modules across pipelines and to test stuff locally. It's organized in a
-similar way to `nf-core/modules <https://github.com/nf-core/modules>`__, so it's
-possible to take a module from here and share it with the *nextflow* community (please see
-their `documentation <https://github.com/nf-core/modules#adding-a-new-module-file>`__).
-In order to get a list of available custom modules, specify custom modules repository
-using ``-g`` parameter (short option for ``--github-repository``), for example::
-
-  nf-core modules -g https://github.com/cnr-ibba/nf-modules.git list remote
-
-Add a custom module to a pipeline
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-To add a custom module to your pipeline, move into your pipeline folder and call
-``nf-core install`` with your custom module repository as parameter, for example::
-
-  nf-core modules --repository cnr-ibba/nf-modules install freebayes/single
-
-Create a new module
-~~~~~~~~~~~~~~~~~~~
-
-You can create a new module inside a pipeline folder or inside a *modules* git cloned
-folder. If you create a module inside a pipeline, you will create such module in the
-``modules/local/`` folder of the pipeline, and such model will exists *only* in your
-pipeline; If you create a module inside a *modules* folder, you can then install
-such modules in every pipeline using ``nf-core modules install``. Creating a module
-in a *modules* github folder is also the way to contribute to Nextflow community.
-The command acts in the same way for both the two scenarios: relying on your project,
-``nf-core modules`` will determine if your folder is a pipeline or a *modules*
-repository clone::
-
-  nf-core modules create freebayes/single --author @bunop --label process_high --meta
-
-.. tip::
-
-  To get more information in creating modules see `Adding a new module <https://nf-co.re/developers/adding_modules>`__
-  guide.
-
-Testing a new module
-~~~~~~~~~~~~~~~~~~~~
-
-The custom repository module is configured to use *GitHub WorkFlows* in order to perform
-some tests on all modules. Please, try to define tests and configuration files like other
-modules (you can take a look to community modules to get some examples). You can try to
-test some modules locally before submitting a **pull request** to the custom repository
-modules. The python package ``pytest-workflow`` is a requirement to make such tests.
-You need also to specify an environment between ``conda``, ``docker`` or ``singularity``
-in order to perform test. Use tags to specify which tests need to be run::
-
-  NF_CORE_MODULES_TEST=1 PROFILE=docker pytest --symlink --keep-workflow-wd \
-    --git-aware --tag freebayes/single
-
-You need to check also syntax with ``nf-core`` script by specify which tests to call
-using *tags*::
-
-  nf-core modules lint freebayes/single
-
-If you are successful in both tests, you have an higher chance that your tests will
-be executed without errors in GitHub workflow.
-
-Subworkflows
-------------
-
-A subworkflow is an experimental feature which allow to include a chain of modules
-together (for example ``bam_sort_samtools``, which execute *samtools sort*, *samtools
-index* and then call the ``bam_stats_samtools``, which is another subworkflow.
-There are imported in the main workflow (pipeline) like any others modules. More
-information will be added in future.
-
-Pipeline best practices
------------------------
-
-Use DSL2 syntax when possible
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-**DSL2** is the newest pipeline standard and the nextflow community is currently
-moving to this format. This means that community pipelines will be updated to fully
-support this standard and if you plan to submit your pipeline to the community
-you will probably need to write code using this format.
-
-The major changes provided by **DSL2** format are *modules*, as described
-by this docs, which let you reuse softwares managed and provided by the community
-simplifying your pipeline: the code required to run software and to provide/collect
-input and output are provided by the modules, which can be :ref:`installed <adding-a-module-to-a-pipeline>` or
-:ref:`updated <update-a-pipeline-module>` as described by this guide.
-
-Another change introduced in **DSL2** is the different way you can pass data between
-different pipeline steps. With the old standard, the only way is by using channels:
-this implies that after consuming values from a channel you cannot reuse those values
-in another pipeline step. For example if one step produces and output required
-by two or more steps, you have to put data in two or more channels, like this::
-
-  output:
-  file '*.fq' into trimmed_reads, quantifier_input_reads
-
-and once ``trimmed_reads`` values are consumed, you cannot read these values in
-another step. Another example could be a step in which
-you align reads to an indexed genome made by a different step: since the genome
-index is emitted once from the indexing step, you will be able to align only one
-sample if you pass the channels as they are in input: the only way to align all
-your samples is to use the
-`combine operator <https://www.nextflow.io/docs/latest/operator.html#combine>`__
-and put all values in a new channel::
-
-  trimmed_reads.combine(genome_index).set{ align_input }
-
-and then read those values as a tuple::
-
-  input:
-  tuple file(sample), file(genome) from align_input
-
-In the newest **DSL2** version, you can specify the *output* values from the
-module itself without using the channels syntax, for example::
-
-  BWA_MEM(TRIMGALORE.out.reads, BWA_INDEX.out.index)
-
-and values from a module step can be read as many times as needed.
-
-.. warning::
-
-  ``set`` and ``into`` operators used in previous version are removed in **DSL2**.
-  See `DSL 2 <https://www.nextflow.io/docs/latest/dsl2.html>`__ nextflow documentation
-  to have a picture of major changes.
-
-Write the configuration stuff outside your pipeline
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Since the aim of nextflow pipelines is reproducibility and portability,
-you should avoid to place your *analysis specific parameters* in your pipeline main
-script: this force users to modify your pipeline according their needs and this
-implies different pipeline scripts with differ only for a few things, for example
-where the input files are. If you place your configuration files outside your main
-script, you can re-use the same parameters within different scripts and keep
-your main file unmodified: this keeps the stuff simple and let you to focus only
-on important changes with your *CVS*. For example, you could define a
-custom ``params.json`` *JSON* config file in which specify your
-specific requirements::
-
-  {
-      "readPaths": "$baseDir/fastq/*.fastq.gz",
-      "outdir": "results",
-      "genome": "/path/to/genome.fasta"
-  }
-
-All the other parameters which cannot be specified using the command line interface
-need to be provided in a *custom configuration* file using the standard nextflow
-syntax::
-
-  profiles {
-      slurm {
-          process.executor = 'slurm'
-          process.queue = 'testing'
-      }
-  }
-
-Then, you can call nextflow by providing your custom parameters and configuration
-file::
-
-  nextflow run -resume main.nf -params-file params.json \
-    -config custom.config -profile singularity
-
-.. hint::
-
-  nextflow looks for configurations in different locations, and each location is
-  ranked in order to decide which settings will be applied: you can override the
-  default configuration by using a configuration source with an higher priority,
-  for example the ``-c <config file>``, ``-params-file <file>`` or parameters
-  provided with command line are different locations where the last have the higher priority. See
-  `Configuration file <https://www.nextflow.io/docs/latest/config.html#configuration-file>`__
-  section of nextflow documentation.
-
-Add test data to your pipeline
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-It frustrating writing a pipeline on a real dataset: steps could require a lot
-of time to be completed and if you made any errors when calling software or when
-collecting outputs you will be noticed after a long period of time and you have
-no way to recover the data you have with a nextflow error.
-In *testing* and *revision* stages or when adding new features, consider
-to work with a *reference data sets* like the
-one provided by `nextflow community <https://github.com/nf-core/test-datasets>`__
-or add some public data to your pipeline. Please, remember to not track big files
-with your CVS: you should provide the minimal requirements to get your pipeline
-running as intended in the shortest time. You should also consider
-to provide a ``test`` profile with the required parameters which let you to test
-your pipeline like this::
-
-  nextflow run . -profile test,singularity
-
-Where the ``test`` profile is specified in ``nextflow.config`` and refers to
-the *test dataset* you provide with your pipeline::
-
-  profiles {
-    ...
-
-    test {
-      // test input reads
-      reads_path = "./testdata/GSE110004/*{1,2}.fastq.gz"
-
-      // Genome references
-      genome_path = "./testdata/genome.fa"
-    }
-  }
-
-This type of test could be used even with CI system, like
-`GitHub workflow <https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions>`__.
-
-Lower resources usage
-~~~~~~~~~~~~~~~~~~~~~
-
-You should consider to lower the resources required by your pipeline. This will
-avoid the costs of allocating more resources than needed and will let you complete
-your analysis in a shorter time when resources are limited.
-Take a look at `Lowering pipeline requirements`_ documentation section.
+where ``input``, ``output``, and ``other_param`` are the parameters required by the
+pipeline and can be declared or overridden using CLI and prepending ``--`` to the
+parameter name (eg. ``--input``, ``--output``, ``--other_param``).
+To use a JSON parameter file in a Nextflow pipeline, you can specify it on the
+command line using the ``-params-file`` option:
+
+.. code-block:: bash
+
+  nextflow run <your pipeline> -params-file params.json
+
+The benefits of using a JSON parameter file include:
+
+- **Readability**: JSON files are quite structured and make it easy to see the
+  settings needed for a pipeline.
+- **Convenience**: It’s more convenient to edit a JSON file for changing
+  parameters than to modify and remember long command-line options.
+- **Version Control**: JSON files can be easily tracked and managed using
+  version control systems like Git, which is particularly useful for
+  collaborative projects.
+- **Compatibility**: JSON is widely supported across different programming
+  languages, making it easy to generate or manipulate if needed.

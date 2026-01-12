@@ -20,6 +20,11 @@ section of our documentation.
     :caption: Introduction
 
     contributing
+
+.. toctree::
+    :maxdepth: 2
+    :caption: Development Environment
+
     general/conda
     general/docker
     general/singularity
@@ -29,10 +34,10 @@ section of our documentation.
     :maxdepth: 2
     :caption: The Terminal
 
-    terminal/R
-    terminal/slurm
     terminal/ssh
     terminal/tmux
+    terminal/R
+    terminal/slurm
 
 .. toctree::
     :maxdepth: 2
@@ -41,7 +46,8 @@ section of our documentation.
     nextflow/getting-started
     nextflow/running
     nextflow/customize
-    nextflow/trubleshooting
+    nextflow/new-pipeline
+    nextflow/troubleshooting
 
 Indices and tables
 ==================

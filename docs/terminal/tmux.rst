@@ -91,10 +91,10 @@ from your current session). Other useful command keys are:
 
 Here are some resources where you can find more information and tips:
 
-* `A tmux Crash Course <https://thoughtbot.com/blog/a-tmux-crash-course>`__
-* `tmux & screen cheat-sheet <http://www.dayid.org/comp/tm.html>`__
-* `Tactical tmux: The 10 Most Important Commands <https://danielmiessler.com/study/tmux/>`__
-* `tmux(1) — Linux manual page <https://man7.org/linux/man-pages/man1/tmux.1.html>`__
+* `A tmux Crash Course <https://thoughtbot.com/blog/a-tmux-crash-course>`_
+* `tmux & screen cheat-sheet <http://www.dayid.org/comp/tm.html>`_
+* `Tactical tmux: The 10 Most Important Commands <https://danielmiessler.com/study/tmux/>`_
+* `tmux(1) — Linux manual page <https://man7.org/linux/man-pages/man1/tmux.1.html>`_
 
 Terminate a session
 ~~~~~~~~~~~~~~~~~~~
@@ -117,6 +117,6 @@ You can change your tmux appearance, or change control command keys. You need to
 create a ``.tmux.conf`` file in your home directory, in which define the stuff you need.
 Here are some resources where you can find how to customize tmux:
 
-* `Tools I use: Tmux <https://justin.abrah.ms/dotfiles/tmux.html>`__
-* `Practical Tmux <https://mutelight.org/practical-tmux>`__
-* `Ax example tmux configuration file <https://github.com/bunop/dotfiles/blob/master/tmux/tmux.conf>`__
+* `Tools I use: Tmux <https://justin.abrah.ms/dotfiles/tmux.html>`_
+* `Practical Tmux <https://mutelight.org/practical-tmux>`_
+* `An example tmux configuration file <https://github.com/bunop/dotfiles/blob/master/tmux/tmux.conf>`_

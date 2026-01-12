@@ -49,7 +49,7 @@ however the most common are:
   In our infrastructure we have disabled the **password authentication**, only the
   **public key authentication** is allowed
 
-For more information see `6 ssh authentication methods <https://www.golinuxcloud.com/openssh-authentication-methods-sshd-config/>`__.
+For more information see `6 ssh authentication methods <https://www.golinuxcloud.com/openssh-authentication-methods-sshd-config/>`_.
 
 SSH Clients
 -----------
@@ -73,7 +73,7 @@ act in the same way while working with remote servers.
   remote machine. Your private key need to be stored securely and **never** be sent
   to anyone in order to enforce security and prevent others to access to your
   resources using your credentials. Please see ssh documentation regarding
-  `public key authentication <https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Public_Key_Authentication>`__
+  `public key authentication <https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Public_Key_Authentication>`_
 
 OpenSSH
 ~~~~~~~
@@ -83,7 +83,7 @@ OpenSSH
 OpenSSH is the *de facto* standard for remote login with SSH protocol in Linux/MacOS
 environments. Beyond login, it provides file transfer with ``scp`` and ``sftp``, it
 manages keys with ``ssh-keygen`` and ``ssh-copy-id`` and provide more advanced functionalities
-with ``ssh-agent``. More info on OpenSSH could be found `here <https://www.openssh.com/>`__.
+with ``ssh-agent``. More info on OpenSSH could be found on the `OpenSSH website <https://www.openssh.com/>`_.
 
 To discover if you have the OpenSSH client installed on your local (Unix) machine,
 simply type::
@@ -94,12 +94,18 @@ on your terminal. In case you don't have OpenSSH installed, you could install th
 ``openssh-client`` package (there's also a ``openssh-server`` but is required only
 if you want to provide remote connections on your local machine)
 
+.. hint::
+
+  Starting from Windows 10, ssh client is included in the operating system and
+  available through windows PowerShell. Open PowerShell and type ``ssh`` to see
+  if it's installed. If not, you should add it from the *Windows Features* panel.
+
 Generate a public key pair with OpenSSH
-"""""""""""""""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. _openssh-keygen:
 
-The easiest way to generate a key pairs using ssh is by using ``ssh-keygen``. This
+The easiest way to generate a key pairs on Linux/MacOS using ssh is by using ``ssh-keygen``. This
 util requests to you to provide the path where to store the key pair and a passphrase
 required when using your key pairs. You could reply with no arguments (simply press
 ``enter`` key) to leave the default options::
@@ -141,16 +147,21 @@ administrator in order to be able to connect remotely. After that, please see
 :ref:`OpenSSH <openssh-connect>` section under `Remote connection to a Server`_
 section.
 
+.. hint::
+
+  In Windows, you can generate a key pair using the ``ssh-keygen.exe`` command in
+  Windows PowerShell. The options are the same as in Unix environment.
+
 MobaXterm
 ~~~~~~~~~
 
-`MobaXterm <https://mobaxterm.mobatek.net/>`__ is an enhanced terminal for Windows
+`MobaXterm <https://mobaxterm.mobatek.net/>`_ is an enhanced terminal for Windows
 with X11 server, tabbed SSH client, network tools and much more. If you are on a Windows
 machine, you could download and install MobaXterm to have a full terminal and a file
 transfer in the same application.
 
 Generate a public key pair with MobaXterm
-"""""""""""""""""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. _mobaxterm-keygen:
 
@@ -169,9 +180,9 @@ Windows App
 Windows 10 lets you to install a Linux distribution from its app store with
 *Windows Subsystem for Linux (WSL)*: this lets you to install almost a complete
 GNU/Linux environment directly on Windows without installing a virtual machine
-or setting up dualboot (see `here <https://docs.microsoft.com/en-us/windows/wsl/about>`__
+or setting up dualboot (see `WSL documentation <https://docs.microsoft.com/en-us/windows/wsl/about>`_
 for more information). There are two major release of WSL, WSL1 and WSL2
-(see `here <https://docs.microsoft.com/en-us/windows/wsl/compare-versions>`__
+(see `WSL comparison <https://docs.microsoft.com/en-us/windows/wsl/compare-versions>`_
 to see differences between the two versions). Briefly WSL1 was the first attempt to
 import a Linux kernel in Windows and is lighter and easier to install compared to WSL2.
 WSL2 however is more advanced and implements a full virtualization of the Linux kernel:
@@ -182,12 +193,12 @@ another VM Hypervisor (such as oracle *VirtualBox* or *VMware*) and exploit all
 its advanced functionalities.
 At the moment, configuring WSL1 or WSL2 is quite tricky, so please follow the
 official Microsoft documentation on
-`Windows Subsystem for Linux Installation Guide for Windows 10 <https://docs.microsoft.com/en-us/windows/wsl/install-win10>`__.
+`Windows Subsystem for Linux Installation Guide for Windows 10 <https://docs.microsoft.com/en-us/windows/wsl/install-win10>`_.
 After enabling WSL, you can install any distribution you like from Windows App
 Store.
 
 Generate a public key pair with Windows App
-"""""""""""""""""""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 When you open your installed Linux application (like the Ubuntu App), you will have
 a full terminal like any Linux distribution. The instruction on how to generate a
@@ -195,16 +206,46 @@ public key are the same of :ref:`Generate a public key pair with OpenSSH <openss
 Also, connections to remote server are made using OpenSSH, see
 :ref:`Connecting with OpenSSH <openssh-connect>` section
 
+Visual Studio Code
+~~~~~~~~~~~~~~~~~~
+
+The `Visual Studio Code <https://code.visualstudio.com/>`_
+`Remote - SSH extension <https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh>`_
+enables you to open a remote folder
+on any remote machine, virtual machine, or container with an active SSH server,
+leveraging the full feature set of VS Code. Once connected, you can interact
+with files and folders across the remote filesystem.
+
+You don't need any source code on your local machine to utilize these features,
+as the extension executes commands and other extensions directly on the remote
+machine. The extension will install the VS Code Server on the remote OS,
+which operates independently of any existing VS Code installation on the remote OS.
+
+In order to use VSCode with SSH, you need to:
+
+1. Have any OpenSSH compatible client installed on your local machine
+2. Have Visual Studio Code installed on your local machine
+3. Install the `Remote - SSH extension <https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh>`_
+   on your local machine or the `Remote Development <https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack>`_
+   extension pack which includes the Remote - SSH extension with other remote extensions
+
+Generate a public key pair with VSCode
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+VSCode will use the OpenSSH client installed on your local machine to connect to
+remote servers. You can generate a key pair using the same procedure as described
+in the :ref:`Generate a public key pair with OpenSSH <openssh-keygen>` section.
+
 Putty and WinSCP
 ~~~~~~~~~~~~~~~~
 
-`Putty <https://www.putty.org/>`__ and `WinSCP <https://winscp.net/eng/index.php>`__
+`Putty <https://www.putty.org/>`_ and `WinSCP <https://winscp.net/eng/index.php>`_
 are respectively two softwares for two different tasks: the first connects to the
 remote servers and gives you only a terminal; The second could be useful for data
 transfer between remote and local directories.
 
 Generate a public key pair with PuttyGen
-""""""""""""""""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Putty and WinSCP works with *Putty key files* which are quite different from key
 files you can create with OpenSSH. In order to generate such keys, you will need
@@ -221,7 +262,7 @@ with your system administrator.
 .. tip::
 
   You could convert the putty public key in OpenSSH public key as described
-  `here <https://stackoverflow.com/a/10015651/4385116>`__::
+  `this StackOverflow answer <https://stackoverflow.com/a/10015651/4385116>`_::
 
     ssh-keygen -i -f keyfile.pub > newkeyfile.pub
 
@@ -234,7 +275,7 @@ with your system administrator.
 
 Once you created (and saved) your Putty key file, see the :ref:`Connecting with Putty <putty-connect>`
 section to connect to your remote server. If you need more information on puttygen
-and Putty key, see `This guide <https://www.ssh.com/academy/ssh/putty/windows/puttygen>`__.
+and Putty key, see `This guide <https://www.ssh.com/academy/ssh/putty/windows/puttygen>`_.
 
 Remote connection to a Server
 -----------------------------
@@ -260,11 +301,22 @@ respectively)::
 
 Those permission are **required** in order to allow remote connections. If not, you
 can't use your public key for authentication. To copy your public key in the
-remote ``$HOME/.ssh/authorized_keys`` file, you can paste your public key inside
-this file or use ``ssh-copy-id`` from your *local* terminal (only for OpenSSH
-users)::
+remote ``$HOME/.ssh/authorized_keys`` file, you can copy your *public key* inside
+the remote machine and then adding this public key to the ``authorized_keys`` file,
+for example if your public key is named ``id_rsa.pub`` you can do like this::
 
-  $ ssh-copy-id -i $HOME/.ssh/id_rsa.pub <user>@<remote server>
+  cat id_rsa.pub >> $HOME/.ssh/authorized_keys
+
+The previous command need to be executed in the **remote** environment (where you need to
+connect).
+
+Copy public keys with ssh-copy-id
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In linux there's the ``ssh-copy-id`` utility that will add automatically your
+local public key to the remote ``authorized_keys`` from your **local** terminal::
+
+  ssh-copy-id -i $HOME/.ssh/id_rsa.pub <user>@<remote server>
 
 Where the option ``-i`` define the path of your public key file. ``<user>`` and
 ``<remote server>`` are respectively your *username* in the remote machine and
@@ -272,40 +324,41 @@ the remote machine address (which could be an *ip address* like ``192.168.122.10
 or a *domain name*). This script will copy your public key in the ``authorized_keys``
 and will check the correct permissions.
 
-.. note::
+.. hint::
 
   SSH access without public key is *disabled* in our infrastructure, so you can't copy
   a public key by yourself for the first time. This is why you have to provide
   the *public key* to the system administrator. After your access is granted,
-  you can use ``ssh-copy-id`` to copy another *public key* (of another machine
+  you can use ``ssh-copy-id`` to copy **another** *public key* (of another machine
   for example) from a machine where the key pair is enabled, for example::
 
-    $ ssh-copy-id -f -i /path/to/another/public_key.pub
+    ssh-copy-id -f -i /path/to/another/public_key.pub <user>@<remote server>
 
-  the ``-f`` option will force the copy of a public key without ensuring the existance
+  the ``-f`` option will force the copy of a public key without ensuring the existence
   of the proper identity file.
 
 Connecting with OpenSSH
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 Start a new connection
-""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^
 
 .. _openssh-connect:
 
 In order to remote-connect using OpenSSH (once your public key is properly set),
-you need to call ``ssh`` command by specify your *remote username* and *remote machine*,
+you need to call ``ssh`` command by specify your *remote username* and *remote machine*:
+this can be done in both Unix and Windows (through PowerShell) environments,
 for example::
 
-  $ ssh <user>@<remote server>
+  ssh <user>@<remote server>
 
-This will be sufficent to login, if you have your **private key** in the default
+This will be sufficient to login, if you have your **private key** in the default
 location (you haven't specified a different path for your key files during creation).
 In case you don't have your private key in the default location (or you have chosen
 a different name) you could provide your **private key** file with the ``-i`` identity
 option::
 
-  $ ssh -i /path/to/your/private/id_rsa <user>@<remote server>
+  ssh -i /path/to/your/private/id_rsa <user>@<remote server>
 
 .. hint::
 
@@ -318,7 +371,7 @@ option::
     $ ssh-add /path/to/your/private/id_rsa
 
   before connecting with ``ssh``. See
-  `Passwordless Login <https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Public_Key_Authentication#Passwordless_Login>`__
+  `Passwordless Login <https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Public_Key_Authentication#Passwordless_Login>`_
   for more information
 
 .. warning::
@@ -346,7 +399,7 @@ option::
   like this, please tell immediately it to your system administrator.
 
 Closing a connection
-""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^
 
 To exit from the remote terminal and logout from the remote server, simply type::
 
@@ -355,12 +408,12 @@ To exit from the remote terminal and logout from the remote server, simply type:
 in order to close the remote session.
 
 OpenSSH connection options
-""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-OpenSSH let you to store connetion parameters in the ``$HOME/.ssh/config``
-configuration file. There are options which are applied everytime you start a OpenSSH
+OpenSSH lets you store connection parameters in the ``$HOME/.ssh/config``
+configuration file. There are options which are applied every time you start a OpenSSH
 connection with ``ssh`` or options that are applied only on specific remote server.
-You could also choose to override global configuration by specifing the same parameters
+You could also choose to override global configuration by specifying the same parameters
 in the specific remote section. The ``$HOME/.ssh/config`` could be structured like
 this::
 
@@ -387,8 +440,8 @@ to not provide your identity file every time you start a new connection,
 timers which regulate the timeouts when connecting and in sending messages between
 client and servers. They could be useful when connecting using a unreliable network.
 For more information on ssh ``config`` and keys see
-`Associating Keys Permanently with a Server <https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Public_Key_Authentication#Associating_Keys_Permanently_with_a_Server>`__,
-while for more information on ssh client options see the `ssh manual pages <https://linux.die.net/man/1/ssh>`__
+`Associating Keys Permanently with a Server <https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Public_Key_Authentication#Associating_Keys_Permanently_with_a_Server>`_,
+while for more information on ssh client options see the `ssh manual pages <https://linux.die.net/man/1/ssh>`_
 
 Connecting with MobaXterm
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -412,7 +465,69 @@ saved sessions. After that, click on the *Ok* button to save your session config
 You will see all your saved session by clicking on the *Sessions* tab (the tab
 with a *Star* on the left of the main session) and you can start a new connection
 by clicking to the session name you have previously configured. Fore more
-information, see `MobaXterm documentation <https://mobaxterm.mobatek.net/documentation.html>`__
+information, see `MobaXterm documentation <https://mobaxterm.mobatek.net/documentation.html>`_
+
+Connecting with Visual Studio Code
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To connect to a remote server using Visual Studio Code, first ensure you can connect
+to the remote server using OpenSSH from a terminal / PowerShell. Once you have
+successfully connected to the remote server, from visual studio code select
+**Remote-SSH: Connect to Host...** from the command palette (Ctrl+Shift+P) and
+enter the remote server address in the format ``<user>@<remote server>`` as you
+did with OpenSSH.
+
+.. hint::
+
+  In alternative, you can click on the green icon in the bottom left corner of
+  the Visual Studio Code window and select **Remote-SSH: Connect to Host...**.
+
+  .. image:: /_static/img/vscode_connect.png
+
+If VS Code cannot automatically detect the type of server
+you are connecting to, you will be asked to select the type manually. After a
+moment, VS Code will connect to the SSH server and set itself up. VS Code will
+keep you up-to-date using a progress notification and you can see a detailed
+log in the Remote - SSH output channel. Finally you will be connected to the
+remote server and you can start working on your remote files as if they were
+local. For more information, please see
+`Remote Development using SSH <https://code.visualstudio.com/docs/remote/ssh>`_
+guide for Visual Studio Code.
+
+Configure terminal for remote sessions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To configure the terminal for remote sessions in order to act like when you
+connect into remote server using OpenSSH with the full initialization of environment
+variables, you need to configure the ``terminal.integrated.profiles.linux`` in
+your ``settings.json`` for the remote connection profile. Open the VScode settings
+and then on the *remote tab*, which can be WSL or any ``user@host`` connection you
+have configured. Then in the search box, paste the ``terminal.integrated.profiles.linux``,
+you should find a box in which it is possible to open the ``settings.json`` file
+for changes. Find the ``bash`` section and add args like this::
+
+  args: [
+    "-l"
+  ]
+
+Your final configuration file for remote connection should look like this (at
+least for ``bash`` section):
+
+.. code-block:: json
+
+  "terminal.integrated.profiles.linux": {
+        "bash": {
+            "path": "bash",
+            "icon": "terminal-bash",
+            "args": [
+               "-l"
+            ]
+        }
+    }
+
+Save the file and restart VSCode. Now, when you open a terminal in a remote connection,
+you will have the same environment variables and initialization as when you connect
+to a remote server using OpenSSH.
 
 Connecting with Putty
 ~~~~~~~~~~~~~~~~~~~~~
@@ -448,7 +563,7 @@ and can preserve file permissions and times (which are useful to understand if a
 file is updated or not).
 
 SCP
-"""
+^^^
 
 .. _copy-files-with-scp:
 
@@ -483,7 +598,7 @@ If you want to copy a local folder into a remote folder, simply add the
   ``rsync`` is the recommended way to copy or backup files using ``OpenSSH``.
 
 Rsync
-"""""
+^^^^^
 
 .. _copy-files-with-rsync:
 
@@ -507,7 +622,8 @@ Here are the main options of ``rsync``:
 There are other options that are useful and that can be added to ``rsync`` command
 line:
 
-- ``-P``: show progress during copying
+- ``-P``: combines ``--progress`` and ``--partial`` options to display transfer
+  progress and allow resuming of interrupted transfers
 - ``-u``: skip files that are newer on destination
 - ``-n``: *dry-run* (useful in testing ``rsync`` commands)
 - ``-z``: use *gzip* while transferring (useful with text files and slow connections)
@@ -646,9 +762,9 @@ When using multiplexing you will connect once and then all the other connections
 to the same resource will re-use the already defined connection, thus avoiding
 the creation of new TCP connection and the negotiation of a secure connection.
 This will help a lot when using ``ssh-agent`` or others authentication softwares
-like the `step client <https://smallstep.com/docs/step-cli/installation/>`__:
+like the `step client <https://smallstep.com/docs/step-cli/installation/>`_:
 you will need to authenticate in a terminal and then you can login from different
-terminals or applications like `VSCode <https://code.visualstudio.com/>`__.
+terminals or applications like `VSCode <https://code.visualstudio.com/>`_.
 Activities that repeatedly open new connections can be significantly sped up
 using multiplexing. In order to use SSH with multiplexing, add this to your
 ``$HOME/.ssh/config`` file::
@@ -703,8 +819,8 @@ After that you can connect to the remote server using SSH as usual.
 
     ssh -O stop <user>@<remote server> # Or ssh -O stop <alias>
 
-For more information, see `OpenSSH/Cookbook/Multiplexing <https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Multiplexing>`__
-and `How To Reuse SSH Connection... <https://www.cyberciti.biz/faq/linux-unix-reuse-openssh-connection/>`__
+For more information, see `OpenSSH/Cookbook/Multiplexing <https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Multiplexing>`_
+and `How To Reuse SSH Connection... <https://www.cyberciti.biz/faq/linux-unix-reuse-openssh-connection/>`_
 
 Mount remote folders using SSH
 ------------------------------
@@ -719,7 +835,7 @@ folder using ``sshfs``, you can edit your remote files with your preferred edito
 inspect remote file contents using your file browser.
 
 In linux, you can mount remote folder by installing ``sshfs`` package. For MacOS,
-you need `oxfuse <https://osxfuse.github.io/>`__ package. After installing required
+you need `oxfuse <https://osxfuse.github.io/>`_ package. After installing required
 packages, you need to create the destination path in which you will mount the remote
 folder. For example::
 
@@ -754,4 +870,4 @@ If you need to unmount a folder::
   $ sudo umount /mnt/core
 
 For more information, see
-`How To Use SSHFS to Mount Remote File Systems Over SSH <https://www.digitalocean.com/community/tutorials/how-to-use-sshfs-to-mount-remote-file-systems-over-ssh>`__
+`How To Use SSHFS to Mount Remote File Systems Over SSH <https://www.digitalocean.com/community/tutorials/how-to-use-sshfs-to-mount-remote-file-systems-over-ssh>`_

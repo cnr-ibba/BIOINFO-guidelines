@@ -30,7 +30,7 @@ while the others are secondary group. You can have the same information by inspe
   cozzip:x:1000:
   core:x:1004:cozzip
 
-For more information see `Mastering user groups on Linux <https://www.networkworld.com/article/3409781/mastering-user-groups-on-linux.html>`__
+For more information see `Mastering user groups on Linux <https://www.networkworld.com/article/3409781/mastering-user-groups-on-linux.html>`_
 
 Log in into a new group
 -----------------------
@@ -82,7 +82,7 @@ Setting permissions
 -------------------
 
 Set group ownership
--------------------
+~~~~~~~~~~~~~~~~~~~
 
 You could change group ownership of a file or a directory with ``chgrp`` and
 your group name (you should belong to it to change group ownership)::
@@ -145,4 +145,99 @@ the standard ``775`` is the ``sgid`` octal code)
   for more information.
 
 For more information on special permission, see
-`Linux permissions: SUID, SGID, and sticky bit <https://www.redhat.com/sysadmin/suid-sgid-sticky-bit>`__
+`Linux permissions: SUID, SGID, and sticky bit <https://www.redhat.com/sysadmin/suid-sgid-sticky-bit>`_
+
+Working with umask
+------------------
+
+Understanding umask
+~~~~~~~~~~~~~~~~~~~
+
+The `umask` (user file-creation mode mask) is a Linux command and configuration
+setting that determines the default permissions for newly created files and
+directories. It essentially "masks" certain permission bits, ensuring that files
+and directories are not created with overly permissive access.
+
+Default Permissions
+~~~~~~~~~~~~~~~~~~~~
+
+When a file or directory is created, it starts with a default set of permissions:
+
+- Files: `666` (read and write for everyone, no execute)
+- Directories: `777` (read, write, and execute for everyone)
+
+The `umask` subtracts permissions from these defaults. For example, if the `umask`
+is `002`, the resulting permissions for a file will be `664` (read and write for
+owner and group, read-only for others), and for a directory, it will be `775`
+(read, write, and execute for owner and group, read and execute for others).
+
+Checking and Setting umask
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can check the current `umask` value by running:
+
+.. code-block:: bash
+
+  $ umask
+  002
+
+To temporarily set a new `umask` value, use the `umask` command followed by the
+desired value:
+
+.. code-block:: bash
+
+  umask 007
+
+This will set the `umask` to `007`, ensuring that new files and directories are
+not accessible by others outside the group.
+
+To make the change permanent, add the `umask` command to your shell's initialization
+file (e.g., `.bashrc` or `.zshrc`).
+
+Using umask for Group Collaboration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To allow members of the same group to work on shared files, you should:
+
+1. Ensure all users are part of the same group.
+2. Set the `umask` to `002` for all users in the group. This ensures that new
+   files and directories are created with group write permissions.
+3. Use the `sgid` bit on shared directories to maintain group ownership
+   (as explained in the previous section).
+
+Example Workflow
+~~~~~~~~~~~~~~~~
+
+1. Create a shared directory and set the group ownership:
+
+  .. code-block:: bash
+
+    mkdir shared_folder
+    chgrp core shared_folder
+    chmod g+s shared_folder
+
+1. Set your `umask` to `002` to let all users in the group to modify files
+
+  .. code-block:: bash
+
+    umask 002
+
+3. Verify that new files and directories inherit the correct permissions:
+
+  .. code-block:: bash
+
+    $ cd shared_folder
+    $ touch test_file
+    $ mkdir test_dir
+    $ ls -l
+    -rw-rw-r-- 1 user core 0 Jan 19 14:00 test_file
+    drwxrwsr-x 2 user core 6 Jan 19 14:00 test_dir
+
+.. warning::
+
+  If a user's `umask` is not set to `002`, their files may not have group write
+  permissions, disrupting collaboration. Ensure all users in the group configure
+  their `umask` correctly.
+
+For more information on `umask`, see `Understanding umask
+<https://linuxize.com/post/umask-command-in-linux/>`_.

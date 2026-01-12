@@ -12,8 +12,8 @@ bioinformatics pipeline analyses. It manages and supports many execution platfor
 like local, HPC, cloud and so one. The aim is to develop a pipeline which can work
 locally on your laptop and eventually in HPC environments or any other resource
 that could scale with your data. This could be achieved by writing pipelines in
-`Nextflow scripting <https://www.nextflow.io/docs/latest/script.html>`__ language
-(or `DSL2 <https://www.nextflow.io/docs/latest/dsl2.html>`__) and managing your
+`Nextflow scripting <https://www.nextflow.io/docs/latest/script.html>`_ language
+(or `DSL2 <https://www.nextflow.io/docs/latest/dsl2.html>`_) and managing your
 software requirements with :doc:`conda <../general/conda>`,
 :doc:`singularity <../general/singularity>` or :doc:`docker <../general/docker>`.
 
@@ -23,78 +23,121 @@ Learning Nextflow
 ~~~~~~~~~~~~~~~~~
 
 There are online a series of resources and tutorial about nextflow. The first is
-`this youtube playlist <https://www.youtube.com/watch?v=8_i8Tn335X0&list=PLPZ8WHdZGxmUv4W8ZRlmstkZwhb_fencI&ab_channel=Nextflow>`__
-(here are `the tutorial notes <https://seqera.io/training/>`__ to code along and
-a `git repository <https://github.com/bunop/nextflow-training>`__ adapted to work in a local environment).
-Next there is the nextflow `reference documentation <https://www.nextflow.io/docs/latest/basic.html>`__,
+`this youtube playlist <https://www.youtube.com/watch?v=8_i8Tn335X0&list=PLPZ8WHdZGxmUv4W8ZRlmstkZwhb_fencI&ab_channel=Nextflow>`_
+(here are `the tutorial notes <https://seqera.io/training/>`_ to code along and
+a `git repository <https://github.com/bunop/nextflow-training>`_ adapted to work in a local environment).
+Next there is the nextflow `reference documentation <https://www.nextflow.io/docs/latest/basic.html>`_,
 which explains things in details. The community builded pipelines can be found
-in the `pipeline section <https://nf-co.re/pipelines>`__ of `nf-core <https://nf-co.re/>`__
-community site, while DSL2 pipeline modules can be found in `nf-core/modules <https://github.com/nf-core/modules>`__
+in the `pipeline section <https://nf-co.re/pipelines>`_ of `nf-core <https://nf-co.re/>`_
+community site, while DSL2 pipeline modules can be found in `nf-core/modules <https://github.com/nf-core/modules>`_
 github repository.
 
 Installing Nextflow
 -------------------
 
-In order to install nextflow in your local environment ensure you have java installed::
+The official nextflow installation page is located at `<https://www.nextflow.io>`_.
+In order to install nextflow in your local environment ensure you have java installed:
 
-  $ java -version
+.. code-block:: bash
 
-Next you could install nextflow in your local directory with::
+  java -version
 
-  $ curl -s https://get.nextflow.io | bash
+.. warning::
+
+  You don't need a full release of java, the *openjdk* version is enough. Starting
+  from nextflow ``24.10.3`` the support from java lower than 11 has been dropped,
+  even for the
+  `vscode nextflow extensions <https://marketplace.visualstudio.com/items?itemName=nf-core.nf-core-extensionpack>`_.
+  If you don't have java installed, you can install
+  as a user using `SdkMan <https://sdkman.io/>`_. See
+  `nextflow installation requirements <https://www.nextflow.io/docs/latest/install.html#requirements>`_
+  for more information.
+
+Next you could download nextflow in your local directory and make it executable with:
+
+.. code-block:: bash
+
+  curl -s https://get.nextflow.io | bash
+  chmod +x nextflow
 
 If you install nextflow in a directory inside your ``$PATH`` environment, you can
-avoid to specify the relative or the full path when calling nextflow. Verify your
-installation with::
-
-  $ mkdir nf-hello
-  $ cd nf-hello
-  $ nextflow run hello
+avoid to specify the relative or the full path when calling nextflow.
 
 .. hint::
 
   Nextflow is already installed in our shared **core** environment, and can be called
   like a command since is available via ``$PATH`` environment variable
 
+Finally verify your installation with:
+
+.. code-block:: bash
+
+  mkdir nf-hello
+  cd nf-hello
+  nextflow run hello
+
 .. _install-nf-core:
 
 Install nf-core/tools
 ~~~~~~~~~~~~~~~~~~~~~
 
-`nf-core/tools <https://github.com/nf-core/tools>`__ is a python package which
+`nf-core/tools <https://github.com/nf-core/tools>`_ is a python package which
 integrates nextflow and is an helper tools for the nextflow community. Using
 ``nf-core`` software you could manage nextflow pipelines and modules. You can install
-``nf-core`` in `many ways <https://github.com/nf-core/tools#installation>`__,
-but the recommended way is using pip::
+``nf-core`` in `many ways <https://github.com/nf-core/tools#installation>`_,
+but the recommended way is using pip:
 
-  $ pip install nf-core
-  $ nf-core --help
+.. code-block:: bash
+
+  pip install nf-core
+  nf-core --help
+
+To update the package you can use:
+
+.. code-block:: bash
+
+  pip install nf-core --upgrade
 
 .. note::
 
   You could install ``nf-core`` in a conda environment. Even if there's a ``nf-core``
   conda package, is better to install the **pypi** package version since it is the
-  most update release and avoid some dependency issues with **bioconda**::
+  most update release and avoid some dependency issues with **bioconda**:
 
-    $ conda create --name nf-core pip
-    $ conda activate nf-core
-    $ pip install nf-core
+  .. code-block:: bash
 
-  An alternative way to install nf-core (v14) with conda is by installing package
-  from both ``bioconda`` and ``conda-forge`` channels::
-
-    $ conda create --channel bioconda --channel conda-forge --name nf-core nf-core=1.14
+    conda create --name nf-core pip
+    conda activate nf-core
+    pip install nf-core
 
   However, it's better to do this in a fresh conda environment used only for nextflow.
   Please see our consideration :ref:`on channels <a-note-on-channels>`.
 
+.. tip::
+
+  You can add autocompletion for ``nf-core`` within a conda environment. Simply
+  add the activation instruction in ``eval "$(_NF_CORE_COMPLETE=bash_source nf-core)"``
+  in your ``$CONDA_PREFIX/etc/conda/activate.d/env_vars.sh``, and the deactivation
+  instruction ``complete -r nf-core`` in your
+  ``$CONDA_PREFIX/etc/conda/deactivate.d/env_vars.sh``. Test the ``nf-core``
+  autocompletion with:
+
+  .. code-block:: bash
+
+    complete -p nf-core
+
+  See :ref:`Setting environment variables <conda_environment_variables>`
+  for more information.
+
 .. hint::
 
-  ``nf-core`` is already installed in a ``nf-core`` environment in our shared **core**
-  *VM*::
+  ``nf-core`` with autocompletion is already installed in a ``nf-core``
+  environment in our shared **core** *VM*:
 
-    $ source activate nf-core
-    $ nf-core --help
+  .. code-block:: bash
+
+    conda activate nf-core
+    nf-core --help
 
 .. _configuring_nextflow:
 
@@ -104,8 +147,25 @@ Configuring nextflow
 Nextflow can be customized in different ways: there are configuration files,
 which can be used to customize a single pipeline execution, and environment
 variables, which can be used to customize the nextflow runtime and the underlying
-Java virtual machine. There's also a ``$HOME/.nextflow/config`` file which can
-be used to customize the default configuration of nextflow, for example by limiting
+Java virtual machine. Those configuration files can be stored in multiple location,
+for example in your home directory, in the pipeline directory and in the directory
+where you are running the pipeline. The configuration files are loaded in a specific
+order, and the last loaded configuration file will override the previous ones: the
+lowest priority configuration file is the one in the home directory, while the
+highest priority configuration files are in the directory where you are
+running the pipeline. This means that you can have a default configuration file in
+``$HOME/.nextflow/config`` and a pipeline specific configuration file in the
+pipeline directory, and the latter will override the former.
+More information on configuration files can be found in
+the `Configuration file <https://www.nextflow.io/docs/latest/config.html#configuration-file>`_
+section of nextflow documentation.
+
+Default configuration file
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The default configuration has the lowest priority and can be used to define option
+can be applied to all your pipelines. This file is
+located in ``$HOME/.nextflow/config`` and can be used for example for limiting
 resources usage::
 
   executor {
@@ -116,20 +176,20 @@ resources usage::
 
 In this way is possible to setup a default configuration for all your pipelines,
 by limiting the job submission in order to avoid to overload the cluster scheduler.
-Nextflow configuration files are stored in multiple locations, and are loaded in
-different order. This means that you can have a default configuration file in
-``$HOME/.nextflow/config`` and a pipeline specific configuration file in the
-pipeline directory, and the latter will override the former. You could find more
-information in the `nextflow documentation <https://www.nextflow.io/docs/latest/config.html#configuration-file>`__.
 There are some tips for HPC users, please take a look at nextflow forum for
-`5 Nextflow Tips for HPC Users <https://www.nextflow.io/blog/2021/5_tips_for_hpc_users.html>`__
-and `Five more tips for Nextflow user on HPC <https://www.nextflow.io/blog/2021/5-more-tips-for-nextflow-user-on-hpc.html>`__
+`5 Nextflow Tips for HPC Users <https://www.nextflow.io/blog/2021/5_tips_for_hpc_users.html>`_
+and `Five more tips for Nextflow user on HPC <https://www.nextflow.io/blog/2021/5-more-tips-for-nextflow-user-on-hpc.html>`_
 articles.
 
-.. _set-singularity-cache:
+.. _environment-variables:
+
+Environment variables
+~~~~~~~~~~~~~~~~~~~~~
+
+.. _set-nxf-singularity-cache:
 
 Setting ``NXF_SINGULARITY_CACHEDIR``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Using nextflow with singularity lets you to define a directory where remote Singularity
 images are stored. This could speed up **a lot** pipelines execution times, since images
@@ -149,6 +209,11 @@ inside this directory
     # override nextflow singularity cache dir
     export NXF_SINGULARITY_CACHEDIR=/home/core/nxf_singularity_cache/
 
+  You can also define the ``SINGULARITY_CACHEDIR`` environment variable, which
+  will be used by singularity itself to cache layers and temporary files: this
+  could help in managing singularity cache in a more efficient way. See
+  :ref:`Set SINGULARITY_CACHEDIR <set-singularity-cache>` for more information.
+
 .. warning::
 
   When using a computing cluster it must be a shared folder accessible from all computing nodes.
@@ -156,12 +221,12 @@ inside this directory
 .. _nextflow_environment_variables:
 
 Other nextflow environment variables
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 There are others environment variables which could be useful to set in order to
 customize your nextflow experience. You could find a list of them in the
-`nextflow documentation <https://www.nextflow.io/docs/latest/config.html#environment-variables>`__.
-Here are a selection of them:
+`Environment variables <https://www.nextflow.io/docs/latest/reference/env-vars.html>`_
+nextflow documentation. Here are a selection of them:
 
 .. list-table:: Nextflow environment variables
    :header-rows: 1
@@ -176,7 +241,7 @@ Here are a selection of them:
    *  - NXF_OPTS
       - | Provides extra options for the Java and Nextflow runtime.
         | It must be a blank separated list of ``-Dkey[=value]`` properties
-      - ``-Xms500M -Xmx2G``
+      - ``-Xms500M -Xmx4G``
    *  - NXF_SINGULARITY_CACHEDIR
       - | Directory where remote Singularity images are stored.
         | When using a computing cluster it must be a shared
@@ -202,7 +267,7 @@ Those environment variables could be set in your ``$HOME/.profile`` (Debian) or
 
   # Nextflow custom environment variables
   export NXF_EXECUTOR=slurm
-  export NXF_OPTS="-Xms500M -Xmx2G"
+  export NXF_OPTS="-Xms500M -Xmx4G"
   export NXF_SINGULARITY_CACHEDIR="$WORK/nxf_singularity_cache"
   export NXF_WORK="$CINECA_SCRATCH/nxf_work"
   export NXF_OFFLINE='true'
@@ -224,20 +289,27 @@ private repository in GitHub, for example::
   }
 
 You could find more information in
-`SCM configuration file <https://www.nextflow.io/docs/latest/sharing.html?highlight=credentials#scm-configuration-file>`__
-section of nextflow documentation.
+`Git configuration <https://www.nextflow.io/docs/latest/sharing.html#git-configuration>`_
+section of nextflow documentation and in
+`Configure Git private repositories with Nextflow <https://seqera.io/blog/configure-git-repositories-with-nextflow/>`_
+blog post.
 
 Access to private nextflow modules
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. warning::
+
+  This section is quite old and could be outdated. Please check if the following
+  information are still valid.
+
 In order to get access to the private
-`nextflow-modules <https://github.com/cnr-ibba/nf-modules>`__, you need to
-configure `GitHub CLI <https://cli.github.com/>`__ in order to create the
+`nextflow-modules <https://github.com/cnr-ibba/nf-modules>`_, you need to
+configure `GitHub CLI <https://cli.github.com/>`_ in order to create the
 ``~/.config/gh/hosts.yml`` file, which is a fundamental requisite in order to
 deal with private modules with ``nf-core modules``.
 The easiest way to create this configuration is through *GitHub CLI*::
 
   gh auth login
 
-See the documentation on `gh auth login <https://cli.github.com/manual/gh_auth_login>`__
+See the documentation on `gh auth login <https://cli.github.com/manual/gh_auth_login>`_
 to have more information

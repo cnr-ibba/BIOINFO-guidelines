@@ -10,7 +10,7 @@ About SLURM
 SLURM is a cluster management and job scheduling system for linux clusters. At
 IBBA, we maintain a very small cluster instance which can be used to test pipelines
 and scripts by allocating resources and exploiting all the computational power we have. Here's
-SLURM description from the `official documentation <https://slurm.schedmd.com/quickstart.html>`__:
+SLURM description from the `official documentation <https://slurm.schedmd.com/quickstart.html>`_:
 
 .. epigraph::
 
@@ -184,9 +184,9 @@ Migrating from Torque/PBS to SLURM
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Torque/PBS and SLURM provide similar capabilities, so you can search for documentation
-like `Migrating from Torque to Slurm <https://wiki.gacrc.uga.edu/wiki/Migrating_from_Torque_to_Slurm>`__,
-`Migrating From PBS <https://docs-research-it.berkeley.edu/services/high-performance-computing/user-guide/running-your-jobs/migrating-from-pbs/>`__
-or `PBS to Slurm Conversion Cheat Sheet <https://www.msi.umn.edu/slurm/pbs-conversion>`__
+like `Migrating from Torque to Slurm <https://wiki.gacrc.uga.edu/wiki/Migrating_from_Torque_to_Slurm>`_,
+`Migrating From PBS <https://docs-research-it.berkeley.edu/services/high-performance-computing/user-guide/running-your-jobs/migrating-from-pbs/>`_
+or `PBS to Slurm Conversion Cheat Sheet <https://www.msi.umn.edu/slurm/pbs-conversion>`_
 to have a comparison between commands for the two scheduler ecosystem.
 
 Submitting jobs
@@ -222,22 +222,22 @@ Allocate resources and submit a command immediately
 
 You can allocate and submit a job with ``srun``, for example::
 
-  $ srun <command>
+  srun <command>
 
 will allocate the default resource for a job and will execute ``<command>`` once
 the job starts. After executing command, the job will terminate and will release the
 allocated resources. You can change the number of CPUs or the memory required
 with the ``--cpus-per-task`` and ``--mem`` parameters, for example::
 
-  $ srun --cpus-per-task 2 --mem=4G <command>
+  srun --cpus-per-task 2 --mem=4G <command>
 
 or shorter::
 
-  $ srun -c 2 --mem=4G <command>
+  srun -c 2 --mem=4G <command>
 
 Partition can be specified with the ``-p`` or ``--partition`` command::
 
-  $ srun -c 2 --mem=4G -p testing <command>
+  srun -c 2 --mem=4G -p testing <command>
 
 .. hint::
 
@@ -251,7 +251,7 @@ Interactive jobs
 
 Interactive jobs can be launched with the ``--pty bash`` option like this::
 
-  $ srun -c 2 --mem=4G -p testing --pty bash
+  srun -c 2 --mem=4G -p testing --pty bash
 
 you don't need to specify a command when launching an interactive job: when an
 interactive jobs start, it will open a new terminal on the *working* node in which
@@ -297,7 +297,9 @@ Creating a *sbatch* script if the recommended way to plan and execute complex
 script on clusters. A *sbatch* script is a kind of *bash* script in which we can
 specify resources using ``#SBATCH`` comment with the ``salloc`` or ``srun`` parameters
 we saw before. After that, we can specify the command to execute. Here is a simple
-template for a sbatch job::
+template for a sbatch job:
+
+.. code-block:: bash
 
   #!/bin/bash
   #SBATCH --job-name=serial_job_test    # Job name
@@ -314,18 +316,18 @@ Next, you can submit your *sbatch* script with ``sbatch`` command. You can overr
 the parameters specified in scripts by providing the appropriate parameter at launch
 time::
 
-  $ sbatch --cpus-per-task 2 --mem=4G <sbatch script>
+  sbatch --cpus-per-task 2 --mem=4G <sbatch script>
 
 Cancelling a job
 ----------------
 
 You can cancel a job using ``scancel`` and specifying a *job id*::
 
-  $ scancel <job id>
+  scancel <job id>
 
-Or jou can cancell **all** your submitted job with ``-u``::
+Or you can cancel **all** your submitted jobs with ``-u``::
 
-  $ cancel -u <your username>
+  scancel -u <your username>
 
 It is possible to filter out job by *state* or other attributes. Please check
 ``scancel`` documentation.
@@ -334,14 +336,16 @@ SLURM as Nextflow executor
 --------------------------
 
 SLURM can be configured as the default executor for a Nextflow pipeline, using
-the environment variable ``NXF_EXECUTOR``::
+the environment variable ``NXF_EXECUTOR``:
 
-  $ export NXF_EXECUTOR=slurm
+.. code-block:: bash
+
+  export NXF_EXECUTOR=slurm
 
 This is sufficient to let Nextflow submit jobs through SLURM controller, without
 modifying your pipeline. In alternative simply add ``process.executor = "slurm"``
 in the ``nextflow.config`` file. See Nextflow
-`SLURM executor documentation <https://www.nextflow.io/docs/latest/executor.html#slurm>`__
+`SLURM executor documentation <https://www.nextflow.io/docs/latest/executor.html#slurm>`_
 to get more information about available options.
 
 .. hint::
