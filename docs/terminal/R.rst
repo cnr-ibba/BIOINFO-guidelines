@@ -213,12 +213,16 @@ in your home directory (``$HOME/.cache/R/renv/cache``), then linked to your proj
 when needed. However, if you plan to work with different users on the same project,
 it could be better to share the same package library between different users.
 To do that, you can define an environment variable
-named ``RENV_PATHS_CACHE`` which point to a shared location in which all users
-can read and write. For example, you can define such variable in your ``.bashrc``
+named ``RENV_PATHS_CACHE`` which points to a shared location that is writable only
+by a trusted group of collaborators (and read-only or inaccessible to other users).
+For example, you can define such variable in your ``.bashrc``
 file like this::
 
   export RENV_PATHS_CACHE="/path/to/shared/location/renv_cache"
 
+Make sure that the directory used for ``RENV_PATHS_CACHE`` is not world-writable,
+otherwise other users on the system could tamper with shared packages and execute
+arbitrary code in your R sessions.
 Or you can define such variable in the ``~/.Renviron`` file, which is read by ``R``
 at the beginning of each session. After that, every time you will restore your
 environment using ``renv::restore()``, the packages will be installed in the shared
