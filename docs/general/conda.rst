@@ -10,7 +10,7 @@ About Conda
 Conda is a software which allows you to manage software installations in distinct
 environments. It was born to support the python ecosystem, however most softwares
 has been supported by conda, for example
-`R <https://docs.anaconda.com/anaconda/user-guide/tasks/using-r-language/>`_
+`R with Anaconda <https://docs.anaconda.com/anaconda/user-guide/tasks/using-r-language/>`_
 and its packages, and there are
 channels like `bioconda`_, which collect and maintain a lot of useful softwares.
 The main advantage in using conda environments is that packages could be installed
@@ -18,7 +18,7 @@ directly with their dependencies, without the needing to compile everything. Mor
 conda and its environments can be installed by an user without administrative privileges.
 Packages and dependencies are installed inside user directories, and a complete
 uninstallation can be done by erasing the conda installation folder.
-From the `conda <https://docs.conda.io/en/latest/index.html>`_ official documentation:
+From the `conda official docs <https://docs.conda.io/en/latest/index.html>`_:
 
 .. epigraph::
 
@@ -71,7 +71,7 @@ interfaces on a remote servers. If you are in doubt, please see the
 Download and install Conda
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You could install `conda <https://www.anaconda.com/products/individual>`_
+You could install `Anaconda <https://www.anaconda.com/products/individual>`_
 or `miniconda <https://docs.conda.io/en/latest/miniconda.html>`_ respectively.
 Then follow the installation instructions provided by Anaconda or miniconda.
 
@@ -131,7 +131,7 @@ A note on channels
 
 Channels are repository where conda store packages. The ``default`` contains packages
 maintained by conda developers. There are others channels like `bioconda <https://bioconda.github.io/>`_,
-which contains a lot of bioinformatics packages, `R <https://anaconda.org/r/repo>`_,
+which contains a lot of bioinformatics packages, `R channel <https://anaconda.org/r/repo>`_,
 which store *R* and its packages, `conda-forge <https://conda-forge.org/>`_, which
 contains community packages, often more updated that the official channels. If you
 search or want to install a package in a different channel than the ``default``, you

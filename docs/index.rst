@@ -20,6 +20,11 @@ section of our documentation.
     :caption: Introduction
 
     contributing
+
+.. toctree::
+    :maxdepth: 2
+    :caption: Development Environment
+
     general/conda
     general/docker
     general/singularity

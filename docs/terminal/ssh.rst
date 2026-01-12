@@ -83,7 +83,7 @@ OpenSSH
 OpenSSH is the *de facto* standard for remote login with SSH protocol in Linux/MacOS
 environments. Beyond login, it provides file transfer with ``scp`` and ``sftp``, it
 manages keys with ``ssh-keygen`` and ``ssh-copy-id`` and provide more advanced functionalities
-with ``ssh-agent``. More info on OpenSSH could be found `here <https://www.openssh.com/>`_.
+with ``ssh-agent``. More info on OpenSSH could be found on the `OpenSSH website <https://www.openssh.com/>`_.
 
 To discover if you have the OpenSSH client installed on your local (Unix) machine,
 simply type::
@@ -180,9 +180,9 @@ Windows App
 Windows 10 lets you to install a Linux distribution from its app store with
 *Windows Subsystem for Linux (WSL)*: this lets you to install almost a complete
 GNU/Linux environment directly on Windows without installing a virtual machine
-or setting up dualboot (see `here <https://docs.microsoft.com/en-us/windows/wsl/about>`_
+or setting up dualboot (see `WSL documentation <https://docs.microsoft.com/en-us/windows/wsl/about>`_
 for more information). There are two major release of WSL, WSL1 and WSL2
-(see `here <https://docs.microsoft.com/en-us/windows/wsl/compare-versions>`_
+(see `WSL comparison <https://docs.microsoft.com/en-us/windows/wsl/compare-versions>`_
 to see differences between the two versions). Briefly WSL1 was the first attempt to
 import a Linux kernel in Windows and is lighter and easier to install compared to WSL2.
 WSL2 however is more advanced and implements a full virtualization of the Linux kernel:
@@ -262,7 +262,7 @@ with your system administrator.
 .. tip::
 
   You could convert the putty public key in OpenSSH public key as described
-  `here <https://stackoverflow.com/a/10015651/4385116>`_::
+  `this StackOverflow answer <https://stackoverflow.com/a/10015651/4385116>`_::
 
     ssh-keygen -i -f keyfile.pub > newkeyfile.pub
 

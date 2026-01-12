@@ -94,7 +94,7 @@ Search for a community pipeline
 
 Community pipelines are available at `nf-core pipelines <https://nf-co.re/pipelines>`_
 site: you could search a pipeline and browse its documentation in the
-`nf-core <https://nf-co.re/>`_ site.
+`nf-core website <https://nf-co.re/>`_.
 For example, by searching for ``rnaseq`` you could reach the
 `rnaseq pipeline <https://nf-co.re/rnaseq>`_
 page project and get documentation on its usage by clicking on
@@ -121,7 +121,7 @@ nextflow documentation for more information.
 .. hint::
 
   The organization name is the GitHub organization which hosts the pipeline, like
-  `nf-core <https://github.com/nf-core>`_ or `cnr-ibba <https://github.com/cnr-ibba>`_,
+  `nf-core GitHub <https://github.com/nf-core>`_ or `cnr-ibba <https://github.com/cnr-ibba>`_,
   while the pipeline name is the name of the GitHub repository which contains the
   pipeline. You could derive the pipeline name by removing ``https://github.com/``
   from the repository URL. For example, from
