@@ -35,11 +35,19 @@ are welcome. Before starting to work on documentation, please follow those steps
 7. Before submitting modifications, please check that documentation compiles
    without errors and warnings by:
 
-   .. code-block:: bash
+   - Activate conda environment:
 
-      cd docs
-      make clean
-      make html
+     .. code-block:: bash
+
+        conda activate BIOINFO-guidelines
+
+   - Compile with sphinx:
+
+     .. code-block:: bash
+
+        cd docs
+        make clean
+        make html
 
 8. If documentation works as you intended, you could push your work on your GitHub
    account and start *from here* a new pull request

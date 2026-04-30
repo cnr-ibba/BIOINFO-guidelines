@@ -259,6 +259,12 @@ nextflow documentation. Here are a selection of them:
       - | Enables/disables ANSI console output
         | (default ``true`` when ANSI terminal is detected).
       - ``false``
+   *  - NXF_VER
+      - | Specifies the Nextflow version to use.
+        | This can be useful when working with multiple Nextflow versions.
+        | or when your pipeline requires an older version of Nextflow.
+        | See :ref:`nextflow-specific-version` for more information.
+      - ``25.10.4``
 
 Those environment variables could be set in your ``$HOME/.profile`` (Debian) or
 ``$HOME/.bash_profile`` (Red-Hat) configuration files, for example:

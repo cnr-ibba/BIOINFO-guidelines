@@ -183,14 +183,14 @@ the pipeline is called whenever you will call ``nextflow run`` using the same pi
 If you need a particular version or branch of such pipeline, you can indicate such
 requirement with the ``-r`` option, for example::
 
-  $ nextflow pull nf-core/rnaseq -r 3.0
+  $ nextflow pull nf-core/rnaseq -r 3.12
 
 .. warning::
 
   Whenever you pull a pipeline version different from the latest, you **MUST** declare
   the same version or branch when calling nextflow, for example::
 
-    $ nextflow run nf-core/rnaseq -r 3.0 --help
+    $ nextflow run nf-core/rnaseq -r 3.12 --help
 
   If you need to update your local pipeline to latest version see the
   :ref:`Update a pipeline <update-a-pipelines>` section.
@@ -445,7 +445,7 @@ this will update your local assets by downloading the latest default revision of
 the pipeline. If you need a specific version (or branch), you need to specify it
 with ``-r`` option::
 
-  $ nextflow pull nf-core/rnaseq -r 3.0
+  $ nextflow pull nf-core/rnaseq -r 3.12
 
 .. tip::
 

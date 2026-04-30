@@ -93,7 +93,7 @@ for example:
 
 .. code-block:: bash
 
-  nextflow run nf-core/rnaseq --profile <my_institution> ...
+  nextflow run nf-core/rnaseq -profile <my_institution> ...
 
 This is enough to apply the global institutional configuration to the pipeline execution
 and the pipeline specific configuration if available. For more information
@@ -114,7 +114,7 @@ documents for more information.
 
     nextflow run nf-core/rnaseq \
       --custom_config_base https://raw.githubusercontent.com/cnr-ibba/nf-configs/ibba \
-      --profile ibba,core \
+      -profile ibba,core \
       ...
 
   cnr-ibba pipelines, like `cnr-ibba/nf-resequencing-mem <https://github.com/cnr-ibba/nf-resequencing-mem>`_

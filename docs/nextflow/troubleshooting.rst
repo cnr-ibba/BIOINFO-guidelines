@@ -192,7 +192,7 @@ Once you find your desired version, you have to declare it with the parameter
 
 .. code-block:: bash
 
-  nextflow run nf-core/rnaseq -r 2.0 -profile test,singularity -resume
+  nextflow run nf-core/rnaseq -r 3.12 -profile test,singularity -resume
 
 The second option is to upgrade your nextflow version. You can install a specific
 version of nextflow from the `nextflow release page <https://github.com/nextflow-io/nextflow/releases>`_
@@ -440,3 +440,27 @@ usually it refers to file available on the internet, so you should download them
 locally and modify the ``samplesheet.csv`` file accordingly. Then you should pass
 the modified ``samplesheet.csv`` file to the pipeline using the proper CLI parameter
 or using a JSON file with the ``-params-file`` option.
+
+.. _nextflow-specific-version:
+
+Execute pipeline with a specific nextflow version
+-------------------------------------------------
+
+Some pipelines require a specific version of nextflow to run, or may not be
+compatible with the latest nextflow version. In such cases, you can specify the
+exact nextflow version to use with the ``NXF_VER`` environment variable, for example:
+
+.. code-block:: bash
+
+  export NXF_VER='25.10.4'
+
+Or set the nextflow version inline in the *command line* when calling nextflow,
+for example:
+
+.. code-block:: bash
+
+  NXF_VER='25.10.4' nextflow run nf-core/rnaseq -r 3.12.0 ...
+
+This will tell nextflow to use the specified version when running the pipeline,
+even if a more recent version is installed. You can find all available nextflow
+versions on the `nextflow release page <https://github.com/nextflow-io/nextflow/releases>`_.
